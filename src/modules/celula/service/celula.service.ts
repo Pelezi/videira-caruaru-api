@@ -4,7 +4,7 @@ import { CelulaCreateInput } from '../model/celula.input';
 
 @Injectable()
 export class CelulaService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
     public async findAll() {
         return this.prisma.celula.findMany({ orderBy: { name: 'asc' }, include: { leader: true, viceLeader: true } });
@@ -61,7 +61,7 @@ export class CelulaService {
             }
 
             // create new celula
-            const newCelula = await tx.celula.create({ 
+            const newCelula = await tx.celula.create({
                 data: ({
                     name: newCelulaName,
                     discipuladoId: original.discipuladoId,
@@ -86,6 +86,24 @@ export class CelulaService {
                 movedMemberIds: validIds
             };
         });
+    }
+
+    public async delete(id: number): Promise<void> {
+        // Do not allow deletion if there are inactive members
+        const inactiveCount = await this.prisma.member.count({ where: { celulaId: id, status: 'INACTIVE' } });
+        if (inactiveCount > 0) {
+            throw new BadRequestException('Cannot delete celula with inactive members');
+        }
+
+        // Do not allow deletion if there are any members at all
+        const memberCount = await this.prisma.member.count({ where: { celulaId: id } });
+        if (memberCount > 0) {
+            throw new BadRequestException('Cannot delete celula with associated members');
+        }
+
+        // safe to delete
+        await this.prisma.report.deleteMany({ where: { celulaId: id } });
+        await this.prisma.celula.delete({ where: { id } });
     }
 
 }

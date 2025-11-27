@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards, Req, Put, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Req, Put, HttpException, Delete } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
 import { CelulaService } from '../service/celula.service';
 import { RestrictedGuard } from '../../common/security/restricted.guard';
@@ -81,6 +81,16 @@ export class CelulaController {
         // if (!ok) throw new ForbiddenException('No access to this celula');
 
         return this.service.update(celulaId, body as any);
+    }
+
+    @UseGuards(RestrictedGuard)
+    @Delete(':id')
+    @ApiOperation({ summary: 'Excluir célula' })
+    @ApiResponse({ status: 200, description: 'Célula excluída' })
+    public async delete(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
+        const celulaId = Number(id);
+        await this.service.delete(celulaId);
+        return { success: true };
     }
 
     @UseGuards(RestrictedGuard)

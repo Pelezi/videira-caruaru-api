@@ -20,7 +20,7 @@ export class MemberController {
         const ok = await hasCelulaAccessDb(this.prisma, permission, celulaId);
         if (!ok) throw new ForbiddenException('No access to this celula');
 
-        return this.service.findActiveByCelula(celulaId);
+        return this.service.findByCelula(celulaId);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
@@ -49,7 +49,7 @@ export class MemberController {
         const ok = await hasCelulaAccessDb(this.prisma, permission, member.celulaId);
         if (!ok) throw new ForbiddenException('No access to this celula');
 
-        return this.service.inactivate(memberId);
+        return this.service.delete(memberId);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)

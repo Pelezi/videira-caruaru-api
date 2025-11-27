@@ -5,16 +5,16 @@ import { PrismaService } from '../../common';
 export class MemberService {
     constructor(private readonly prisma: PrismaService) {}
 
-    public async findActiveByCelula(celulaId: number) {
-        return this.prisma.member.findMany({ where: { celulaId, status: 'MEMBER' }, orderBy: { name: 'asc' } });
+    public async findByCelula(celulaId: number) {
+        return this.prisma.member.findMany({ where: { celulaId }, orderBy: { name: 'asc' } });
     }
 
     public async create(celulaId: number, name: string) {
         return this.prisma.member.create({ data: { name, celulaId, status: 'MEMBER' } });
     }
 
-    public async inactivate(memberId: number) {
-        return this.prisma.member.update({ where: { id: memberId }, data: { status: 'INACTIVE' } });
+    public async delete(memberId: number) {
+        return this.prisma.member.delete({ where: { id: memberId } });
     }
 
     public async update(memberId: number, data: { name?: string; status?: string; maritalStatus?: string }) {

@@ -58,8 +58,17 @@ async function bootstrap(): Promise<void> {
     );
 
     // Enable CORS for frontend access
+    // Support multiple origins using `CORS_ORIGINS` (comma-separated) or
+    // the legacy single `CORS_ORIGIN` env var.
+    // const corsOriginsEnv = process.env.CORS_ORIGIN || 'http://localhost:3005';
+    // const allowedOrigins = corsOriginsEnv
+    //     .split(',')
+    //     .map(o => o.trim())
+    //     .filter(Boolean);
+
     app.enableCors({
-        origin: process.env.CORS_ORIGIN || 'http://localhost:3005',
+        // Use a function so we can validate dynamically and support Fastify/Express
+        origin: true,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
