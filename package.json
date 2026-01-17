@@ -10,7 +10,7 @@
   },
   "scripts": {
     "clean": "rimraf ./dist",
-    "start": "node dist/src/server.js",
+    "start": "env-cmd -f .env node dist/server.js",
     "dev": "env-cmd -f .env nodemon",
     "build": "npx prisma migrate deploy && npx prisma generate && npm run clean && tsc",
     "test": "env-cmd -f .env jest --config=jest.json",

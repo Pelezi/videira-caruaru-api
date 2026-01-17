@@ -29,6 +29,7 @@ export type AggregateMember = {
 export type MemberAvgAggregateOutputType = {
   id: number | null
   celulaId: number | null
+  spouseId: number | null
   ministryPositionId: number | null
   winnerPathId: number | null
 }
@@ -36,6 +37,7 @@ export type MemberAvgAggregateOutputType = {
 export type MemberSumAggregateOutputType = {
   id: number | null
   celulaId: number | null
+  spouseId: number | null
   ministryPositionId: number | null
   winnerPathId: number | null
 }
@@ -52,8 +54,10 @@ export type MemberMinAggregateOutputType = {
   photoUrl: string | null
   gender: $Enums.Gender | null
   isBaptized: boolean | null
+  baptismDate: Date | null
   birthDate: Date | null
   registerDate: Date | null
+  spouseId: number | null
   ministryPositionId: number | null
   winnerPathId: number | null
   canBeHost: boolean | null
@@ -82,8 +86,10 @@ export type MemberMaxAggregateOutputType = {
   photoUrl: string | null
   gender: $Enums.Gender | null
   isBaptized: boolean | null
+  baptismDate: Date | null
   birthDate: Date | null
   registerDate: Date | null
+  spouseId: number | null
   ministryPositionId: number | null
   winnerPathId: number | null
   canBeHost: boolean | null
@@ -112,8 +118,10 @@ export type MemberCountAggregateOutputType = {
   photoUrl: number
   gender: number
   isBaptized: number
+  baptismDate: number
   birthDate: number
   registerDate: number
+  spouseId: number
   ministryPositionId: number
   winnerPathId: number
   canBeHost: number
@@ -135,6 +143,7 @@ export type MemberCountAggregateOutputType = {
 export type MemberAvgAggregateInputType = {
   id?: true
   celulaId?: true
+  spouseId?: true
   ministryPositionId?: true
   winnerPathId?: true
 }
@@ -142,6 +151,7 @@ export type MemberAvgAggregateInputType = {
 export type MemberSumAggregateInputType = {
   id?: true
   celulaId?: true
+  spouseId?: true
   ministryPositionId?: true
   winnerPathId?: true
 }
@@ -158,8 +168,10 @@ export type MemberMinAggregateInputType = {
   photoUrl?: true
   gender?: true
   isBaptized?: true
+  baptismDate?: true
   birthDate?: true
   registerDate?: true
+  spouseId?: true
   ministryPositionId?: true
   winnerPathId?: true
   canBeHost?: true
@@ -188,8 +200,10 @@ export type MemberMaxAggregateInputType = {
   photoUrl?: true
   gender?: true
   isBaptized?: true
+  baptismDate?: true
   birthDate?: true
   registerDate?: true
+  spouseId?: true
   ministryPositionId?: true
   winnerPathId?: true
   canBeHost?: true
@@ -218,8 +232,10 @@ export type MemberCountAggregateInputType = {
   photoUrl?: true
   gender?: true
   isBaptized?: true
+  baptismDate?: true
   birthDate?: true
   registerDate?: true
+  spouseId?: true
   ministryPositionId?: true
   winnerPathId?: true
   canBeHost?: true
@@ -335,8 +351,10 @@ export type MemberGroupByOutputType = {
   photoUrl: string | null
   gender: $Enums.Gender | null
   isBaptized: boolean
+  baptismDate: Date | null
   birthDate: Date | null
   registerDate: Date | null
+  spouseId: number | null
   ministryPositionId: number | null
   winnerPathId: number | null
   canBeHost: boolean
@@ -388,8 +406,10 @@ export type MemberWhereInput = {
   photoUrl?: Prisma.StringNullableFilter<"Member"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Member"> | $Enums.Gender | null
   isBaptized?: Prisma.BoolFilter<"Member"> | boolean
+  baptismDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
   birthDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
   registerDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
+  spouseId?: Prisma.IntNullableFilter<"Member"> | number | null
   ministryPositionId?: Prisma.IntNullableFilter<"Member"> | number | null
   winnerPathId?: Prisma.IntNullableFilter<"Member"> | number | null
   canBeHost?: Prisma.BoolFilter<"Member"> | boolean
@@ -412,6 +432,8 @@ export type MemberWhereInput = {
   celula?: Prisma.XOR<Prisma.CelulaNullableScalarRelationFilter, Prisma.CelulaWhereInput> | null
   ministryPosition?: Prisma.XOR<Prisma.MinistryNullableScalarRelationFilter, Prisma.MinistryWhereInput> | null
   winnerPath?: Prisma.XOR<Prisma.WinnerPathNullableScalarRelationFilter, Prisma.WinnerPathWhereInput> | null
+  spouse?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
+  spouseOf?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
   roles?: Prisma.MemberRoleListRelationFilter
 }
 
@@ -427,8 +449,10 @@ export type MemberOrderByWithRelationInput = {
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   isBaptized?: Prisma.SortOrder
+  baptismDate?: Prisma.SortOrderInput | Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   registerDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  spouseId?: Prisma.SortOrderInput | Prisma.SortOrder
   ministryPositionId?: Prisma.SortOrderInput | Prisma.SortOrder
   winnerPathId?: Prisma.SortOrderInput | Prisma.SortOrder
   canBeHost?: Prisma.SortOrder
@@ -451,12 +475,15 @@ export type MemberOrderByWithRelationInput = {
   celula?: Prisma.CelulaOrderByWithRelationInput
   ministryPosition?: Prisma.MinistryOrderByWithRelationInput
   winnerPath?: Prisma.WinnerPathOrderByWithRelationInput
+  spouse?: Prisma.MemberOrderByWithRelationInput
+  spouseOf?: Prisma.MemberOrderByWithRelationInput
   roles?: Prisma.MemberRoleOrderByRelationAggregateInput
 }
 
 export type MemberWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   email?: string
+  spouseId?: number
   AND?: Prisma.MemberWhereInput | Prisma.MemberWhereInput[]
   OR?: Prisma.MemberWhereInput[]
   NOT?: Prisma.MemberWhereInput | Prisma.MemberWhereInput[]
@@ -469,6 +496,7 @@ export type MemberWhereUniqueInput = Prisma.AtLeast<{
   photoUrl?: Prisma.StringNullableFilter<"Member"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Member"> | $Enums.Gender | null
   isBaptized?: Prisma.BoolFilter<"Member"> | boolean
+  baptismDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
   birthDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
   registerDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
   ministryPositionId?: Prisma.IntNullableFilter<"Member"> | number | null
@@ -493,8 +521,10 @@ export type MemberWhereUniqueInput = Prisma.AtLeast<{
   celula?: Prisma.XOR<Prisma.CelulaNullableScalarRelationFilter, Prisma.CelulaWhereInput> | null
   ministryPosition?: Prisma.XOR<Prisma.MinistryNullableScalarRelationFilter, Prisma.MinistryWhereInput> | null
   winnerPath?: Prisma.XOR<Prisma.WinnerPathNullableScalarRelationFilter, Prisma.WinnerPathWhereInput> | null
+  spouse?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
+  spouseOf?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
   roles?: Prisma.MemberRoleListRelationFilter
-}, "id" | "email">
+}, "id" | "email" | "spouseId">
 
 export type MemberOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -508,8 +538,10 @@ export type MemberOrderByWithAggregationInput = {
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   isBaptized?: Prisma.SortOrder
+  baptismDate?: Prisma.SortOrderInput | Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   registerDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  spouseId?: Prisma.SortOrderInput | Prisma.SortOrder
   ministryPositionId?: Prisma.SortOrderInput | Prisma.SortOrder
   winnerPathId?: Prisma.SortOrderInput | Prisma.SortOrder
   canBeHost?: Prisma.SortOrder
@@ -546,8 +578,10 @@ export type MemberScalarWhereWithAggregatesInput = {
   photoUrl?: Prisma.StringNullableWithAggregatesFilter<"Member"> | string | null
   gender?: Prisma.EnumGenderNullableWithAggregatesFilter<"Member"> | $Enums.Gender | null
   isBaptized?: Prisma.BoolWithAggregatesFilter<"Member"> | boolean
+  baptismDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Member"> | Date | string | null
   birthDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Member"> | Date | string | null
   registerDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Member"> | Date | string | null
+  spouseId?: Prisma.IntNullableWithAggregatesFilter<"Member"> | number | null
   ministryPositionId?: Prisma.IntNullableWithAggregatesFilter<"Member"> | number | null
   winnerPathId?: Prisma.IntNullableWithAggregatesFilter<"Member"> | number | null
   canBeHost?: Prisma.BoolWithAggregatesFilter<"Member"> | boolean
@@ -574,6 +608,7 @@ export type MemberCreateInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -596,6 +631,8 @@ export type MemberCreateInput = {
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -611,8 +648,10 @@ export type MemberUncheckedCreateInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -632,6 +671,7 @@ export type MemberUncheckedCreateInput = {
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -645,6 +685,7 @@ export type MemberUpdateInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -667,6 +708,8 @@ export type MemberUpdateInput = {
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -682,8 +725,10 @@ export type MemberUncheckedUpdateInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -703,6 +748,7 @@ export type MemberUncheckedUpdateInput = {
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -718,8 +764,10 @@ export type MemberCreateManyInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -746,6 +794,7 @@ export type MemberUpdateManyMutationInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -774,8 +823,10 @@ export type MemberUncheckedUpdateManyInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -819,8 +870,10 @@ export type MemberCountOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   isBaptized?: Prisma.SortOrder
+  baptismDate?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   registerDate?: Prisma.SortOrder
+  spouseId?: Prisma.SortOrder
   ministryPositionId?: Prisma.SortOrder
   winnerPathId?: Prisma.SortOrder
   canBeHost?: Prisma.SortOrder
@@ -840,6 +893,7 @@ export type MemberCountOrderByAggregateInput = {
 export type MemberAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  spouseId?: Prisma.SortOrder
   ministryPositionId?: Prisma.SortOrder
   winnerPathId?: Prisma.SortOrder
 }
@@ -856,8 +910,10 @@ export type MemberMaxOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   isBaptized?: Prisma.SortOrder
+  baptismDate?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   registerDate?: Prisma.SortOrder
+  spouseId?: Prisma.SortOrder
   ministryPositionId?: Prisma.SortOrder
   winnerPathId?: Prisma.SortOrder
   canBeHost?: Prisma.SortOrder
@@ -886,8 +942,10 @@ export type MemberMinOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   isBaptized?: Prisma.SortOrder
+  baptismDate?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   registerDate?: Prisma.SortOrder
+  spouseId?: Prisma.SortOrder
   ministryPositionId?: Prisma.SortOrder
   winnerPathId?: Prisma.SortOrder
   canBeHost?: Prisma.SortOrder
@@ -907,6 +965,7 @@ export type MemberMinOrderByAggregateInput = {
 export type MemberSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  spouseId?: Prisma.SortOrder
   ministryPositionId?: Prisma.SortOrder
   winnerPathId?: Prisma.SortOrder
 }
@@ -1074,6 +1133,24 @@ export type MemberUncheckedUpdateManyWithoutWinnerPathNestedInput = {
   deleteMany?: Prisma.MemberScalarWhereInput | Prisma.MemberScalarWhereInput[]
 }
 
+export type MemberCreateNestedOneWithoutSpouseOfInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutSpouseOfInput, Prisma.MemberUncheckedCreateWithoutSpouseOfInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutSpouseOfInput
+  connect?: Prisma.MemberWhereUniqueInput
+}
+
+export type MemberCreateNestedOneWithoutSpouseInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutSpouseInput, Prisma.MemberUncheckedCreateWithoutSpouseInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutSpouseInput
+  connect?: Prisma.MemberWhereUniqueInput
+}
+
+export type MemberUncheckedCreateNestedOneWithoutSpouseInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutSpouseInput, Prisma.MemberUncheckedCreateWithoutSpouseInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutSpouseInput
+  connect?: Prisma.MemberWhereUniqueInput
+}
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
@@ -1088,6 +1165,36 @@ export type NullableEnumGenderFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type MemberUpdateOneWithoutSpouseOfNestedInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutSpouseOfInput, Prisma.MemberUncheckedCreateWithoutSpouseOfInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutSpouseOfInput
+  upsert?: Prisma.MemberUpsertWithoutSpouseOfInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
+  connect?: Prisma.MemberWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutSpouseOfInput, Prisma.MemberUpdateWithoutSpouseOfInput>, Prisma.MemberUncheckedUpdateWithoutSpouseOfInput>
+}
+
+export type MemberUpdateOneWithoutSpouseNestedInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutSpouseInput, Prisma.MemberUncheckedCreateWithoutSpouseInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutSpouseInput
+  upsert?: Prisma.MemberUpsertWithoutSpouseInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
+  connect?: Prisma.MemberWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutSpouseInput, Prisma.MemberUpdateWithoutSpouseInput>, Prisma.MemberUncheckedUpdateWithoutSpouseInput>
+}
+
+export type MemberUncheckedUpdateOneWithoutSpouseNestedInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutSpouseInput, Prisma.MemberUncheckedCreateWithoutSpouseInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutSpouseInput
+  upsert?: Prisma.MemberUpsertWithoutSpouseInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
+  connect?: Prisma.MemberWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutSpouseInput, Prisma.MemberUpdateWithoutSpouseInput>, Prisma.MemberUncheckedUpdateWithoutSpouseInput>
 }
 
 export type MemberCreateNestedOneWithoutRedesInput = {
@@ -1160,6 +1267,7 @@ export type MemberCreateWithoutCelulaInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -1181,6 +1289,8 @@ export type MemberCreateWithoutCelulaInput = {
   viceLedCelulas?: Prisma.CelulaCreateNestedManyWithoutViceLeaderInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -1195,8 +1305,10 @@ export type MemberUncheckedCreateWithoutCelulaInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -1216,6 +1328,7 @@ export type MemberUncheckedCreateWithoutCelulaInput = {
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -1239,6 +1352,7 @@ export type MemberCreateWithoutLedCelulasInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -1260,6 +1374,8 @@ export type MemberCreateWithoutLedCelulasInput = {
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -1275,8 +1391,10 @@ export type MemberUncheckedCreateWithoutLedCelulasInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -1295,6 +1413,7 @@ export type MemberUncheckedCreateWithoutLedCelulasInput = {
   redes?: Prisma.RedeUncheckedCreateNestedManyWithoutPastorInput
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -1313,6 +1432,7 @@ export type MemberCreateWithoutViceLedCelulasInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -1334,6 +1454,8 @@ export type MemberCreateWithoutViceLedCelulasInput = {
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -1349,8 +1471,10 @@ export type MemberUncheckedCreateWithoutViceLedCelulasInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -1369,6 +1493,7 @@ export type MemberUncheckedCreateWithoutViceLedCelulasInput = {
   redes?: Prisma.RedeUncheckedCreateNestedManyWithoutPastorInput
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -1408,8 +1533,10 @@ export type MemberScalarWhereInput = {
   photoUrl?: Prisma.StringNullableFilter<"Member"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Member"> | $Enums.Gender | null
   isBaptized?: Prisma.BoolFilter<"Member"> | boolean
+  baptismDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
   birthDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
   registerDate?: Prisma.DateTimeNullableFilter<"Member"> | Date | string | null
+  spouseId?: Prisma.IntNullableFilter<"Member"> | number | null
   ministryPositionId?: Prisma.IntNullableFilter<"Member"> | number | null
   winnerPathId?: Prisma.IntNullableFilter<"Member"> | number | null
   canBeHost?: Prisma.BoolFilter<"Member"> | boolean
@@ -1447,6 +1574,7 @@ export type MemberUpdateWithoutLedCelulasInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1468,6 +1596,8 @@ export type MemberUpdateWithoutLedCelulasInput = {
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -1483,8 +1613,10 @@ export type MemberUncheckedUpdateWithoutLedCelulasInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1503,6 +1635,7 @@ export type MemberUncheckedUpdateWithoutLedCelulasInput = {
   redes?: Prisma.RedeUncheckedUpdateManyWithoutPastorNestedInput
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -1527,6 +1660,7 @@ export type MemberUpdateWithoutViceLedCelulasInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1548,6 +1682,8 @@ export type MemberUpdateWithoutViceLedCelulasInput = {
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -1563,8 +1699,10 @@ export type MemberUncheckedUpdateWithoutViceLedCelulasInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1583,6 +1721,7 @@ export type MemberUncheckedUpdateWithoutViceLedCelulasInput = {
   redes?: Prisma.RedeUncheckedUpdateManyWithoutPastorNestedInput
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -1596,6 +1735,7 @@ export type MemberCreateWithoutMinistryPositionInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -1617,6 +1757,8 @@ export type MemberCreateWithoutMinistryPositionInput = {
   viceLedCelulas?: Prisma.CelulaCreateNestedManyWithoutViceLeaderInput
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -1632,8 +1774,10 @@ export type MemberUncheckedCreateWithoutMinistryPositionInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
   country?: string | null
@@ -1652,6 +1796,7 @@ export type MemberUncheckedCreateWithoutMinistryPositionInput = {
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -1691,6 +1836,7 @@ export type MemberCreateWithoutWinnerPathInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -1712,6 +1858,8 @@ export type MemberCreateWithoutWinnerPathInput = {
   viceLedCelulas?: Prisma.CelulaCreateNestedManyWithoutViceLeaderInput
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -1727,8 +1875,10 @@ export type MemberUncheckedCreateWithoutWinnerPathInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   canBeHost?: boolean
   country?: string | null
@@ -1747,6 +1897,7 @@ export type MemberUncheckedCreateWithoutWinnerPathInput = {
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -1776,6 +1927,338 @@ export type MemberUpdateManyWithWhereWithoutWinnerPathInput = {
   data: Prisma.XOR<Prisma.MemberUpdateManyMutationInput, Prisma.MemberUncheckedUpdateManyWithoutWinnerPathInput>
 }
 
+export type MemberCreateWithoutSpouseOfInput = {
+  email?: string | null
+  password?: string | null
+  phone?: string | null
+  name: string
+  isActive?: boolean
+  maritalStatus?: $Enums.MaritalStatus
+  photoUrl?: string | null
+  gender?: $Enums.Gender | null
+  isBaptized?: boolean
+  baptismDate?: Date | string | null
+  birthDate?: Date | string | null
+  registerDate?: Date | string | null
+  canBeHost?: boolean
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
+  hasSystemAccess?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutMemberInput
+  redes?: Prisma.RedeCreateNestedManyWithoutPastorInput
+  discipulados?: Prisma.DiscipuladoCreateNestedManyWithoutDiscipuladorInput
+  ledCelulas?: Prisma.CelulaCreateNestedManyWithoutLeaderInput
+  viceLedCelulas?: Prisma.CelulaCreateNestedManyWithoutViceLeaderInput
+  celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
+  ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
+  winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
+}
+
+export type MemberUncheckedCreateWithoutSpouseOfInput = {
+  id?: number
+  email?: string | null
+  password?: string | null
+  phone?: string | null
+  name: string
+  celulaId?: number | null
+  isActive?: boolean
+  maritalStatus?: $Enums.MaritalStatus
+  photoUrl?: string | null
+  gender?: $Enums.Gender | null
+  isBaptized?: boolean
+  baptismDate?: Date | string | null
+  birthDate?: Date | string | null
+  registerDate?: Date | string | null
+  spouseId?: number | null
+  ministryPositionId?: number | null
+  winnerPathId?: number | null
+  canBeHost?: boolean
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
+  hasSystemAccess?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutMemberInput
+  redes?: Prisma.RedeUncheckedCreateNestedManyWithoutPastorInput
+  discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
+  ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
+  viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
+}
+
+export type MemberCreateOrConnectWithoutSpouseOfInput = {
+  where: Prisma.MemberWhereUniqueInput
+  create: Prisma.XOR<Prisma.MemberCreateWithoutSpouseOfInput, Prisma.MemberUncheckedCreateWithoutSpouseOfInput>
+}
+
+export type MemberCreateWithoutSpouseInput = {
+  email?: string | null
+  password?: string | null
+  phone?: string | null
+  name: string
+  isActive?: boolean
+  maritalStatus?: $Enums.MaritalStatus
+  photoUrl?: string | null
+  gender?: $Enums.Gender | null
+  isBaptized?: boolean
+  baptismDate?: Date | string | null
+  birthDate?: Date | string | null
+  registerDate?: Date | string | null
+  canBeHost?: boolean
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
+  hasSystemAccess?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutMemberInput
+  redes?: Prisma.RedeCreateNestedManyWithoutPastorInput
+  discipulados?: Prisma.DiscipuladoCreateNestedManyWithoutDiscipuladorInput
+  ledCelulas?: Prisma.CelulaCreateNestedManyWithoutLeaderInput
+  viceLedCelulas?: Prisma.CelulaCreateNestedManyWithoutViceLeaderInput
+  celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
+  ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
+  winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
+  roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
+}
+
+export type MemberUncheckedCreateWithoutSpouseInput = {
+  id?: number
+  email?: string | null
+  password?: string | null
+  phone?: string | null
+  name: string
+  celulaId?: number | null
+  isActive?: boolean
+  maritalStatus?: $Enums.MaritalStatus
+  photoUrl?: string | null
+  gender?: $Enums.Gender | null
+  isBaptized?: boolean
+  baptismDate?: Date | string | null
+  birthDate?: Date | string | null
+  registerDate?: Date | string | null
+  ministryPositionId?: number | null
+  winnerPathId?: number | null
+  canBeHost?: boolean
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
+  hasSystemAccess?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutMemberInput
+  redes?: Prisma.RedeUncheckedCreateNestedManyWithoutPastorInput
+  discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
+  ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
+  viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
+  roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
+}
+
+export type MemberCreateOrConnectWithoutSpouseInput = {
+  where: Prisma.MemberWhereUniqueInput
+  create: Prisma.XOR<Prisma.MemberCreateWithoutSpouseInput, Prisma.MemberUncheckedCreateWithoutSpouseInput>
+}
+
+export type MemberUpsertWithoutSpouseOfInput = {
+  update: Prisma.XOR<Prisma.MemberUpdateWithoutSpouseOfInput, Prisma.MemberUncheckedUpdateWithoutSpouseOfInput>
+  create: Prisma.XOR<Prisma.MemberCreateWithoutSpouseOfInput, Prisma.MemberUncheckedCreateWithoutSpouseOfInput>
+  where?: Prisma.MemberWhereInput
+}
+
+export type MemberUpdateToOneWithWhereWithoutSpouseOfInput = {
+  where?: Prisma.MemberWhereInput
+  data: Prisma.XOR<Prisma.MemberUpdateWithoutSpouseOfInput, Prisma.MemberUncheckedUpdateWithoutSpouseOfInput>
+}
+
+export type MemberUpdateWithoutSpouseOfInput = {
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maritalStatus?: Prisma.EnumMaritalStatusFieldUpdateOperationsInput | $Enums.MaritalStatus
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hasSystemAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attendances?: Prisma.ReportAttendanceUpdateManyWithoutMemberNestedInput
+  redes?: Prisma.RedeUpdateManyWithoutPastorNestedInput
+  discipulados?: Prisma.DiscipuladoUpdateManyWithoutDiscipuladorNestedInput
+  ledCelulas?: Prisma.CelulaUpdateManyWithoutLeaderNestedInput
+  viceLedCelulas?: Prisma.CelulaUpdateManyWithoutViceLeaderNestedInput
+  celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
+  ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
+  winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberUncheckedUpdateWithoutSpouseOfInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  celulaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maritalStatus?: Prisma.EnumMaritalStatusFieldUpdateOperationsInput | $Enums.MaritalStatus
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hasSystemAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutMemberNestedInput
+  redes?: Prisma.RedeUncheckedUpdateManyWithoutPastorNestedInput
+  discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
+  ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
+  viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberUpsertWithoutSpouseInput = {
+  update: Prisma.XOR<Prisma.MemberUpdateWithoutSpouseInput, Prisma.MemberUncheckedUpdateWithoutSpouseInput>
+  create: Prisma.XOR<Prisma.MemberCreateWithoutSpouseInput, Prisma.MemberUncheckedCreateWithoutSpouseInput>
+  where?: Prisma.MemberWhereInput
+}
+
+export type MemberUpdateToOneWithWhereWithoutSpouseInput = {
+  where?: Prisma.MemberWhereInput
+  data: Prisma.XOR<Prisma.MemberUpdateWithoutSpouseInput, Prisma.MemberUncheckedUpdateWithoutSpouseInput>
+}
+
+export type MemberUpdateWithoutSpouseInput = {
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maritalStatus?: Prisma.EnumMaritalStatusFieldUpdateOperationsInput | $Enums.MaritalStatus
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hasSystemAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attendances?: Prisma.ReportAttendanceUpdateManyWithoutMemberNestedInput
+  redes?: Prisma.RedeUpdateManyWithoutPastorNestedInput
+  discipulados?: Prisma.DiscipuladoUpdateManyWithoutDiscipuladorNestedInput
+  ledCelulas?: Prisma.CelulaUpdateManyWithoutLeaderNestedInput
+  viceLedCelulas?: Prisma.CelulaUpdateManyWithoutViceLeaderNestedInput
+  celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
+  ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
+  winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
+  roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberUncheckedUpdateWithoutSpouseInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  celulaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maritalStatus?: Prisma.EnumMaritalStatusFieldUpdateOperationsInput | $Enums.MaritalStatus
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hasSystemAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutMemberNestedInput
+  redes?: Prisma.RedeUncheckedUpdateManyWithoutPastorNestedInput
+  discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
+  ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
+  viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
+  roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
+}
+
 export type MemberCreateWithoutRedesInput = {
   email?: string | null
   password?: string | null
@@ -1786,6 +2269,7 @@ export type MemberCreateWithoutRedesInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -1807,6 +2291,8 @@ export type MemberCreateWithoutRedesInput = {
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -1822,8 +2308,10 @@ export type MemberUncheckedCreateWithoutRedesInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -1842,6 +2330,7 @@ export type MemberUncheckedCreateWithoutRedesInput = {
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -1871,6 +2360,7 @@ export type MemberUpdateWithoutRedesInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1892,6 +2382,8 @@ export type MemberUpdateWithoutRedesInput = {
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -1907,8 +2399,10 @@ export type MemberUncheckedUpdateWithoutRedesInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1927,6 +2421,7 @@ export type MemberUncheckedUpdateWithoutRedesInput = {
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -1940,6 +2435,7 @@ export type MemberCreateWithoutDiscipuladosInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -1961,6 +2457,8 @@ export type MemberCreateWithoutDiscipuladosInput = {
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -1976,8 +2474,10 @@ export type MemberUncheckedCreateWithoutDiscipuladosInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -1996,6 +2496,7 @@ export type MemberUncheckedCreateWithoutDiscipuladosInput = {
   redes?: Prisma.RedeUncheckedCreateNestedManyWithoutPastorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -2025,6 +2526,7 @@ export type MemberUpdateWithoutDiscipuladosInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2046,6 +2548,8 @@ export type MemberUpdateWithoutDiscipuladosInput = {
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -2061,8 +2565,10 @@ export type MemberUncheckedUpdateWithoutDiscipuladosInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2081,6 +2587,7 @@ export type MemberUncheckedUpdateWithoutDiscipuladosInput = {
   redes?: Prisma.RedeUncheckedUpdateManyWithoutPastorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -2094,6 +2601,7 @@ export type MemberCreateWithoutAttendancesInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -2115,6 +2623,8 @@ export type MemberCreateWithoutAttendancesInput = {
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleCreateNestedManyWithoutMemberInput
 }
 
@@ -2130,8 +2640,10 @@ export type MemberUncheckedCreateWithoutAttendancesInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -2150,6 +2662,7 @@ export type MemberUncheckedCreateWithoutAttendancesInput = {
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
   roles?: Prisma.MemberRoleUncheckedCreateNestedManyWithoutMemberInput
 }
 
@@ -2179,6 +2692,7 @@ export type MemberUpdateWithoutAttendancesInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2200,6 +2714,8 @@ export type MemberUpdateWithoutAttendancesInput = {
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -2215,8 +2731,10 @@ export type MemberUncheckedUpdateWithoutAttendancesInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2235,6 +2753,7 @@ export type MemberUncheckedUpdateWithoutAttendancesInput = {
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -2248,6 +2767,7 @@ export type MemberCreateWithoutRolesInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
   canBeHost?: boolean
@@ -2270,6 +2790,8 @@ export type MemberCreateWithoutRolesInput = {
   celula?: Prisma.CelulaCreateNestedOneWithoutMembersInput
   ministryPosition?: Prisma.MinistryCreateNestedOneWithoutMembersInput
   winnerPath?: Prisma.WinnerPathCreateNestedOneWithoutMembersInput
+  spouse?: Prisma.MemberCreateNestedOneWithoutSpouseOfInput
+  spouseOf?: Prisma.MemberCreateNestedOneWithoutSpouseInput
 }
 
 export type MemberUncheckedCreateWithoutRolesInput = {
@@ -2284,8 +2806,10 @@ export type MemberUncheckedCreateWithoutRolesInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -2305,6 +2829,7 @@ export type MemberUncheckedCreateWithoutRolesInput = {
   discipulados?: Prisma.DiscipuladoUncheckedCreateNestedManyWithoutDiscipuladorInput
   ledCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutLeaderInput
   viceLedCelulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutViceLeaderInput
+  spouseOf?: Prisma.MemberUncheckedCreateNestedOneWithoutSpouseInput
 }
 
 export type MemberCreateOrConnectWithoutRolesInput = {
@@ -2333,6 +2858,7 @@ export type MemberUpdateWithoutRolesInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2355,6 +2881,8 @@ export type MemberUpdateWithoutRolesInput = {
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
 }
 
 export type MemberUncheckedUpdateWithoutRolesInput = {
@@ -2369,8 +2897,10 @@ export type MemberUncheckedUpdateWithoutRolesInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2390,6 +2920,7 @@ export type MemberUncheckedUpdateWithoutRolesInput = {
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
 }
 
 export type MemberCreateManyCelulaInput = {
@@ -2403,8 +2934,10 @@ export type MemberCreateManyCelulaInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
@@ -2431,6 +2964,7 @@ export type MemberUpdateWithoutCelulaInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2452,6 +2986,8 @@ export type MemberUpdateWithoutCelulaInput = {
   viceLedCelulas?: Prisma.CelulaUpdateManyWithoutViceLeaderNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -2466,8 +3002,10 @@ export type MemberUncheckedUpdateWithoutCelulaInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2487,6 +3025,7 @@ export type MemberUncheckedUpdateWithoutCelulaInput = {
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -2501,8 +3040,10 @@ export type MemberUncheckedUpdateManyWithoutCelulaInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2531,8 +3072,10 @@ export type MemberCreateManyMinistryPositionInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   winnerPathId?: number | null
   canBeHost?: boolean
   country?: string | null
@@ -2558,6 +3101,7 @@ export type MemberUpdateWithoutMinistryPositionInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2579,6 +3123,8 @@ export type MemberUpdateWithoutMinistryPositionInput = {
   viceLedCelulas?: Prisma.CelulaUpdateManyWithoutViceLeaderNestedInput
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   winnerPath?: Prisma.WinnerPathUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -2594,8 +3140,10 @@ export type MemberUncheckedUpdateWithoutMinistryPositionInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2614,6 +3162,7 @@ export type MemberUncheckedUpdateWithoutMinistryPositionInput = {
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -2629,8 +3178,10 @@ export type MemberUncheckedUpdateManyWithoutMinistryPositionInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   winnerPathId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2658,8 +3209,10 @@ export type MemberCreateManyWinnerPathInput = {
   photoUrl?: string | null
   gender?: $Enums.Gender | null
   isBaptized?: boolean
+  baptismDate?: Date | string | null
   birthDate?: Date | string | null
   registerDate?: Date | string | null
+  spouseId?: number | null
   ministryPositionId?: number | null
   canBeHost?: boolean
   country?: string | null
@@ -2685,6 +3238,7 @@ export type MemberUpdateWithoutWinnerPathInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2706,6 +3260,8 @@ export type MemberUpdateWithoutWinnerPathInput = {
   viceLedCelulas?: Prisma.CelulaUpdateManyWithoutViceLeaderNestedInput
   celula?: Prisma.CelulaUpdateOneWithoutMembersNestedInput
   ministryPosition?: Prisma.MinistryUpdateOneWithoutMembersNestedInput
+  spouse?: Prisma.MemberUpdateOneWithoutSpouseOfNestedInput
+  spouseOf?: Prisma.MemberUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUpdateManyWithoutMemberNestedInput
 }
 
@@ -2721,8 +3277,10 @@ export type MemberUncheckedUpdateWithoutWinnerPathInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2741,6 +3299,7 @@ export type MemberUncheckedUpdateWithoutWinnerPathInput = {
   discipulados?: Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorNestedInput
   ledCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutLeaderNestedInput
   viceLedCelulas?: Prisma.CelulaUncheckedUpdateManyWithoutViceLeaderNestedInput
+  spouseOf?: Prisma.MemberUncheckedUpdateOneWithoutSpouseNestedInput
   roles?: Prisma.MemberRoleUncheckedUpdateManyWithoutMemberNestedInput
 }
 
@@ -2756,8 +3315,10 @@ export type MemberUncheckedUpdateManyWithoutWinnerPathInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   isBaptized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  baptismDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registerDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spouseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ministryPositionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   canBeHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2861,8 +3422,10 @@ export type MemberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   photoUrl?: boolean
   gender?: boolean
   isBaptized?: boolean
+  baptismDate?: boolean
   birthDate?: boolean
   registerDate?: boolean
+  spouseId?: boolean
   ministryPositionId?: boolean
   winnerPathId?: boolean
   canBeHost?: boolean
@@ -2885,6 +3448,8 @@ export type MemberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   celula?: boolean | Prisma.Member$celulaArgs<ExtArgs>
   ministryPosition?: boolean | Prisma.Member$ministryPositionArgs<ExtArgs>
   winnerPath?: boolean | Prisma.Member$winnerPathArgs<ExtArgs>
+  spouse?: boolean | Prisma.Member$spouseArgs<ExtArgs>
+  spouseOf?: boolean | Prisma.Member$spouseOfArgs<ExtArgs>
   roles?: boolean | Prisma.Member$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.MemberCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["member"]>
@@ -2901,8 +3466,10 @@ export type MemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   photoUrl?: boolean
   gender?: boolean
   isBaptized?: boolean
+  baptismDate?: boolean
   birthDate?: boolean
   registerDate?: boolean
+  spouseId?: boolean
   ministryPositionId?: boolean
   winnerPathId?: boolean
   canBeHost?: boolean
@@ -2920,6 +3487,7 @@ export type MemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   celula?: boolean | Prisma.Member$celulaArgs<ExtArgs>
   ministryPosition?: boolean | Prisma.Member$ministryPositionArgs<ExtArgs>
   winnerPath?: boolean | Prisma.Member$winnerPathArgs<ExtArgs>
+  spouse?: boolean | Prisma.Member$spouseArgs<ExtArgs>
 }, ExtArgs["result"]["member"]>
 
 export type MemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2934,8 +3502,10 @@ export type MemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   photoUrl?: boolean
   gender?: boolean
   isBaptized?: boolean
+  baptismDate?: boolean
   birthDate?: boolean
   registerDate?: boolean
+  spouseId?: boolean
   ministryPositionId?: boolean
   winnerPathId?: boolean
   canBeHost?: boolean
@@ -2953,6 +3523,7 @@ export type MemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   celula?: boolean | Prisma.Member$celulaArgs<ExtArgs>
   ministryPosition?: boolean | Prisma.Member$ministryPositionArgs<ExtArgs>
   winnerPath?: boolean | Prisma.Member$winnerPathArgs<ExtArgs>
+  spouse?: boolean | Prisma.Member$spouseArgs<ExtArgs>
 }, ExtArgs["result"]["member"]>
 
 export type MemberSelectScalar = {
@@ -2967,8 +3538,10 @@ export type MemberSelectScalar = {
   photoUrl?: boolean
   gender?: boolean
   isBaptized?: boolean
+  baptismDate?: boolean
   birthDate?: boolean
   registerDate?: boolean
+  spouseId?: boolean
   ministryPositionId?: boolean
   winnerPathId?: boolean
   canBeHost?: boolean
@@ -2985,7 +3558,7 @@ export type MemberSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "phone" | "name" | "celulaId" | "isActive" | "maritalStatus" | "photoUrl" | "gender" | "isBaptized" | "birthDate" | "registerDate" | "ministryPositionId" | "winnerPathId" | "canBeHost" | "country" | "zipCode" | "street" | "streetNumber" | "neighborhood" | "city" | "complement" | "state" | "hasSystemAccess" | "createdAt" | "updatedAt", ExtArgs["result"]["member"]>
+export type MemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "phone" | "name" | "celulaId" | "isActive" | "maritalStatus" | "photoUrl" | "gender" | "isBaptized" | "baptismDate" | "birthDate" | "registerDate" | "spouseId" | "ministryPositionId" | "winnerPathId" | "canBeHost" | "country" | "zipCode" | "street" | "streetNumber" | "neighborhood" | "city" | "complement" | "state" | "hasSystemAccess" | "createdAt" | "updatedAt", ExtArgs["result"]["member"]>
 export type MemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attendances?: boolean | Prisma.Member$attendancesArgs<ExtArgs>
   redes?: boolean | Prisma.Member$redesArgs<ExtArgs>
@@ -2995,6 +3568,8 @@ export type MemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   celula?: boolean | Prisma.Member$celulaArgs<ExtArgs>
   ministryPosition?: boolean | Prisma.Member$ministryPositionArgs<ExtArgs>
   winnerPath?: boolean | Prisma.Member$winnerPathArgs<ExtArgs>
+  spouse?: boolean | Prisma.Member$spouseArgs<ExtArgs>
+  spouseOf?: boolean | Prisma.Member$spouseOfArgs<ExtArgs>
   roles?: boolean | Prisma.Member$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.MemberCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -3002,11 +3577,13 @@ export type MemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   celula?: boolean | Prisma.Member$celulaArgs<ExtArgs>
   ministryPosition?: boolean | Prisma.Member$ministryPositionArgs<ExtArgs>
   winnerPath?: boolean | Prisma.Member$winnerPathArgs<ExtArgs>
+  spouse?: boolean | Prisma.Member$spouseArgs<ExtArgs>
 }
 export type MemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   celula?: boolean | Prisma.Member$celulaArgs<ExtArgs>
   ministryPosition?: boolean | Prisma.Member$ministryPositionArgs<ExtArgs>
   winnerPath?: boolean | Prisma.Member$winnerPathArgs<ExtArgs>
+  spouse?: boolean | Prisma.Member$spouseArgs<ExtArgs>
 }
 
 export type $MemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3020,6 +3597,8 @@ export type $MemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     celula: Prisma.$CelulaPayload<ExtArgs> | null
     ministryPosition: Prisma.$MinistryPayload<ExtArgs> | null
     winnerPath: Prisma.$WinnerPathPayload<ExtArgs> | null
+    spouse: Prisma.$MemberPayload<ExtArgs> | null
+    spouseOf: Prisma.$MemberPayload<ExtArgs> | null
     roles: Prisma.$MemberRolePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3034,8 +3613,10 @@ export type $MemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     photoUrl: string | null
     gender: $Enums.Gender | null
     isBaptized: boolean
+    baptismDate: Date | null
     birthDate: Date | null
     registerDate: Date | null
+    spouseId: number | null
     ministryPositionId: number | null
     winnerPathId: number | null
     canBeHost: boolean
@@ -3452,6 +4033,8 @@ export interface Prisma__MemberClient<T, Null = never, ExtArgs extends runtime.T
   celula<T extends Prisma.Member$celulaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$celulaArgs<ExtArgs>>): Prisma.Prisma__CelulaClient<runtime.Types.Result.GetResult<Prisma.$CelulaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ministryPosition<T extends Prisma.Member$ministryPositionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$ministryPositionArgs<ExtArgs>>): Prisma.Prisma__MinistryClient<runtime.Types.Result.GetResult<Prisma.$MinistryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   winnerPath<T extends Prisma.Member$winnerPathArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$winnerPathArgs<ExtArgs>>): Prisma.Prisma__WinnerPathClient<runtime.Types.Result.GetResult<Prisma.$WinnerPathPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  spouse<T extends Prisma.Member$spouseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$spouseArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  spouseOf<T extends Prisma.Member$spouseOfArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$spouseOfArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   roles<T extends Prisma.Member$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3493,8 +4076,10 @@ export interface MemberFieldRefs {
   readonly photoUrl: Prisma.FieldRef<"Member", 'String'>
   readonly gender: Prisma.FieldRef<"Member", 'Gender'>
   readonly isBaptized: Prisma.FieldRef<"Member", 'Boolean'>
+  readonly baptismDate: Prisma.FieldRef<"Member", 'DateTime'>
   readonly birthDate: Prisma.FieldRef<"Member", 'DateTime'>
   readonly registerDate: Prisma.FieldRef<"Member", 'DateTime'>
+  readonly spouseId: Prisma.FieldRef<"Member", 'Int'>
   readonly ministryPositionId: Prisma.FieldRef<"Member", 'Int'>
   readonly winnerPathId: Prisma.FieldRef<"Member", 'Int'>
   readonly canBeHost: Prisma.FieldRef<"Member", 'Boolean'>
@@ -4079,6 +4664,44 @@ export type Member$winnerPathArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.WinnerPathInclude<ExtArgs> | null
   where?: Prisma.WinnerPathWhereInput
+}
+
+/**
+ * Member.spouse
+ */
+export type Member$spouseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Member
+   */
+  select?: Prisma.MemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Member
+   */
+  omit?: Prisma.MemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberInclude<ExtArgs> | null
+  where?: Prisma.MemberWhereInput
+}
+
+/**
+ * Member.spouseOf
+ */
+export type Member$spouseOfArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Member
+   */
+  select?: Prisma.MemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Member
+   */
+  omit?: Prisma.MemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberInclude<ExtArgs> | null
+  where?: Prisma.MemberWhereInput
 }
 
 /**
