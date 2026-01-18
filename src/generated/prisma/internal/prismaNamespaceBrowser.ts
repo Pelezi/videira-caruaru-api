@@ -85,6 +85,8 @@ export const CelulaScalarFieldEnum = {
   leaderMemberId: 'leaderMemberId',
   viceLeaderMemberId: 'viceLeaderMemberId',
   discipuladoId: 'discipuladoId',
+  weekday: 'weekday',
+  time: 'time',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -23,8 +23,28 @@ export class CelulaService {
     }
 
     public async create(body: CelulaCreateInput) {
+        // Validação de weekday
+        if (body.weekday === undefined || body.weekday === null) {
+            throw new BadRequestException('Dia da semana é obrigatório');
+        }
+        if (body.weekday < 0 || body.weekday > 6) {
+            throw new BadRequestException('Dia da semana deve estar entre 0 (Domingo) e 6 (Sábado)');
+        }
+
+        // Validação de time
+        if (!body.time) {
+            throw new BadRequestException('Horário é obrigatório');
+        }
+        // Valida formato HH:mm
+        const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+        if (!timeRegex.test(body.time)) {
+            throw new BadRequestException('Horário deve estar no formato HH:mm (ex: 19:30)');
+        }
+
         const data: Prisma.CelulaUncheckedCreateInput = {
             name: body.name,
+            weekday: body.weekday,
+            time: body.time,
         };
 
         // leader is now optional
@@ -90,9 +110,29 @@ export class CelulaService {
         });
     }
 
-    public async update(id: number, data: { name?: string; leaderMemberId?: number; discipuladoId?: number }) {
+    public async update(id: number, data: { name?: string; leaderMemberId?: number; discipuladoId?: number; weekday?: number; time?: string }) {
         const updateData: Prisma.CelulaUncheckedUpdateInput = {};
         if (data.name !== undefined) updateData.name = data.name;
+        
+        // Validação de weekday
+        if (data.weekday !== undefined) {
+            if (data.weekday !== null && (data.weekday < 0 || data.weekday > 6)) {
+                throw new BadRequestException('Dia da semana deve estar entre 0 (Domingo) e 6 (Sábado)');
+            }
+            updateData.weekday = data.weekday;
+        }
+
+        // Validação de time
+        if (data.time !== undefined) {
+            if (data.time !== null && data.time !== '') {
+                const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+                if (!timeRegex.test(data.time)) {
+                    throw new BadRequestException('Horário deve estar no formato HH:mm (ex: 19:30)');
+                }
+            }
+            updateData.time = data.time;
+        }
+
         if (data.leaderMemberId !== undefined) {
             if (data.leaderMemberId !== null) {
                 const leader = await this.prisma.member.findUnique({

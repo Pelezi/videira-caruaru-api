@@ -1151,10 +1151,6 @@ export type MemberUncheckedCreateNestedOneWithoutSpouseInput = {
   connect?: Prisma.MemberWhereUniqueInput
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type EnumMaritalStatusFieldUpdateOperationsInput = {
   set?: $Enums.MaritalStatus
 }

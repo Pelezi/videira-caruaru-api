@@ -31,6 +31,7 @@ export type CelulaAvgAggregateOutputType = {
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
+  weekday: number | null
 }
 
 export type CelulaSumAggregateOutputType = {
@@ -38,6 +39,7 @@ export type CelulaSumAggregateOutputType = {
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
+  weekday: number | null
 }
 
 export type CelulaMinAggregateOutputType = {
@@ -46,6 +48,8 @@ export type CelulaMinAggregateOutputType = {
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
+  weekday: number | null
+  time: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +60,8 @@ export type CelulaMaxAggregateOutputType = {
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
+  weekday: number | null
+  time: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,6 +72,8 @@ export type CelulaCountAggregateOutputType = {
   leaderMemberId: number
   viceLeaderMemberId: number
   discipuladoId: number
+  weekday: number
+  time: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -77,6 +85,7 @@ export type CelulaAvgAggregateInputType = {
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
+  weekday?: true
 }
 
 export type CelulaSumAggregateInputType = {
@@ -84,6 +93,7 @@ export type CelulaSumAggregateInputType = {
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
+  weekday?: true
 }
 
 export type CelulaMinAggregateInputType = {
@@ -92,6 +102,8 @@ export type CelulaMinAggregateInputType = {
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
+  weekday?: true
+  time?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,6 +114,8 @@ export type CelulaMaxAggregateInputType = {
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
+  weekday?: true
+  time?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +126,8 @@ export type CelulaCountAggregateInputType = {
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
+  weekday?: true
+  time?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -209,6 +225,8 @@ export type CelulaGroupByOutputType = {
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
+  weekday: number | null
+  time: string | null
   createdAt: Date
   updatedAt: Date
   _count: CelulaCountAggregateOutputType | null
@@ -242,6 +260,8 @@ export type CelulaWhereInput = {
   leaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   viceLeaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   discipuladoId?: Prisma.IntNullableFilter<"Celula"> | number | null
+  weekday?: Prisma.IntNullableFilter<"Celula"> | number | null
+  time?: Prisma.StringNullableFilter<"Celula"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   members?: Prisma.MemberListRelationFilter
@@ -257,6 +277,8 @@ export type CelulaOrderByWithRelationInput = {
   leaderMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
   discipuladoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  weekday?: Prisma.SortOrderInput | Prisma.SortOrder
+  time?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   members?: Prisma.MemberOrderByRelationAggregateInput
@@ -275,6 +297,8 @@ export type CelulaWhereUniqueInput = Prisma.AtLeast<{
   leaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   viceLeaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   discipuladoId?: Prisma.IntNullableFilter<"Celula"> | number | null
+  weekday?: Prisma.IntNullableFilter<"Celula"> | number | null
+  time?: Prisma.StringNullableFilter<"Celula"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   members?: Prisma.MemberListRelationFilter
@@ -290,6 +314,8 @@ export type CelulaOrderByWithAggregationInput = {
   leaderMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
   discipuladoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  weekday?: Prisma.SortOrderInput | Prisma.SortOrder
+  time?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CelulaCountOrderByAggregateInput
@@ -308,12 +334,16 @@ export type CelulaScalarWhereWithAggregatesInput = {
   leaderMemberId?: Prisma.IntNullableWithAggregatesFilter<"Celula"> | number | null
   viceLeaderMemberId?: Prisma.IntNullableWithAggregatesFilter<"Celula"> | number | null
   discipuladoId?: Prisma.IntNullableWithAggregatesFilter<"Celula"> | number | null
+  weekday?: Prisma.IntNullableWithAggregatesFilter<"Celula"> | number | null
+  time?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Celula"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Celula"> | Date | string
 }
 
 export type CelulaCreateInput = {
   name: string
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
@@ -329,6 +359,8 @@ export type CelulaUncheckedCreateInput = {
   leaderMemberId?: number | null
   viceLeaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -337,6 +369,8 @@ export type CelulaUncheckedCreateInput = {
 
 export type CelulaUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
@@ -352,6 +386,8 @@ export type CelulaUncheckedUpdateInput = {
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -364,12 +400,16 @@ export type CelulaCreateManyInput = {
   leaderMemberId?: number | null
   viceLeaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CelulaUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -380,6 +420,8 @@ export type CelulaUncheckedUpdateManyInput = {
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -390,6 +432,8 @@ export type CelulaCountOrderByAggregateInput = {
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
+  weekday?: Prisma.SortOrder
+  time?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -399,6 +443,7 @@ export type CelulaAvgOrderByAggregateInput = {
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
+  weekday?: Prisma.SortOrder
 }
 
 export type CelulaMaxOrderByAggregateInput = {
@@ -407,6 +452,8 @@ export type CelulaMaxOrderByAggregateInput = {
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
+  weekday?: Prisma.SortOrder
+  time?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -417,6 +464,8 @@ export type CelulaMinOrderByAggregateInput = {
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
+  weekday?: Prisma.SortOrder
+  time?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -426,6 +475,7 @@ export type CelulaSumOrderByAggregateInput = {
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
+  weekday?: Prisma.SortOrder
 }
 
 export type CelulaListRelationFilter = {
@@ -452,20 +502,24 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
   increment?: number
   decrement?: number
   multiply?: number
@@ -630,6 +684,8 @@ export type CelulaUpdateOneRequiredWithoutReportsNestedInput = {
 
 export type CelulaCreateWithoutLeaderInput = {
   name: string
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
@@ -643,6 +699,8 @@ export type CelulaUncheckedCreateWithoutLeaderInput = {
   name: string
   viceLeaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -661,6 +719,8 @@ export type CelulaCreateManyLeaderInputEnvelope = {
 
 export type CelulaCreateWithoutViceLeaderInput = {
   name: string
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
@@ -674,6 +734,8 @@ export type CelulaUncheckedCreateWithoutViceLeaderInput = {
   name: string
   leaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -692,6 +754,8 @@ export type CelulaCreateManyViceLeaderInputEnvelope = {
 
 export type CelulaCreateWithoutMembersInput = {
   name: string
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   reports?: Prisma.ReportCreateNestedManyWithoutCelulaInput
@@ -706,6 +770,8 @@ export type CelulaUncheckedCreateWithoutMembersInput = {
   leaderMemberId?: number | null
   viceLeaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutCelulaInput
@@ -741,6 +807,8 @@ export type CelulaScalarWhereInput = {
   leaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   viceLeaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   discipuladoId?: Prisma.IntNullableFilter<"Celula"> | number | null
+  weekday?: Prisma.IntNullableFilter<"Celula"> | number | null
+  time?: Prisma.StringNullableFilter<"Celula"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
 }
@@ -774,6 +842,8 @@ export type CelulaUpdateToOneWithWhereWithoutMembersInput = {
 
 export type CelulaUpdateWithoutMembersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.ReportUpdateManyWithoutCelulaNestedInput
@@ -788,6 +858,8 @@ export type CelulaUncheckedUpdateWithoutMembersInput = {
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.ReportUncheckedUpdateManyWithoutCelulaNestedInput
@@ -795,6 +867,8 @@ export type CelulaUncheckedUpdateWithoutMembersInput = {
 
 export type CelulaCreateWithoutDiscipuladoInput = {
   name: string
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
@@ -808,6 +882,8 @@ export type CelulaUncheckedCreateWithoutDiscipuladoInput = {
   name: string
   leaderMemberId?: number | null
   viceLeaderMemberId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -842,6 +918,8 @@ export type CelulaUpdateManyWithWhereWithoutDiscipuladoInput = {
 
 export type CelulaCreateWithoutReportsInput = {
   name: string
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
@@ -856,6 +934,8 @@ export type CelulaUncheckedCreateWithoutReportsInput = {
   leaderMemberId?: number | null
   viceLeaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -879,6 +959,8 @@ export type CelulaUpdateToOneWithWhereWithoutReportsInput = {
 
 export type CelulaUpdateWithoutReportsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
@@ -893,6 +975,8 @@ export type CelulaUncheckedUpdateWithoutReportsInput = {
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -903,6 +987,8 @@ export type CelulaCreateManyLeaderInput = {
   name: string
   viceLeaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -912,12 +998,16 @@ export type CelulaCreateManyViceLeaderInput = {
   name: string
   leaderMemberId?: number | null
   discipuladoId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CelulaUpdateWithoutLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
@@ -931,6 +1021,8 @@ export type CelulaUncheckedUpdateWithoutLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -942,12 +1034,16 @@ export type CelulaUncheckedUpdateManyWithoutLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CelulaUpdateWithoutViceLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
@@ -961,6 +1057,8 @@ export type CelulaUncheckedUpdateWithoutViceLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -972,6 +1070,8 @@ export type CelulaUncheckedUpdateManyWithoutViceLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -981,12 +1081,16 @@ export type CelulaCreateManyDiscipuladoInput = {
   name: string
   leaderMemberId?: number | null
   viceLeaderMemberId?: number | null
+  weekday?: number | null
+  time?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CelulaUpdateWithoutDiscipuladoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
@@ -1000,6 +1104,8 @@ export type CelulaUncheckedUpdateWithoutDiscipuladoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -1011,6 +1117,8 @@ export type CelulaUncheckedUpdateManyWithoutDiscipuladoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   leaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1061,6 +1169,8 @@ export type CelulaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
+  weekday?: boolean
+  time?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   members?: boolean | Prisma.Celula$membersArgs<ExtArgs>
@@ -1077,6 +1187,8 @@ export type CelulaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
+  weekday?: boolean
+  time?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   discipulado?: boolean | Prisma.Celula$discipuladoArgs<ExtArgs>
@@ -1090,6 +1202,8 @@ export type CelulaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
+  weekday?: boolean
+  time?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   discipulado?: boolean | Prisma.Celula$discipuladoArgs<ExtArgs>
@@ -1103,11 +1217,13 @@ export type CelulaSelectScalar = {
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
+  weekday?: boolean
+  time?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CelulaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "leaderMemberId" | "viceLeaderMemberId" | "discipuladoId" | "createdAt" | "updatedAt", ExtArgs["result"]["celula"]>
+export type CelulaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "leaderMemberId" | "viceLeaderMemberId" | "discipuladoId" | "weekday" | "time" | "createdAt" | "updatedAt", ExtArgs["result"]["celula"]>
 export type CelulaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | Prisma.Celula$membersArgs<ExtArgs>
   reports?: boolean | Prisma.Celula$reportsArgs<ExtArgs>
@@ -1142,6 +1258,8 @@ export type $CelulaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     leaderMemberId: number | null
     viceLeaderMemberId: number | null
     discipuladoId: number | null
+    weekday: number | null
+    time: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["celula"]>
@@ -1577,6 +1695,8 @@ export interface CelulaFieldRefs {
   readonly leaderMemberId: Prisma.FieldRef<"Celula", 'Int'>
   readonly viceLeaderMemberId: Prisma.FieldRef<"Celula", 'Int'>
   readonly discipuladoId: Prisma.FieldRef<"Celula", 'Int'>
+  readonly weekday: Prisma.FieldRef<"Celula", 'Int'>
+  readonly time: Prisma.FieldRef<"Celula", 'String'>
   readonly createdAt: Prisma.FieldRef<"Celula", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Celula", 'DateTime'>
 }

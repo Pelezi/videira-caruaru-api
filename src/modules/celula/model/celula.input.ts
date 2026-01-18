@@ -13,6 +13,12 @@ export class CelulaCreateInput {
 
     @ApiProperty({ description: 'id de líder em treinamento (vice líder)', example: 8, required: false })
     public readonly viceLeaderMemberId?: number;
+
+    @ApiProperty({ description: 'Dia da semana da reunião (0=Domingo, 1=Segunda, ..., 6=Sábado)', example: 3 })
+    public readonly weekday: number;
+
+    @ApiProperty({ description: 'Horário da reunião (formato HH:mm)', example: '19:30' })
+    public readonly time: string;
 }
 
 export class CelulaUpdateInput {
@@ -22,6 +28,10 @@ export class CelulaUpdateInput {
     public readonly leaderMemberId?: number;
     @ApiProperty({ description: 'Discipulado id that this celula belongs to', example: 2, required: false })
     public readonly discipuladoId?: number;
+    @ApiProperty({ description: 'Dia da semana da reunião (0=Domingo, 1=Segunda, ..., 6=Sábado)', example: 3, required: false })
+    public readonly weekday?: number;
+    @ApiProperty({ description: 'Horário da reunião (formato HH:mm)', example: '19:30', required: false })
+    public readonly time?: string;
 }
 
 export class CelulaMultiplyInput {
