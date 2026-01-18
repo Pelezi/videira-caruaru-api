@@ -124,6 +124,11 @@ export class MemberService {
             throw new HttpException('Email é obrigatório para membros com acesso ao sistema', HttpStatus.BAD_REQUEST);
         }
 
+        // Validar hierarquia ministerial: usuário só pode criar membros com cargos abaixo do seu
+        if (body.ministryPositionId && requestingMemberId) {
+            await this.validateMinistryHierarchy(requestingMemberId, body.ministryPositionId);
+        }
+
         // Validar cônjuge se casado
         if (body.maritalStatus === 'MARRIED' && body.spouseId) {
             await this.validateAndUpdateSpouse(body.spouseId, null);
@@ -205,6 +210,11 @@ export class MemberService {
                 if (!finalEmail || !finalEmail.trim()) {
                     throw new HttpException('Email é obrigatório para membros com acesso ao sistema', HttpStatus.BAD_REQUEST);
                 }
+            }
+
+            // Validar hierarquia ministerial: usuário só pode atualizar cargos para níveis abaixo do seu
+            if (data.ministryPositionId !== undefined && requestingMemberId) {
+                await this.validateMinistryHierarchy(requestingMemberId, data.ministryPositionId);
             }
             
             // Se está ativando hasSystemAccess e não tinha senha, definir senha padrão
@@ -641,6 +651,47 @@ export class MemberService {
         }
         
         return member;
+    }
+
+    /**
+     * Validates if the requesting user can assign a ministry position
+     * based on hierarchy (user can only assign positions below their own)
+     * Admins and pastors can assign any position
+     */
+    private async validateMinistryHierarchy(requestingMemberId: number, targetMinistryPositionId: number) {
+        // Carregar permissões do usuário solicitante
+        const requestingPermission = await this.permissionService.loadPermissionForMember(requestingMemberId);
+        
+        // Admins e pastores podem atribuir qualquer cargo
+        if (requestingPermission?.isAdmin || 
+            requestingPermission?.ministryType === 'PRESIDENT_PASTOR' || 
+            requestingPermission?.ministryType === 'PASTOR') {
+            return;
+        }
+        
+        // Se o usuário não tem cargo ministerial, não pode criar membros
+        if (!requestingPermission?.ministryPositionId) {
+            throw new HttpException('Você não tem permissão para criar membros com cargo ministerial', HttpStatus.FORBIDDEN);
+        }
+        
+        // Buscar os cargos ministeriais
+        const [requestingMinistry, targetMinistry] = await Promise.all([
+            this.prisma.ministry.findUnique({ where: { id: requestingPermission.ministryPositionId } }),
+            this.prisma.ministry.findUnique({ where: { id: targetMinistryPositionId } })
+        ]);
+        
+        if (!requestingMinistry || !targetMinistry) {
+            throw new HttpException('Cargo ministerial não encontrado', HttpStatus.BAD_REQUEST);
+        }
+        
+        // Validar hierarquia: priority maior = cargo menor
+        // O usuário só pode atribuir cargos com priority MAIOR (menor na hierarquia) que o seu
+        if (targetMinistry.priority <= requestingMinistry.priority) {
+            throw new HttpException(
+                'Você só pode criar membros com cargos abaixo do seu na hierarquia ministerial', 
+                HttpStatus.FORBIDDEN
+            );
+        }
     }
 
     /**
