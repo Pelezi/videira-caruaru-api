@@ -50,7 +50,7 @@ export function getMinistryTypeLabel(type?: $Enums.MinistryType | null): string 
         [$Enums.MinistryType.LEADER]: 'Líder',
         [$Enums.MinistryType.LEADER_IN_TRAINING]: 'Líder em Treinamento',
         [$Enums.MinistryType.MEMBER]: 'Membro',
-        [$Enums.MinistryType.REGULAR_ATTENDEE]: 'Frequentador Regular',
+        [$Enums.MinistryType.REGULAR_ATTENDEE]: 'Frequentador Assíduo',
         [$Enums.MinistryType.VISITOR]: 'Visitante',
     };
     return type ? labels[type] : 'Membro';
