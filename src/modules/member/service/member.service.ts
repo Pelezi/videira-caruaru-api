@@ -131,6 +131,12 @@ export class MemberService {
 
         const { roleIds, ...memberData } = body;
 
+        // Se hasSystemAccess é true e não foi fornecida senha, definir senha padrão
+        if (memberData.hasSystemAccess && !memberData.password) {
+            const defaultPassword = 'Mudar123';
+            memberData.password = await bcrypt.hash(defaultPassword, this.securityConfig.bcryptSaltRounds);
+        }
+
         // Converter strings vazias em null para datas e garantir formato ISO-8601 completo
         const cleanedData: any = { ...memberData };
         cleanedData.baptismDate = cleanDateField(memberData.baptismDate);
@@ -190,22 +196,41 @@ export class MemberService {
 
     public async update(memberId: number, data: MemberData.MemberInput, requestingMemberId?: number) {
         try {
+            const currentMember = await this.prisma.member.findUnique({ where: { id: memberId } });
+            
             // Validar que se hasSystemAccess é true, email é obrigatório
             if (data.hasSystemAccess) {
-                const currentMember = await this.prisma.member.findUnique({ where: { id: memberId } });
                 const finalEmail = data.email !== undefined ? data.email : currentMember?.email;
 
                 if (!finalEmail || !finalEmail.trim()) {
                     throw new HttpException('Email é obrigatório para membros com acesso ao sistema', HttpStatus.BAD_REQUEST);
                 }
             }
-
-            // Validar cônjuge se casado
-            if (data.maritalStatus === 'MARRIED' && data.spouseId) {
-                await this.validateAndUpdateSpouse(data.spouseId, memberId);
+            
+            // Se está ativando hasSystemAccess e não tinha senha, definir senha padrão
+            const wasAccessEnabled = currentMember?.hasSystemAccess;
+            const isEnablingAccess = data.hasSystemAccess && !wasAccessEnabled;
+            let updatedData = { ...data };
+            if (isEnablingAccess && !currentMember?.password) {
+                const defaultPassword = 'Mudar123';
+                updatedData = { ...updatedData, password: await bcrypt.hash(defaultPassword, this.securityConfig.bcryptSaltRounds) };
+            }
+            
+            // Se email mudou ou está ativando acesso, enviar email de boas-vindas
+            const emailChanged = updatedData.email !== undefined && updatedData.email !== currentMember?.email;
+            const shouldSendWelcomeEmail = updatedData.hasSystemAccess && (isEnablingAccess || emailChanged);
+            if (shouldSendWelcomeEmail && (updatedData.email || currentMember?.email)) {
+                const memberEmail = updatedData.email || currentMember?.email;
+                const memberName = updatedData.name || currentMember?.name || 'amado(a)';
+                await this.sendWelcomeEmail(memberEmail!, memberName);
             }
 
-            const { roleIds, ...memberData } = data;
+            // Validar cônjuge se casado
+            if (updatedData.maritalStatus === 'MARRIED' && updatedData.spouseId) {
+                await this.validateAndUpdateSpouse(updatedData.spouseId, memberId);
+            }
+
+            const { roleIds, ...memberData } = updatedData;
 
             // Converter strings vazias em null para datas e garantir formato ISO-8601 completo
             const cleanedMemberData: any = { ...memberData };
@@ -399,42 +424,22 @@ export class MemberService {
     }
 
     /**
-     * Create an invited user (email only). Password stays null until user sets it.
+     * Send welcome email with login credentials
      */
-    public async inviteUser(email: string) {
-        // if exists, do not recreate
-        let member = await this.prisma.member.findUnique({ where: { email } });
-        if (!member) {
-            throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
-        }
-        if (member.password) {
-            throw new HttpException('Membro já possui acesso ao sistema', HttpStatus.BAD_REQUEST);
-        }
-
-        // generate a token for set-password
-        const token = jwt.sign(
-            { userId: member.id, purpose: 'set-password' },
-            this.securityConfig.jwtSecret,
-            {
-                expiresIn: this.securityConfig.jwtPasswordResetExpiresIn as string,
-                issuer: this.securityConfig.jwtIssuer
-            } as jwt.SignOptions
-        );
-
+    private async sendWelcomeEmail(email: string, name: string) {
         const frontend = process.env.FRONTEND_URL;
         if (!frontend) {
             throw new HttpException('Frontend URL não configurada', HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        const link = `${frontend}/auth/set-password?token=${token}`;
+        const loginLink = `${frontend}/auth/login`;
 
         try {
-            await this.emailService.sendInviteEmail(email, link, `${member.name || 'amado(a)'}`);
+            await this.emailService.sendWelcomeEmail(email, loginLink, name, 'Mudar123');
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Erro desconhecido';
-            throw new HttpException(`Falha ao enviar email de convite: ${message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+            console.error(`Falha ao enviar email de boas-vindas: ${message}`);
+            // Não bloquear o fluxo se o email falhar
         }
-
-        return member;
     }
 
     /**
@@ -572,6 +577,70 @@ export class MemberService {
             member: member,
             permission: await this.permissionService.loadSimplifiedPermissionForMember(member.id)
         };
+    }
+
+    /**
+     * Update own password (authenticated user)
+     */
+    public async updateOwnPassword(memberId: number, currentPassword: string, newPassword: string) {
+        const member = await this.prisma.member.findUnique({ where: { id: memberId } });
+        if (!member) {
+            throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
+        }
+        
+        if (!member.password) {
+            throw new HttpException('Usuário não tem senha configurada', HttpStatus.BAD_REQUEST);
+        }
+        
+        const isPasswordValid = await bcrypt.compare(currentPassword, member.password);
+        if (!isPasswordValid) {
+            throw new HttpException('Senha atual incorreta', HttpStatus.UNAUTHORIZED);
+        }
+        
+        const hashedPassword = await bcrypt.hash(newPassword, this.securityConfig.bcryptSaltRounds);
+        await this.prisma.member.update({
+            where: { id: memberId },
+            data: { password: hashedPassword }
+        });
+        
+        return { success: true };
+    }
+    
+    /**
+     * Update own email (authenticated user)
+     */
+    public async updateOwnEmail(memberId: number, newEmail: string) {
+        // Verificar se o email já está em uso
+        const existing = await this.prisma.member.findUnique({ where: { email: newEmail } });
+        if (existing && existing.id !== memberId) {
+            throw new HttpException('Este email já está em uso', HttpStatus.BAD_REQUEST);
+        }
+        
+        const member = await this.prisma.member.update({
+            where: { id: memberId },
+            data: { email: newEmail }
+        });
+        
+        return member;
+    }
+    
+    /**
+     * Get own profile (authenticated user)
+     */
+    public async getOwnProfile(memberId: number) {
+        const member = await this.prisma.member.findUnique({
+            where: { id: memberId },
+            include: {
+                celula: true,
+                roles: { include: { role: true } }
+            }
+        });
+        
+        if (!member) {
+            throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
+        }
+        
+        return member;
     }
 
     /**

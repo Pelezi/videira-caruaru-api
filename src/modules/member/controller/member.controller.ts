@@ -148,9 +148,40 @@ export class MemberController {
         return this.service.update(memberId, body, req.member.id);
     }
 
-    @Post('invite')
-    public async invite(@Body() body: { email: string }) {
-        return this.service.inviteUser(body.email);
+    @Get('profile/me')
+    @ApiOperation({ summary: 'Obter perfil do usuário logado' })
+    @ApiResponse({ status: 200, description: 'Perfil do usuário' })
+    public async getOwnProfile(@Req() req: AuthenticatedRequest) {
+        if (!req.member) {
+            throw new HttpException('Requisição não autenticada', HttpStatus.UNAUTHORIZED);
+        }
+        return this.service.getOwnProfile(req.member.id);
+    }
+
+    @Put('profile/password')
+    @ApiOperation({ summary: 'Atualizar senha do usuário logado' })
+    @ApiResponse({ status: 200, description: 'Senha atualizada' })
+    public async updateOwnPassword(
+        @Req() req: AuthenticatedRequest,
+        @Body() body: { currentPassword: string; newPassword: string }
+    ) {
+        if (!req.member) {
+            throw new HttpException('Requisição não autenticada', HttpStatus.UNAUTHORIZED);
+        }
+        return this.service.updateOwnPassword(req.member.id, body.currentPassword, body.newPassword);
+    }
+
+    @Put('profile/email')
+    @ApiOperation({ summary: 'Atualizar email do usuário logado' })
+    @ApiResponse({ status: 200, description: 'Email atualizado' })
+    public async updateOwnEmail(
+        @Req() req: AuthenticatedRequest,
+        @Body() body: { email: string }
+    ) {
+        if (!req.member) {
+            throw new HttpException('Requisição não autenticada', HttpStatus.UNAUTHORIZED);
+        }
+        return this.service.updateOwnEmail(req.member.id, body.email);
     }
 
     @Post('set-password')

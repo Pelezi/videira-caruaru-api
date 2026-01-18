@@ -58,4 +58,25 @@ export class ReportController {
         return this.service.presences(celulaId);
     }
 
+    @UseGuards(RestrictedGuard, PermissionGuard)
+    @Get('by-month/:year/:month')
+    @ApiOperation({ summary: 'Relatórios por mês com presentes e ausentes' })
+    public async reportsByMonth(
+        @Req() req: AuthenticatedRequest, 
+        @Param('celulaId') celulaIdParam: string,
+        @Param('year') yearParam: string,
+        @Param('month') monthParam: string
+    ) {
+        const permission = req.permission;
+        const celulaId = Number(celulaIdParam);
+        const year = Number(yearParam);
+        const month = Number(monthParam);
+        
+        if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
+            throw new ForbiddenException('No access to this celula');
+        }
+
+        return this.service.reportsByMonth(celulaId, year, month);
+    }
+
 }

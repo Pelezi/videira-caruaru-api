@@ -71,4 +71,64 @@ export class ReportService {
         }));
     }
 
+    public async reportsByMonth(celulaId: number, year: number, month: number) {
+        const brazilOffsetHours = 3;
+        
+        // Calcular início e fim do mês em UTC
+        const startBrazilUtcMillis = Date.UTC(year, month - 1, 1, 0, 0, 0) + brazilOffsetHours * 60 * 60 * 1000;
+        const endBrazilUtcMillis = Date.UTC(year, month, 0, 23, 59, 59, 999) + brazilOffsetHours * 60 * 60 * 1000;
+        const startUtc = new Date(startBrazilUtcMillis);
+        const endUtc = new Date(endBrazilUtcMillis);
+
+        // Buscar todos os relatórios do mês
+        const reports = await this.prisma.report.findMany({
+            where: { 
+                celulaId,
+                createdAt: {
+                    gte: startUtc,
+                    lte: endUtc
+                }
+            },
+            orderBy: { createdAt: 'asc' },
+            include: { 
+                attendances: { 
+                    include: { 
+                        member: {
+                            include: {
+                                ministryPosition: true
+                            }
+                        } 
+                    } 
+                } 
+            }
+        });
+
+        // Buscar todos os membros da célula
+        const allMembers = await this.prisma.member.findMany({
+            where: { celulaId },
+            orderBy: { name: 'asc' },
+            include: {
+                ministryPosition: true
+            }
+        });
+
+        // Transformar os dados para incluir presentes e ausentes
+        const reportsData = reports.map(r => {
+            const presentIds = new Set((r.attendances || []).map(a => a.memberId));
+            const present = (r.attendances || []).map(a => a.member);
+            const absent = allMembers.filter(m => !presentIds.has(m.id));
+
+            return {
+                date: r.createdAt,
+                present,
+                absent
+            };
+        });
+
+        return {
+            reports: reportsData,
+            allMembers
+        };
+    }
+
 }
