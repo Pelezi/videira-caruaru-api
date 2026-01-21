@@ -138,7 +138,7 @@ export class MemberService {
 
         // Se hasSystemAccess é true e não foi fornecida senha, definir senha padrão
         if (memberData.hasSystemAccess && !memberData.password) {
-            const defaultPassword = 'Mudar123';
+            const defaultPassword = '12345678';
             memberData.password = await bcrypt.hash(defaultPassword, this.securityConfig.bcryptSaltRounds);
         }
 
@@ -222,7 +222,7 @@ export class MemberService {
             const isEnablingAccess = data.hasSystemAccess && !wasAccessEnabled;
             let updatedData = { ...data };
             if (isEnablingAccess && !currentMember?.password) {
-                const defaultPassword = 'Mudar123';
+                const defaultPassword = '12345678';
                 updatedData = { ...updatedData, password: await bcrypt.hash(defaultPassword, this.securityConfig.bcryptSaltRounds) };
             }
             
@@ -444,7 +444,7 @@ export class MemberService {
         const loginLink = `${frontend}/auth/login`;
 
         try {
-            await this.emailService.sendWelcomeEmail(email, loginLink, name, 'Mudar123');
+            await this.emailService.sendWelcomeEmail(email, loginLink, name, '12345678');
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Erro desconhecido';
             console.error(`Falha ao enviar email de boas-vindas: ${message}`);
@@ -544,7 +544,10 @@ export class MemberService {
 
         if (!member.password) {
             const token = jwt.sign(
-                { userId: member.id, purpose: 'set-password' },
+                { 
+                    userId: member.id, 
+                    purpose: 'set-password' 
+                },
                 this.securityConfig.jwtSecret,
                 {
                     expiresIn: this.securityConfig.jwtPasswordResetExpiresIn as string,
