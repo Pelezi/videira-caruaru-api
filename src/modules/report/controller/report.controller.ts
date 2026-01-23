@@ -1,11 +1,12 @@
-import { Controller, Post, Body, UseGuards, Req, Param, Get, ForbiddenException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
+import { Controller, Post, Body, UseGuards, Req, Param, Get, ForbiddenException, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBody, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { ReportService } from '../service/report.service';
 import { RestrictedGuard } from '../../common/security/restricted.guard';
 import { PermissionGuard } from '../../common/security/permission.guard';
 import { PermissionService } from '../../common/security/permission.service';
 import { AuthenticatedRequest } from '../../common/types/authenticated-request.interface';
 import { ReportCreateInput } from '../model/report.input';
+import { PrismaService } from '../../common';
 
 @Controller('celulas/:celulaId/reports')
 @ApiTags('reports')
@@ -77,6 +78,77 @@ export class ReportController {
         }
 
         return this.service.reportsByMonth(celulaId, year, month);
+    }
+
+}
+
+@Controller('reports')
+@ApiTags('reports')
+export class ReportGlobalController {
+    constructor(
+        private readonly service: ReportService,
+        private readonly prisma: PrismaService
+    ) {}
+
+    @UseGuards(RestrictedGuard, PermissionGuard)
+    @Get('by-filter/:year/:month')
+    @ApiOperation({ summary: 'Relatórios por rede, discipulado ou células' })
+    @ApiQuery({ name: 'redeId', required: false, type: Number })
+    @ApiQuery({ name: 'discipuladoId', required: false, type: Number })
+    @ApiQuery({ name: 'celulaId', required: false, type: Number })
+    public async reportsByFilter(
+        @Req() req: AuthenticatedRequest,
+        @Param('year') yearParam: string,
+        @Param('month') monthParam: string,
+        @Query('redeId') redeId?: string,
+        @Query('discipuladoId') discipuladoId?: string,
+        @Query('celulaId') celulaId?: string
+    ) {
+        const permission = req.permission;
+        const year = Number(yearParam);
+        const month = Number(monthParam);
+
+        let celulaIds: number[] = [];
+
+        // Determinar quais células buscar baseado nos filtros
+        if (celulaId) {
+            // Filtro específico por célula
+            celulaIds = [Number(celulaId)];
+        } else if (discipuladoId) {
+            // Filtro por discipulado - buscar todas as células do discipulado
+            const dId = Number(discipuladoId);
+            const celulas = await this.prisma.celula.findMany({ where: { discipuladoId: dId } });
+            celulaIds = celulas.map(c => c.id);
+        } else if (redeId) {
+            // Filtro por rede - buscar todas as células da rede
+            const rId = Number(redeId);
+            const discipulados = await this.prisma.discipulado.findMany({ where: { redeId: rId } });
+            const discipuladoIds = discipulados.map(d => d.id);
+            const celulas = await this.prisma.celula.findMany({ where: { discipuladoId: { in: discipuladoIds } } });
+            celulaIds = celulas.map(c => c.id);
+        } else {
+            // Nenhum filtro - buscar todas as células permitidas para o usuário
+            if (permission?.isAdmin) {
+                // Admin pode ver todas
+                const celulas = await this.prisma.celula.findMany();
+                celulaIds = celulas.map(c => c.id);
+            } else {
+                // Usar células permitidas pela permissão
+                celulaIds = permission?.celulaIds || [];
+            }
+        }
+
+        // Filtrar células de acordo com permissões (se não for admin)
+        if (!permission?.isAdmin) {
+            const allowedCelulaIds = permission?.celulaIds || [];
+            celulaIds = celulaIds.filter(id => allowedCelulaIds.includes(id));
+        }
+
+        if (celulaIds.length === 0) {
+            throw new ForbiddenException('No access to any celula');
+        }
+
+        return this.service.reportsByMonthMultipleCelulas(celulaIds, year, month);
     }
 
 }

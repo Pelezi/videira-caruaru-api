@@ -122,7 +122,7 @@ export class CelulaController {
             
             // Verificar se é discipulador ou pastor
             const canDelete = (celula.discipuladoId && permission.discipuladoIds.includes(celula.discipuladoId)) ||
-                            (celula.discipulado?.redeId && permission.redeIds.includes(celula.discipulado.redeId));
+                            (celula.discipulado.redeId && permission.redeIds.includes(celula.discipulado.redeId));
             
             if (!canDelete) {
                 throw new HttpException('Apenas discipuladores, pastores ou admins podem excluir células', HttpStatus.FORBIDDEN);

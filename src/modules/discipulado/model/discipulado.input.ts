@@ -7,6 +7,6 @@ export class DiscipuladoCreateInput {
     @ApiProperty({ description: 'Rede (network) id this discipulado belongs to', example: 1 })
     public readonly redeId: number;
 
-    @ApiProperty({ description: 'User id of discipulador (optional)', required: false })
-    public readonly discipuladorMemberId?: number;
+    @ApiProperty({ description: 'User id of discipulador', required: true, example: 2 })
+    public readonly discipuladorMemberId: number;
 }

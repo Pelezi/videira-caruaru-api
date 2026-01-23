@@ -10,9 +10,9 @@ datasource db {
 model Celula {
   id                 Int      @id @default(autoincrement())
   name               String   @unique
-  leaderMemberId     Int?
+  leaderMemberId     Int
   viceLeaderMemberId Int?
-  discipuladoId      Int?
+  discipuladoId      Int
   weekday            Int?
   time               String?
   createdAt          DateTime @default(now())
@@ -21,9 +21,9 @@ model Celula {
   members Member[]
   reports Report[]
 
-  discipulado Discipulado? @relation(fields: [discipuladoId], references: [id])
-  leader      Member?      @relation("CelulaLeader", fields: [leaderMemberId], references: [id], onDelete: SetNull)
-  viceLeader  Member?      @relation("CelulaViceLeader", fields: [viceLeaderMemberId], references: [id], onDelete: SetNull)
+  discipulado Discipulado @relation(fields: [discipuladoId], references: [id])
+  leader      Member      @relation("CelulaLeader", fields: [leaderMemberId], references: [id], onDelete: NoAction)
+  viceLeader  Member?      @relation("CelulaViceLeader", fields: [viceLeaderMemberId], references: [id], onDelete: NoAction)
 
   @@index([discipuladoId])
   @@index([leaderMemberId])
@@ -87,7 +87,7 @@ model Member {
   spouseId      Int?          @unique
   
   // Church info
-  ministryPositionId  Int?
+  ministryPositionId  Int
   winnerPathId        Int?
   canBeHost           Boolean    @default(false)
   
@@ -114,9 +114,9 @@ model Member {
   ledCelulas       Celula[]      @relation("CelulaLeader")
   viceLedCelulas   Celula[]      @relation("CelulaViceLeader")
   celula           Celula?       @relation(fields: [celulaId], references: [id], onDelete: NoAction)
-  ministryPosition Ministry?     @relation(fields: [ministryPositionId], references: [id], onDelete: SetNull)
-  winnerPath       WinnerPath?   @relation(fields: [winnerPathId], references: [id], onDelete: SetNull)
-  spouse           Member?       @relation("MemberSpouse", fields: [spouseId], references: [id], onDelete: SetNull)
+  ministryPosition Ministry     @relation(fields: [ministryPositionId], references: [id], onDelete: NoAction)
+  winnerPath       WinnerPath?   @relation(fields: [winnerPathId], references: [id], onDelete: NoAction)
+  spouse           Member?       @relation("MemberSpouse", fields: [spouseId], references: [id], onDelete: NoAction)
   spouseOf         Member?       @relation("MemberSpouse")
   roles            MemberRole[]
 
@@ -160,20 +160,20 @@ model Rede {
 
   discipulados Discipulado[]
 
-  pastor Member? @relation(fields: [pastorMemberId], references: [id], onDelete: Cascade)
+  pastor Member? @relation(fields: [pastorMemberId], references: [id], onDelete: NoAction)
 }
 
 model Discipulado {
   id                 Int      @id @default(autoincrement())
   redeId             Int
-  discipuladorMemberId Int?
+  discipuladorMemberId Int
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
   celulas Celula[]
 
-  rede         Rede   @relation(fields: [redeId], references: [id], onDelete: Cascade)
-  discipulador Member? @relation(fields: [discipuladorMemberId], references: [id], onDelete: Cascade)
+  rede         Rede   @relation(fields: [redeId], references: [id], onDelete: NoAction)
+  discipulador Member @relation(fields: [discipuladorMemberId], references: [id], onDelete: NoAction)
 
   @@index([redeId])
   @@index([discipuladorMemberId])
@@ -195,8 +195,8 @@ model ReportAttendance {
   reportId Int
   memberId Int
 
-  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  report Report @relation(fields: [reportId], references: [id], onDelete: NoAction)
+  member Member @relation(fields: [memberId], references: [id], onDelete: NoAction)
 
   @@unique([reportId, memberId])
   @@index([reportId])
@@ -208,8 +208,8 @@ model MemberRole {
   memberId Int
   roleId   Int
 
-  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  member Member @relation(fields: [memberId], references: [id], onDelete: NoAction)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: NoAction)
 
   @@unique([memberId, roleId])
   @@index([memberId])

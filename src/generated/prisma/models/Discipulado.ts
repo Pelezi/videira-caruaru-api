@@ -190,7 +190,7 @@ export type DiscipuladoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type DiscipuladoGroupByOutputType = {
   id: number
   redeId: number
-  discipuladorMemberId: number | null
+  discipuladorMemberId: number
   createdAt: Date
   updatedAt: Date
   _count: DiscipuladoCountAggregateOutputType | null
@@ -221,18 +221,18 @@ export type DiscipuladoWhereInput = {
   NOT?: Prisma.DiscipuladoWhereInput | Prisma.DiscipuladoWhereInput[]
   id?: Prisma.IntFilter<"Discipulado"> | number
   redeId?: Prisma.IntFilter<"Discipulado"> | number
-  discipuladorMemberId?: Prisma.IntNullableFilter<"Discipulado"> | number | null
+  discipuladorMemberId?: Prisma.IntFilter<"Discipulado"> | number
   createdAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   celulas?: Prisma.CelulaListRelationFilter
   rede?: Prisma.XOR<Prisma.RedeScalarRelationFilter, Prisma.RedeWhereInput>
-  discipulador?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
+  discipulador?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
 }
 
 export type DiscipuladoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
-  discipuladorMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
+  discipuladorMemberId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   celulas?: Prisma.CelulaOrderByRelationAggregateInput
@@ -246,18 +246,18 @@ export type DiscipuladoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DiscipuladoWhereInput[]
   NOT?: Prisma.DiscipuladoWhereInput | Prisma.DiscipuladoWhereInput[]
   redeId?: Prisma.IntFilter<"Discipulado"> | number
-  discipuladorMemberId?: Prisma.IntNullableFilter<"Discipulado"> | number | null
+  discipuladorMemberId?: Prisma.IntFilter<"Discipulado"> | number
   createdAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   celulas?: Prisma.CelulaListRelationFilter
   rede?: Prisma.XOR<Prisma.RedeScalarRelationFilter, Prisma.RedeWhereInput>
-  discipulador?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
+  discipulador?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
 }, "id">
 
 export type DiscipuladoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
-  discipuladorMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
+  discipuladorMemberId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DiscipuladoCountOrderByAggregateInput
@@ -273,7 +273,7 @@ export type DiscipuladoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DiscipuladoScalarWhereWithAggregatesInput | Prisma.DiscipuladoScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Discipulado"> | number
   redeId?: Prisma.IntWithAggregatesFilter<"Discipulado"> | number
-  discipuladorMemberId?: Prisma.IntNullableWithAggregatesFilter<"Discipulado"> | number | null
+  discipuladorMemberId?: Prisma.IntWithAggregatesFilter<"Discipulado"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Discipulado"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Discipulado"> | Date | string
 }
@@ -283,13 +283,13 @@ export type DiscipuladoCreateInput = {
   updatedAt?: Date | string
   celulas?: Prisma.CelulaCreateNestedManyWithoutDiscipuladoInput
   rede: Prisma.RedeCreateNestedOneWithoutDiscipuladosInput
-  discipulador?: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
+  discipulador: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
 }
 
 export type DiscipuladoUncheckedCreateInput = {
   id?: number
   redeId: number
-  discipuladorMemberId?: number | null
+  discipuladorMemberId: number
   createdAt?: Date | string
   updatedAt?: Date | string
   celulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutDiscipuladoInput
@@ -300,13 +300,13 @@ export type DiscipuladoUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulas?: Prisma.CelulaUpdateManyWithoutDiscipuladoNestedInput
   rede?: Prisma.RedeUpdateOneRequiredWithoutDiscipuladosNestedInput
-  discipulador?: Prisma.MemberUpdateOneWithoutDiscipuladosNestedInput
+  discipulador?: Prisma.MemberUpdateOneRequiredWithoutDiscipuladosNestedInput
 }
 
 export type DiscipuladoUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
-  discipuladorMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulas?: Prisma.CelulaUncheckedUpdateManyWithoutDiscipuladoNestedInput
@@ -315,7 +315,7 @@ export type DiscipuladoUncheckedUpdateInput = {
 export type DiscipuladoCreateManyInput = {
   id?: number
   redeId: number
-  discipuladorMemberId?: number | null
+  discipuladorMemberId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -328,14 +328,14 @@ export type DiscipuladoUpdateManyMutationInput = {
 export type DiscipuladoUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
-  discipuladorMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type DiscipuladoNullableScalarRelationFilter = {
-  is?: Prisma.DiscipuladoWhereInput | null
-  isNot?: Prisma.DiscipuladoWhereInput | null
+export type DiscipuladoScalarRelationFilter = {
+  is?: Prisma.DiscipuladoWhereInput
+  isNot?: Prisma.DiscipuladoWhereInput
 }
 
 export type DiscipuladoListRelationFilter = {
@@ -390,12 +390,10 @@ export type DiscipuladoCreateNestedOneWithoutCelulasInput = {
   connect?: Prisma.DiscipuladoWhereUniqueInput
 }
 
-export type DiscipuladoUpdateOneWithoutCelulasNestedInput = {
+export type DiscipuladoUpdateOneRequiredWithoutCelulasNestedInput = {
   create?: Prisma.XOR<Prisma.DiscipuladoCreateWithoutCelulasInput, Prisma.DiscipuladoUncheckedCreateWithoutCelulasInput>
   connectOrCreate?: Prisma.DiscipuladoCreateOrConnectWithoutCelulasInput
   upsert?: Prisma.DiscipuladoUpsertWithoutCelulasInput
-  disconnect?: Prisma.DiscipuladoWhereInput | boolean
-  delete?: Prisma.DiscipuladoWhereInput | boolean
   connect?: Prisma.DiscipuladoWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.DiscipuladoUpdateToOneWithWhereWithoutCelulasInput, Prisma.DiscipuladoUpdateWithoutCelulasInput>, Prisma.DiscipuladoUncheckedUpdateWithoutCelulasInput>
 }
@@ -488,13 +486,13 @@ export type DiscipuladoCreateWithoutCelulasInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rede: Prisma.RedeCreateNestedOneWithoutDiscipuladosInput
-  discipulador?: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
+  discipulador: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
 }
 
 export type DiscipuladoUncheckedCreateWithoutCelulasInput = {
   id?: number
   redeId: number
-  discipuladorMemberId?: number | null
+  discipuladorMemberId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -519,13 +517,13 @@ export type DiscipuladoUpdateWithoutCelulasInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rede?: Prisma.RedeUpdateOneRequiredWithoutDiscipuladosNestedInput
-  discipulador?: Prisma.MemberUpdateOneWithoutDiscipuladosNestedInput
+  discipulador?: Prisma.MemberUpdateOneRequiredWithoutDiscipuladosNestedInput
 }
 
 export type DiscipuladoUncheckedUpdateWithoutCelulasInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
-  discipuladorMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -577,7 +575,7 @@ export type DiscipuladoScalarWhereInput = {
   NOT?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
   id?: Prisma.IntFilter<"Discipulado"> | number
   redeId?: Prisma.IntFilter<"Discipulado"> | number
-  discipuladorMemberId?: Prisma.IntNullableFilter<"Discipulado"> | number | null
+  discipuladorMemberId?: Prisma.IntFilter<"Discipulado"> | number
   createdAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
 }
@@ -586,12 +584,12 @@ export type DiscipuladoCreateWithoutRedeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   celulas?: Prisma.CelulaCreateNestedManyWithoutDiscipuladoInput
-  discipulador?: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
+  discipulador: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
 }
 
 export type DiscipuladoUncheckedCreateWithoutRedeInput = {
   id?: number
-  discipuladorMemberId?: number | null
+  discipuladorMemberId: number
   createdAt?: Date | string
   updatedAt?: Date | string
   celulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutDiscipuladoInput
@@ -654,7 +652,7 @@ export type DiscipuladoUncheckedUpdateManyWithoutDiscipuladorInput = {
 
 export type DiscipuladoCreateManyRedeInput = {
   id?: number
-  discipuladorMemberId?: number | null
+  discipuladorMemberId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -663,12 +661,12 @@ export type DiscipuladoUpdateWithoutRedeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulas?: Prisma.CelulaUpdateManyWithoutDiscipuladoNestedInput
-  discipulador?: Prisma.MemberUpdateOneWithoutDiscipuladosNestedInput
+  discipulador?: Prisma.MemberUpdateOneRequiredWithoutDiscipuladosNestedInput
 }
 
 export type DiscipuladoUncheckedUpdateWithoutRedeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  discipuladorMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulas?: Prisma.CelulaUncheckedUpdateManyWithoutDiscipuladoNestedInput
@@ -676,7 +674,7 @@ export type DiscipuladoUncheckedUpdateWithoutRedeInput = {
 
 export type DiscipuladoUncheckedUpdateManyWithoutRedeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  discipuladorMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -720,7 +718,7 @@ export type DiscipuladoSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updatedAt?: boolean
   celulas?: boolean | Prisma.Discipulado$celulasArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
-  discipulador?: boolean | Prisma.Discipulado$discipuladorArgs<ExtArgs>
+  discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DiscipuladoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["discipulado"]>
 
@@ -731,7 +729,7 @@ export type DiscipuladoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
-  discipulador?: boolean | Prisma.Discipulado$discipuladorArgs<ExtArgs>
+  discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["discipulado"]>
 
 export type DiscipuladoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -741,7 +739,7 @@ export type DiscipuladoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
-  discipulador?: boolean | Prisma.Discipulado$discipuladorArgs<ExtArgs>
+  discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["discipulado"]>
 
 export type DiscipuladoSelectScalar = {
@@ -756,16 +754,16 @@ export type DiscipuladoOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type DiscipuladoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   celulas?: boolean | Prisma.Discipulado$celulasArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
-  discipulador?: boolean | Prisma.Discipulado$discipuladorArgs<ExtArgs>
+  discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DiscipuladoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DiscipuladoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
-  discipulador?: boolean | Prisma.Discipulado$discipuladorArgs<ExtArgs>
+  discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }
 export type DiscipuladoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
-  discipulador?: boolean | Prisma.Discipulado$discipuladorArgs<ExtArgs>
+  discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }
 
 export type $DiscipuladoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -773,12 +771,12 @@ export type $DiscipuladoPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     celulas: Prisma.$CelulaPayload<ExtArgs>[]
     rede: Prisma.$RedePayload<ExtArgs>
-    discipulador: Prisma.$MemberPayload<ExtArgs> | null
+    discipulador: Prisma.$MemberPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     redeId: number
-    discipuladorMemberId: number | null
+    discipuladorMemberId: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["discipulado"]>
@@ -1177,7 +1175,7 @@ export interface Prisma__DiscipuladoClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   celulas<T extends Prisma.Discipulado$celulasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Discipulado$celulasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CelulaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rede<T extends Prisma.RedeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RedeDefaultArgs<ExtArgs>>): Prisma.Prisma__RedeClient<runtime.Types.Result.GetResult<Prisma.$RedePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  discipulador<T extends Prisma.Discipulado$discipuladorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Discipulado$discipuladorArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  discipulador<T extends Prisma.MemberDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MemberDefaultArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1629,25 +1627,6 @@ export type Discipulado$celulasArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.CelulaScalarFieldEnum | Prisma.CelulaScalarFieldEnum[]
-}
-
-/**
- * Discipulado.discipulador
- */
-export type Discipulado$discipuladorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Member
-   */
-  select?: Prisma.MemberSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Member
-   */
-  omit?: Prisma.MemberOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MemberInclude<ExtArgs> | null
-  where?: Prisma.MemberWhereInput
 }
 
 /**

@@ -381,9 +381,9 @@ export type MinistrySumOrderByAggregateInput = {
   priority?: Prisma.SortOrder
 }
 
-export type MinistryNullableScalarRelationFilter = {
-  is?: Prisma.MinistryWhereInput | null
-  isNot?: Prisma.MinistryWhereInput | null
+export type MinistryScalarRelationFilter = {
+  is?: Prisma.MinistryWhereInput
+  isNot?: Prisma.MinistryWhereInput
 }
 
 export type EnumMinistryTypeFieldUpdateOperationsInput = {
@@ -396,12 +396,10 @@ export type MinistryCreateNestedOneWithoutMembersInput = {
   connect?: Prisma.MinistryWhereUniqueInput
 }
 
-export type MinistryUpdateOneWithoutMembersNestedInput = {
+export type MinistryUpdateOneRequiredWithoutMembersNestedInput = {
   create?: Prisma.XOR<Prisma.MinistryCreateWithoutMembersInput, Prisma.MinistryUncheckedCreateWithoutMembersInput>
   connectOrCreate?: Prisma.MinistryCreateOrConnectWithoutMembersInput
   upsert?: Prisma.MinistryUpsertWithoutMembersInput
-  disconnect?: Prisma.MinistryWhereInput | boolean
-  delete?: Prisma.MinistryWhereInput | boolean
   connect?: Prisma.MinistryWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.MinistryUpdateToOneWithWhereWithoutMembersInput, Prisma.MinistryUpdateWithoutMembersInput>, Prisma.MinistryUncheckedUpdateWithoutMembersInput>
 }

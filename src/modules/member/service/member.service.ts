@@ -81,7 +81,8 @@ export class MemberService {
                     include: {
                         discipulado: {
                             include: {
-                                rede: true
+                                rede: true,
+                                discipulador: true
                             }
                         }
                     }

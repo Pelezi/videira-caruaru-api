@@ -52,7 +52,7 @@ export class DiscipuladoService {
             if (!discipulador) {
                 throw new BadRequestException('Discipulador não encontrado');
             }
-            if (!canBeDiscipulador(discipulador.ministryPosition?.type)) {
+            if (!canBeDiscipulador(discipulador.ministryPosition.type)) {
                 throw new BadRequestException(
                     `Membro não pode ser discipulador. Nível ministerial atual: ${getMinistryTypeLabel(discipulador.ministryPosition?.type)}. ` +
                     `É necessário ser pelo menos Discipulador.`
