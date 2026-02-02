@@ -116,7 +116,7 @@ export class MemberService {
             },
             orderBy: { name: 'asc' }
         });
-        
+
         return response;
     }
 
@@ -148,6 +148,17 @@ export class MemberService {
         // Validar que se hasSystemAccess é true, email é obrigatório
         if (body.hasSystemAccess && (!body.email || !body.email.trim())) {
             throw new HttpException('Email é obrigatório para membros com acesso ao sistema', HttpStatus.BAD_REQUEST);
+        }
+
+        if (body.email) {
+            const existingEmailMember = await this.prisma.member.findFirst({
+                where: {
+                    email: body.email
+                }
+            });
+            if (existingEmailMember) {
+                throw new HttpException('Email já está em uso por outro membro', HttpStatus.BAD_REQUEST);
+            }
         }
 
         // Validate that celulaId belongs to the same matrix if provided
@@ -262,9 +273,6 @@ export class MemberService {
                 }
             });
         } catch (error) {
-            if (typeof error === 'object' && error !== null && 'code' in error && error.code === 'P2002' && 'meta' in error && typeof error.meta === 'object' && error.meta !== null && 'target' in error.meta && Array.isArray(error.meta.target) && error.meta.target.includes('email')) {
-                throw new HttpException('Já existe um membro com este email', HttpStatus.BAD_REQUEST);
-            }
             throw new HttpException(`Falha ao criar membro ${error.message}`, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -350,9 +358,9 @@ export class MemberService {
                     include: { role: true }
                 });
                 const currentHasAdminRole = currentMemberRoles.some(mr => mr.role.isAdmin);
-                
+
                 // Verificar roles sendo atribuídas
-                const rolesBeingAssigned = roleIds.length > 0 
+                const rolesBeingAssigned = roleIds.length > 0
                     ? await this.prisma.role.findMany({ where: { id: { in: roleIds } } })
                     : [];
                 const newHasAdminRole = rolesBeingAssigned.some(r => r.isAdmin);
