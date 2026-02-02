@@ -28,17 +28,20 @@ export type AggregateWinnerPath = {
 
 export type WinnerPathAvgAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   priority: number | null
 }
 
 export type WinnerPathSumAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   priority: number | null
 }
 
 export type WinnerPathMinAggregateOutputType = {
   id: number | null
   name: string | null
+  matrixId: number | null
   priority: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -47,6 +50,7 @@ export type WinnerPathMinAggregateOutputType = {
 export type WinnerPathMaxAggregateOutputType = {
   id: number | null
   name: string | null
+  matrixId: number | null
   priority: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -55,6 +59,7 @@ export type WinnerPathMaxAggregateOutputType = {
 export type WinnerPathCountAggregateOutputType = {
   id: number
   name: number
+  matrixId: number
   priority: number
   createdAt: number
   updatedAt: number
@@ -64,17 +69,20 @@ export type WinnerPathCountAggregateOutputType = {
 
 export type WinnerPathAvgAggregateInputType = {
   id?: true
+  matrixId?: true
   priority?: true
 }
 
 export type WinnerPathSumAggregateInputType = {
   id?: true
+  matrixId?: true
   priority?: true
 }
 
 export type WinnerPathMinAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   priority?: true
   createdAt?: true
   updatedAt?: true
@@ -83,6 +91,7 @@ export type WinnerPathMinAggregateInputType = {
 export type WinnerPathMaxAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   priority?: true
   createdAt?: true
   updatedAt?: true
@@ -91,6 +100,7 @@ export type WinnerPathMaxAggregateInputType = {
 export type WinnerPathCountAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   priority?: true
   createdAt?: true
   updatedAt?: true
@@ -186,6 +196,7 @@ export type WinnerPathGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type WinnerPathGroupByOutputType = {
   id: number
   name: string
+  matrixId: number
   priority: number
   createdAt: Date
   updatedAt: Date
@@ -217,36 +228,44 @@ export type WinnerPathWhereInput = {
   NOT?: Prisma.WinnerPathWhereInput | Prisma.WinnerPathWhereInput[]
   id?: Prisma.IntFilter<"WinnerPath"> | number
   name?: Prisma.StringFilter<"WinnerPath"> | string
+  matrixId?: Prisma.IntFilter<"WinnerPath"> | number
   priority?: Prisma.IntFilter<"WinnerPath"> | number
   createdAt?: Prisma.DateTimeFilter<"WinnerPath"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WinnerPath"> | Date | string
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   members?: Prisma.MemberListRelationFilter
 }
 
 export type WinnerPathOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  matrix?: Prisma.MatrixOrderByWithRelationInput
   members?: Prisma.MemberOrderByRelationAggregateInput
 }
 
 export type WinnerPathWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  name?: string
+  name_matrixId?: Prisma.WinnerPathNameMatrixIdCompoundUniqueInput
   AND?: Prisma.WinnerPathWhereInput | Prisma.WinnerPathWhereInput[]
   OR?: Prisma.WinnerPathWhereInput[]
   NOT?: Prisma.WinnerPathWhereInput | Prisma.WinnerPathWhereInput[]
+  name?: Prisma.StringFilter<"WinnerPath"> | string
+  matrixId?: Prisma.IntFilter<"WinnerPath"> | number
   priority?: Prisma.IntFilter<"WinnerPath"> | number
   createdAt?: Prisma.DateTimeFilter<"WinnerPath"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WinnerPath"> | Date | string
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   members?: Prisma.MemberListRelationFilter
-}, "id" | "name">
+}, "id" | "name_matrixId">
 
 export type WinnerPathOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -263,6 +282,7 @@ export type WinnerPathScalarWhereWithAggregatesInput = {
   NOT?: Prisma.WinnerPathScalarWhereWithAggregatesInput | Prisma.WinnerPathScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"WinnerPath"> | number
   name?: Prisma.StringWithAggregatesFilter<"WinnerPath"> | string
+  matrixId?: Prisma.IntWithAggregatesFilter<"WinnerPath"> | number
   priority?: Prisma.IntWithAggregatesFilter<"WinnerPath"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WinnerPath"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WinnerPath"> | Date | string
@@ -273,12 +293,14 @@ export type WinnerPathCreateInput = {
   priority?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutWinnerPathsInput
   members?: Prisma.MemberCreateNestedManyWithoutWinnerPathInput
 }
 
 export type WinnerPathUncheckedCreateInput = {
   id?: number
   name: string
+  matrixId: number
   priority?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -290,12 +312,14 @@ export type WinnerPathUpdateInput = {
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutWinnerPathsNestedInput
   members?: Prisma.MemberUpdateManyWithoutWinnerPathNestedInput
 }
 
 export type WinnerPathUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -305,6 +329,7 @@ export type WinnerPathUncheckedUpdateInput = {
 export type WinnerPathCreateManyInput = {
   id?: number
   name: string
+  matrixId: number
   priority?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -320,14 +345,31 @@ export type WinnerPathUpdateManyMutationInput = {
 export type WinnerPathUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type WinnerPathListRelationFilter = {
+  every?: Prisma.WinnerPathWhereInput
+  some?: Prisma.WinnerPathWhereInput
+  none?: Prisma.WinnerPathWhereInput
+}
+
+export type WinnerPathOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type WinnerPathNameMatrixIdCompoundUniqueInput = {
+  name: string
+  matrixId: number
+}
+
 export type WinnerPathCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -335,12 +377,14 @@ export type WinnerPathCountOrderByAggregateInput = {
 
 export type WinnerPathAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
 }
 
 export type WinnerPathMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -349,6 +393,7 @@ export type WinnerPathMaxOrderByAggregateInput = {
 export type WinnerPathMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -356,12 +401,55 @@ export type WinnerPathMinOrderByAggregateInput = {
 
 export type WinnerPathSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
 }
 
 export type WinnerPathNullableScalarRelationFilter = {
   is?: Prisma.WinnerPathWhereInput | null
   isNot?: Prisma.WinnerPathWhereInput | null
+}
+
+export type WinnerPathCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.WinnerPathCreateWithoutMatrixInput, Prisma.WinnerPathUncheckedCreateWithoutMatrixInput> | Prisma.WinnerPathCreateWithoutMatrixInput[] | Prisma.WinnerPathUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.WinnerPathCreateOrConnectWithoutMatrixInput | Prisma.WinnerPathCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.WinnerPathCreateManyMatrixInputEnvelope
+  connect?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+}
+
+export type WinnerPathUncheckedCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.WinnerPathCreateWithoutMatrixInput, Prisma.WinnerPathUncheckedCreateWithoutMatrixInput> | Prisma.WinnerPathCreateWithoutMatrixInput[] | Prisma.WinnerPathUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.WinnerPathCreateOrConnectWithoutMatrixInput | Prisma.WinnerPathCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.WinnerPathCreateManyMatrixInputEnvelope
+  connect?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+}
+
+export type WinnerPathUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.WinnerPathCreateWithoutMatrixInput, Prisma.WinnerPathUncheckedCreateWithoutMatrixInput> | Prisma.WinnerPathCreateWithoutMatrixInput[] | Prisma.WinnerPathUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.WinnerPathCreateOrConnectWithoutMatrixInput | Prisma.WinnerPathCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.WinnerPathUpsertWithWhereUniqueWithoutMatrixInput | Prisma.WinnerPathUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.WinnerPathCreateManyMatrixInputEnvelope
+  set?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  disconnect?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  delete?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  connect?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  update?: Prisma.WinnerPathUpdateWithWhereUniqueWithoutMatrixInput | Prisma.WinnerPathUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.WinnerPathUpdateManyWithWhereWithoutMatrixInput | Prisma.WinnerPathUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.WinnerPathScalarWhereInput | Prisma.WinnerPathScalarWhereInput[]
+}
+
+export type WinnerPathUncheckedUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.WinnerPathCreateWithoutMatrixInput, Prisma.WinnerPathUncheckedCreateWithoutMatrixInput> | Prisma.WinnerPathCreateWithoutMatrixInput[] | Prisma.WinnerPathUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.WinnerPathCreateOrConnectWithoutMatrixInput | Prisma.WinnerPathCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.WinnerPathUpsertWithWhereUniqueWithoutMatrixInput | Prisma.WinnerPathUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.WinnerPathCreateManyMatrixInputEnvelope
+  set?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  disconnect?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  delete?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  connect?: Prisma.WinnerPathWhereUniqueInput | Prisma.WinnerPathWhereUniqueInput[]
+  update?: Prisma.WinnerPathUpdateWithWhereUniqueWithoutMatrixInput | Prisma.WinnerPathUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.WinnerPathUpdateManyWithWhereWithoutMatrixInput | Prisma.WinnerPathUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.WinnerPathScalarWhereInput | Prisma.WinnerPathScalarWhereInput[]
 }
 
 export type WinnerPathCreateNestedOneWithoutMembersInput = {
@@ -380,16 +468,73 @@ export type WinnerPathUpdateOneWithoutMembersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WinnerPathUpdateToOneWithWhereWithoutMembersInput, Prisma.WinnerPathUpdateWithoutMembersInput>, Prisma.WinnerPathUncheckedUpdateWithoutMembersInput>
 }
 
+export type WinnerPathCreateWithoutMatrixInput = {
+  name: string
+  priority?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.MemberCreateNestedManyWithoutWinnerPathInput
+}
+
+export type WinnerPathUncheckedCreateWithoutMatrixInput = {
+  id?: number
+  name: string
+  priority?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutWinnerPathInput
+}
+
+export type WinnerPathCreateOrConnectWithoutMatrixInput = {
+  where: Prisma.WinnerPathWhereUniqueInput
+  create: Prisma.XOR<Prisma.WinnerPathCreateWithoutMatrixInput, Prisma.WinnerPathUncheckedCreateWithoutMatrixInput>
+}
+
+export type WinnerPathCreateManyMatrixInputEnvelope = {
+  data: Prisma.WinnerPathCreateManyMatrixInput | Prisma.WinnerPathCreateManyMatrixInput[]
+  skipDuplicates?: boolean
+}
+
+export type WinnerPathUpsertWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.WinnerPathWhereUniqueInput
+  update: Prisma.XOR<Prisma.WinnerPathUpdateWithoutMatrixInput, Prisma.WinnerPathUncheckedUpdateWithoutMatrixInput>
+  create: Prisma.XOR<Prisma.WinnerPathCreateWithoutMatrixInput, Prisma.WinnerPathUncheckedCreateWithoutMatrixInput>
+}
+
+export type WinnerPathUpdateWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.WinnerPathWhereUniqueInput
+  data: Prisma.XOR<Prisma.WinnerPathUpdateWithoutMatrixInput, Prisma.WinnerPathUncheckedUpdateWithoutMatrixInput>
+}
+
+export type WinnerPathUpdateManyWithWhereWithoutMatrixInput = {
+  where: Prisma.WinnerPathScalarWhereInput
+  data: Prisma.XOR<Prisma.WinnerPathUpdateManyMutationInput, Prisma.WinnerPathUncheckedUpdateManyWithoutMatrixInput>
+}
+
+export type WinnerPathScalarWhereInput = {
+  AND?: Prisma.WinnerPathScalarWhereInput | Prisma.WinnerPathScalarWhereInput[]
+  OR?: Prisma.WinnerPathScalarWhereInput[]
+  NOT?: Prisma.WinnerPathScalarWhereInput | Prisma.WinnerPathScalarWhereInput[]
+  id?: Prisma.IntFilter<"WinnerPath"> | number
+  name?: Prisma.StringFilter<"WinnerPath"> | string
+  matrixId?: Prisma.IntFilter<"WinnerPath"> | number
+  priority?: Prisma.IntFilter<"WinnerPath"> | number
+  createdAt?: Prisma.DateTimeFilter<"WinnerPath"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WinnerPath"> | Date | string
+}
+
 export type WinnerPathCreateWithoutMembersInput = {
   name: string
   priority?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutWinnerPathsInput
 }
 
 export type WinnerPathUncheckedCreateWithoutMembersInput = {
   id?: number
   name: string
+  matrixId: number
   priority?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -416,9 +561,44 @@ export type WinnerPathUpdateWithoutMembersInput = {
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutWinnerPathsNestedInput
 }
 
 export type WinnerPathUncheckedUpdateWithoutMembersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type WinnerPathCreateManyMatrixInput = {
+  id?: number
+  name: string
+  priority?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type WinnerPathUpdateWithoutMatrixInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.MemberUpdateManyWithoutWinnerPathNestedInput
+}
+
+export type WinnerPathUncheckedUpdateWithoutMatrixInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.MemberUncheckedUpdateManyWithoutWinnerPathNestedInput
+}
+
+export type WinnerPathUncheckedUpdateManyWithoutMatrixInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   priority?: Prisma.IntFieldUpdateOperationsInput | number
@@ -460,9 +640,11 @@ export type WinnerPathCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Ty
 export type WinnerPathSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   members?: boolean | Prisma.WinnerPath$membersArgs<ExtArgs>
   _count?: boolean | Prisma.WinnerPathCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["winnerPath"]>
@@ -470,43 +652,55 @@ export type WinnerPathSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type WinnerPathSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["winnerPath"]>
 
 export type WinnerPathSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["winnerPath"]>
 
 export type WinnerPathSelectScalar = {
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type WinnerPathOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "priority" | "createdAt" | "updatedAt", ExtArgs["result"]["winnerPath"]>
+export type WinnerPathOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "matrixId" | "priority" | "createdAt" | "updatedAt", ExtArgs["result"]["winnerPath"]>
 export type WinnerPathInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   members?: boolean | Prisma.WinnerPath$membersArgs<ExtArgs>
   _count?: boolean | Prisma.WinnerPathCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type WinnerPathIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type WinnerPathIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type WinnerPathIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
+}
+export type WinnerPathIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
+}
 
 export type $WinnerPathPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "WinnerPath"
   objects: {
+    matrix: Prisma.$MatrixPayload<ExtArgs>
     members: Prisma.$MemberPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
+    matrixId: number
     priority: number
     createdAt: Date
     updatedAt: Date
@@ -904,6 +1098,7 @@ readonly fields: WinnerPathFieldRefs;
  */
 export interface Prisma__WinnerPathClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  matrix<T extends Prisma.MatrixDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MatrixDefaultArgs<ExtArgs>>): Prisma.Prisma__MatrixClient<runtime.Types.Result.GetResult<Prisma.$MatrixPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   members<T extends Prisma.WinnerPath$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WinnerPath$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -936,6 +1131,7 @@ export interface Prisma__WinnerPathClient<T, Null = never, ExtArgs extends runti
 export interface WinnerPathFieldRefs {
   readonly id: Prisma.FieldRef<"WinnerPath", 'Int'>
   readonly name: Prisma.FieldRef<"WinnerPath", 'String'>
+  readonly matrixId: Prisma.FieldRef<"WinnerPath", 'Int'>
   readonly priority: Prisma.FieldRef<"WinnerPath", 'Int'>
   readonly createdAt: Prisma.FieldRef<"WinnerPath", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"WinnerPath", 'DateTime'>
@@ -1188,6 +1384,10 @@ export type WinnerPathCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.WinnerPathCreateManyInput | Prisma.WinnerPathCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WinnerPathIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1258,6 +1458,10 @@ export type WinnerPathUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many WinnerPaths to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WinnerPathIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

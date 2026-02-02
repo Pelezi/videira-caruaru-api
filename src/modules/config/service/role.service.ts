@@ -6,16 +6,20 @@ import { Prisma } from '../../../generated/prisma/client';
 export class RoleService {
     constructor(private readonly prisma: PrismaService) {}
 
-    public async findAll() {
-        return this.prisma.role.findMany({ orderBy: { name: 'asc' } });
+    public async findAll(matrixId: number) {
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
+        return this.prisma.role.findMany({ 
+            where: { matrixId }, 
+            orderBy: { name: 'asc' } 
+        });
     }
 
     public async findById(id: number) {
         return this.prisma.role.findUnique({ where: { id } });
     }
 
-    public async create(name: string, isAdmin: boolean = false) {
-        return this.prisma.role.create({ data: { name, isAdmin } });
+    public async create(name: string, matrixId: number, isAdmin: boolean = false) {
+        return this.prisma.role.create({ data: { name, isAdmin, matrix: { connect: { id: matrixId } } } });
     }
 
     public async update(id: number, name: string, isAdmin?: boolean) {

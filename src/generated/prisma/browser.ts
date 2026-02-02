@@ -18,6 +18,21 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model Matrix
+ * 
+ */
+export type Matrix = Prisma.MatrixModel
+/**
+ * Model MatrixDomain
+ * 
+ */
+export type MatrixDomain = Prisma.MatrixDomainModel
+/**
+ * Model MemberMatrix
+ * 
+ */
+export type MemberMatrix = Prisma.MemberMatrixModel
+/**
  * Model Celula
  * 
  */
@@ -67,3 +82,13 @@ export type ReportAttendance = Prisma.ReportAttendanceModel
  * 
  */
 export type MemberRole = Prisma.MemberRoleModel
+/**
+ * Model RefreshToken
+ * 
+ */
+export type RefreshToken = Prisma.RefreshTokenModel
+/**
+ * Model ApiKey
+ * 
+ */
+export type ApiKey = Prisma.ApiKeyModel

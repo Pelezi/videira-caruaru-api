@@ -28,18 +28,21 @@ export type AggregateDiscipulado = {
 
 export type DiscipuladoAvgAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   redeId: number | null
   discipuladorMemberId: number | null
 }
 
 export type DiscipuladoSumAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   redeId: number | null
   discipuladorMemberId: number | null
 }
 
 export type DiscipuladoMinAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   redeId: number | null
   discipuladorMemberId: number | null
   createdAt: Date | null
@@ -48,6 +51,7 @@ export type DiscipuladoMinAggregateOutputType = {
 
 export type DiscipuladoMaxAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   redeId: number | null
   discipuladorMemberId: number | null
   createdAt: Date | null
@@ -56,6 +60,7 @@ export type DiscipuladoMaxAggregateOutputType = {
 
 export type DiscipuladoCountAggregateOutputType = {
   id: number
+  matrixId: number
   redeId: number
   discipuladorMemberId: number
   createdAt: number
@@ -66,18 +71,21 @@ export type DiscipuladoCountAggregateOutputType = {
 
 export type DiscipuladoAvgAggregateInputType = {
   id?: true
+  matrixId?: true
   redeId?: true
   discipuladorMemberId?: true
 }
 
 export type DiscipuladoSumAggregateInputType = {
   id?: true
+  matrixId?: true
   redeId?: true
   discipuladorMemberId?: true
 }
 
 export type DiscipuladoMinAggregateInputType = {
   id?: true
+  matrixId?: true
   redeId?: true
   discipuladorMemberId?: true
   createdAt?: true
@@ -86,6 +94,7 @@ export type DiscipuladoMinAggregateInputType = {
 
 export type DiscipuladoMaxAggregateInputType = {
   id?: true
+  matrixId?: true
   redeId?: true
   discipuladorMemberId?: true
   createdAt?: true
@@ -94,6 +103,7 @@ export type DiscipuladoMaxAggregateInputType = {
 
 export type DiscipuladoCountAggregateInputType = {
   id?: true
+  matrixId?: true
   redeId?: true
   discipuladorMemberId?: true
   createdAt?: true
@@ -189,6 +199,7 @@ export type DiscipuladoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type DiscipuladoGroupByOutputType = {
   id: number
+  matrixId: number
   redeId: number
   discipuladorMemberId: number
   createdAt: Date
@@ -220,22 +231,26 @@ export type DiscipuladoWhereInput = {
   OR?: Prisma.DiscipuladoWhereInput[]
   NOT?: Prisma.DiscipuladoWhereInput | Prisma.DiscipuladoWhereInput[]
   id?: Prisma.IntFilter<"Discipulado"> | number
+  matrixId?: Prisma.IntFilter<"Discipulado"> | number
   redeId?: Prisma.IntFilter<"Discipulado"> | number
   discipuladorMemberId?: Prisma.IntFilter<"Discipulado"> | number
   createdAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   celulas?: Prisma.CelulaListRelationFilter
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   rede?: Prisma.XOR<Prisma.RedeScalarRelationFilter, Prisma.RedeWhereInput>
   discipulador?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
 }
 
 export type DiscipuladoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
   discipuladorMemberId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   celulas?: Prisma.CelulaOrderByRelationAggregateInput
+  matrix?: Prisma.MatrixOrderByWithRelationInput
   rede?: Prisma.RedeOrderByWithRelationInput
   discipulador?: Prisma.MemberOrderByWithRelationInput
 }
@@ -245,17 +260,20 @@ export type DiscipuladoWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DiscipuladoWhereInput | Prisma.DiscipuladoWhereInput[]
   OR?: Prisma.DiscipuladoWhereInput[]
   NOT?: Prisma.DiscipuladoWhereInput | Prisma.DiscipuladoWhereInput[]
+  matrixId?: Prisma.IntFilter<"Discipulado"> | number
   redeId?: Prisma.IntFilter<"Discipulado"> | number
   discipuladorMemberId?: Prisma.IntFilter<"Discipulado"> | number
   createdAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
   celulas?: Prisma.CelulaListRelationFilter
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   rede?: Prisma.XOR<Prisma.RedeScalarRelationFilter, Prisma.RedeWhereInput>
   discipulador?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
 }, "id">
 
 export type DiscipuladoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
   discipuladorMemberId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -272,6 +290,7 @@ export type DiscipuladoScalarWhereWithAggregatesInput = {
   OR?: Prisma.DiscipuladoScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DiscipuladoScalarWhereWithAggregatesInput | Prisma.DiscipuladoScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Discipulado"> | number
+  matrixId?: Prisma.IntWithAggregatesFilter<"Discipulado"> | number
   redeId?: Prisma.IntWithAggregatesFilter<"Discipulado"> | number
   discipuladorMemberId?: Prisma.IntWithAggregatesFilter<"Discipulado"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Discipulado"> | Date | string
@@ -282,12 +301,14 @@ export type DiscipuladoCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   celulas?: Prisma.CelulaCreateNestedManyWithoutDiscipuladoInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutDiscipuladosInput
   rede: Prisma.RedeCreateNestedOneWithoutDiscipuladosInput
   discipulador: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
 }
 
 export type DiscipuladoUncheckedCreateInput = {
   id?: number
+  matrixId: number
   redeId: number
   discipuladorMemberId: number
   createdAt?: Date | string
@@ -299,12 +320,14 @@ export type DiscipuladoUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulas?: Prisma.CelulaUpdateManyWithoutDiscipuladoNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutDiscipuladosNestedInput
   rede?: Prisma.RedeUpdateOneRequiredWithoutDiscipuladosNestedInput
   discipulador?: Prisma.MemberUpdateOneRequiredWithoutDiscipuladosNestedInput
 }
 
 export type DiscipuladoUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
   discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -314,6 +337,7 @@ export type DiscipuladoUncheckedUpdateInput = {
 
 export type DiscipuladoCreateManyInput = {
   id?: number
+  matrixId: number
   redeId: number
   discipuladorMemberId: number
   createdAt?: Date | string
@@ -327,15 +351,11 @@ export type DiscipuladoUpdateManyMutationInput = {
 
 export type DiscipuladoUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
   discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type DiscipuladoScalarRelationFilter = {
-  is?: Prisma.DiscipuladoWhereInput
-  isNot?: Prisma.DiscipuladoWhereInput
 }
 
 export type DiscipuladoListRelationFilter = {
@@ -348,8 +368,14 @@ export type DiscipuladoOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type DiscipuladoScalarRelationFilter = {
+  is?: Prisma.DiscipuladoWhereInput
+  isNot?: Prisma.DiscipuladoWhereInput
+}
+
 export type DiscipuladoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
   discipuladorMemberId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -358,12 +384,14 @@ export type DiscipuladoCountOrderByAggregateInput = {
 
 export type DiscipuladoAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
   discipuladorMemberId?: Prisma.SortOrder
 }
 
 export type DiscipuladoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
   discipuladorMemberId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -372,6 +400,7 @@ export type DiscipuladoMaxOrderByAggregateInput = {
 
 export type DiscipuladoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
   discipuladorMemberId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -380,8 +409,51 @@ export type DiscipuladoMinOrderByAggregateInput = {
 
 export type DiscipuladoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   redeId?: Prisma.SortOrder
   discipuladorMemberId?: Prisma.SortOrder
+}
+
+export type DiscipuladoCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.DiscipuladoCreateWithoutMatrixInput, Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput> | Prisma.DiscipuladoCreateWithoutMatrixInput[] | Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput | Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.DiscipuladoCreateManyMatrixInputEnvelope
+  connect?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+}
+
+export type DiscipuladoUncheckedCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.DiscipuladoCreateWithoutMatrixInput, Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput> | Prisma.DiscipuladoCreateWithoutMatrixInput[] | Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput | Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.DiscipuladoCreateManyMatrixInputEnvelope
+  connect?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+}
+
+export type DiscipuladoUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.DiscipuladoCreateWithoutMatrixInput, Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput> | Prisma.DiscipuladoCreateWithoutMatrixInput[] | Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput | Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.DiscipuladoUpsertWithWhereUniqueWithoutMatrixInput | Prisma.DiscipuladoUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.DiscipuladoCreateManyMatrixInputEnvelope
+  set?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  disconnect?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  delete?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  connect?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  update?: Prisma.DiscipuladoUpdateWithWhereUniqueWithoutMatrixInput | Prisma.DiscipuladoUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.DiscipuladoUpdateManyWithWhereWithoutMatrixInput | Prisma.DiscipuladoUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
+}
+
+export type DiscipuladoUncheckedUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.DiscipuladoCreateWithoutMatrixInput, Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput> | Prisma.DiscipuladoCreateWithoutMatrixInput[] | Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput | Prisma.DiscipuladoCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.DiscipuladoUpsertWithWhereUniqueWithoutMatrixInput | Prisma.DiscipuladoUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.DiscipuladoCreateManyMatrixInputEnvelope
+  set?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  disconnect?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  delete?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  connect?: Prisma.DiscipuladoWhereUniqueInput | Prisma.DiscipuladoWhereUniqueInput[]
+  update?: Prisma.DiscipuladoUpdateWithWhereUniqueWithoutMatrixInput | Prisma.DiscipuladoUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.DiscipuladoUpdateManyWithWhereWithoutMatrixInput | Prisma.DiscipuladoUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
 }
 
 export type DiscipuladoCreateNestedOneWithoutCelulasInput = {
@@ -482,15 +554,72 @@ export type DiscipuladoUncheckedUpdateManyWithoutRedeNestedInput = {
   deleteMany?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
 }
 
+export type DiscipuladoCreateWithoutMatrixInput = {
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  celulas?: Prisma.CelulaCreateNestedManyWithoutDiscipuladoInput
+  rede: Prisma.RedeCreateNestedOneWithoutDiscipuladosInput
+  discipulador: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
+}
+
+export type DiscipuladoUncheckedCreateWithoutMatrixInput = {
+  id?: number
+  redeId: number
+  discipuladorMemberId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  celulas?: Prisma.CelulaUncheckedCreateNestedManyWithoutDiscipuladoInput
+}
+
+export type DiscipuladoCreateOrConnectWithoutMatrixInput = {
+  where: Prisma.DiscipuladoWhereUniqueInput
+  create: Prisma.XOR<Prisma.DiscipuladoCreateWithoutMatrixInput, Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput>
+}
+
+export type DiscipuladoCreateManyMatrixInputEnvelope = {
+  data: Prisma.DiscipuladoCreateManyMatrixInput | Prisma.DiscipuladoCreateManyMatrixInput[]
+  skipDuplicates?: boolean
+}
+
+export type DiscipuladoUpsertWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.DiscipuladoWhereUniqueInput
+  update: Prisma.XOR<Prisma.DiscipuladoUpdateWithoutMatrixInput, Prisma.DiscipuladoUncheckedUpdateWithoutMatrixInput>
+  create: Prisma.XOR<Prisma.DiscipuladoCreateWithoutMatrixInput, Prisma.DiscipuladoUncheckedCreateWithoutMatrixInput>
+}
+
+export type DiscipuladoUpdateWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.DiscipuladoWhereUniqueInput
+  data: Prisma.XOR<Prisma.DiscipuladoUpdateWithoutMatrixInput, Prisma.DiscipuladoUncheckedUpdateWithoutMatrixInput>
+}
+
+export type DiscipuladoUpdateManyWithWhereWithoutMatrixInput = {
+  where: Prisma.DiscipuladoScalarWhereInput
+  data: Prisma.XOR<Prisma.DiscipuladoUpdateManyMutationInput, Prisma.DiscipuladoUncheckedUpdateManyWithoutMatrixInput>
+}
+
+export type DiscipuladoScalarWhereInput = {
+  AND?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
+  OR?: Prisma.DiscipuladoScalarWhereInput[]
+  NOT?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
+  id?: Prisma.IntFilter<"Discipulado"> | number
+  matrixId?: Prisma.IntFilter<"Discipulado"> | number
+  redeId?: Prisma.IntFilter<"Discipulado"> | number
+  discipuladorMemberId?: Prisma.IntFilter<"Discipulado"> | number
+  createdAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
+}
+
 export type DiscipuladoCreateWithoutCelulasInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutDiscipuladosInput
   rede: Prisma.RedeCreateNestedOneWithoutDiscipuladosInput
   discipulador: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
 }
 
 export type DiscipuladoUncheckedCreateWithoutCelulasInput = {
   id?: number
+  matrixId: number
   redeId: number
   discipuladorMemberId: number
   createdAt?: Date | string
@@ -516,12 +645,14 @@ export type DiscipuladoUpdateToOneWithWhereWithoutCelulasInput = {
 export type DiscipuladoUpdateWithoutCelulasInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutDiscipuladosNestedInput
   rede?: Prisma.RedeUpdateOneRequiredWithoutDiscipuladosNestedInput
   discipulador?: Prisma.MemberUpdateOneRequiredWithoutDiscipuladosNestedInput
 }
 
 export type DiscipuladoUncheckedUpdateWithoutCelulasInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
   discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -532,11 +663,13 @@ export type DiscipuladoCreateWithoutDiscipuladorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   celulas?: Prisma.CelulaCreateNestedManyWithoutDiscipuladoInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutDiscipuladosInput
   rede: Prisma.RedeCreateNestedOneWithoutDiscipuladosInput
 }
 
 export type DiscipuladoUncheckedCreateWithoutDiscipuladorInput = {
   id?: number
+  matrixId: number
   redeId: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -569,26 +702,17 @@ export type DiscipuladoUpdateManyWithWhereWithoutDiscipuladorInput = {
   data: Prisma.XOR<Prisma.DiscipuladoUpdateManyMutationInput, Prisma.DiscipuladoUncheckedUpdateManyWithoutDiscipuladorInput>
 }
 
-export type DiscipuladoScalarWhereInput = {
-  AND?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
-  OR?: Prisma.DiscipuladoScalarWhereInput[]
-  NOT?: Prisma.DiscipuladoScalarWhereInput | Prisma.DiscipuladoScalarWhereInput[]
-  id?: Prisma.IntFilter<"Discipulado"> | number
-  redeId?: Prisma.IntFilter<"Discipulado"> | number
-  discipuladorMemberId?: Prisma.IntFilter<"Discipulado"> | number
-  createdAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Discipulado"> | Date | string
-}
-
 export type DiscipuladoCreateWithoutRedeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   celulas?: Prisma.CelulaCreateNestedManyWithoutDiscipuladoInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutDiscipuladosInput
   discipulador: Prisma.MemberCreateNestedOneWithoutDiscipuladosInput
 }
 
 export type DiscipuladoUncheckedCreateWithoutRedeInput = {
   id?: number
+  matrixId: number
   discipuladorMemberId: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -621,8 +745,42 @@ export type DiscipuladoUpdateManyWithWhereWithoutRedeInput = {
   data: Prisma.XOR<Prisma.DiscipuladoUpdateManyMutationInput, Prisma.DiscipuladoUncheckedUpdateManyWithoutRedeInput>
 }
 
+export type DiscipuladoCreateManyMatrixInput = {
+  id?: number
+  redeId: number
+  discipuladorMemberId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DiscipuladoUpdateWithoutMatrixInput = {
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  celulas?: Prisma.CelulaUpdateManyWithoutDiscipuladoNestedInput
+  rede?: Prisma.RedeUpdateOneRequiredWithoutDiscipuladosNestedInput
+  discipulador?: Prisma.MemberUpdateOneRequiredWithoutDiscipuladosNestedInput
+}
+
+export type DiscipuladoUncheckedUpdateWithoutMatrixInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  redeId?: Prisma.IntFieldUpdateOperationsInput | number
+  discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  celulas?: Prisma.CelulaUncheckedUpdateManyWithoutDiscipuladoNestedInput
+}
+
+export type DiscipuladoUncheckedUpdateManyWithoutMatrixInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  redeId?: Prisma.IntFieldUpdateOperationsInput | number
+  discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type DiscipuladoCreateManyDiscipuladorInput = {
   id?: number
+  matrixId: number
   redeId: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -632,11 +790,13 @@ export type DiscipuladoUpdateWithoutDiscipuladorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulas?: Prisma.CelulaUpdateManyWithoutDiscipuladoNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutDiscipuladosNestedInput
   rede?: Prisma.RedeUpdateOneRequiredWithoutDiscipuladosNestedInput
 }
 
 export type DiscipuladoUncheckedUpdateWithoutDiscipuladorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -645,6 +805,7 @@ export type DiscipuladoUncheckedUpdateWithoutDiscipuladorInput = {
 
 export type DiscipuladoUncheckedUpdateManyWithoutDiscipuladorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   redeId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -652,6 +813,7 @@ export type DiscipuladoUncheckedUpdateManyWithoutDiscipuladorInput = {
 
 export type DiscipuladoCreateManyRedeInput = {
   id?: number
+  matrixId: number
   discipuladorMemberId: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -661,11 +823,13 @@ export type DiscipuladoUpdateWithoutRedeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulas?: Prisma.CelulaUpdateManyWithoutDiscipuladoNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutDiscipuladosNestedInput
   discipulador?: Prisma.MemberUpdateOneRequiredWithoutDiscipuladosNestedInput
 }
 
 export type DiscipuladoUncheckedUpdateWithoutRedeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -674,6 +838,7 @@ export type DiscipuladoUncheckedUpdateWithoutRedeInput = {
 
 export type DiscipuladoUncheckedUpdateManyWithoutRedeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   discipuladorMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -712,11 +877,13 @@ export type DiscipuladoCountOutputTypeCountCelulasArgs<ExtArgs extends runtime.T
 
 export type DiscipuladoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  matrixId?: boolean
   redeId?: boolean
   discipuladorMemberId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   celulas?: boolean | Prisma.Discipulado$celulasArgs<ExtArgs>
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
   discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DiscipuladoCountOutputTypeDefaultArgs<ExtArgs>
@@ -724,44 +891,52 @@ export type DiscipuladoSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type DiscipuladoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  matrixId?: boolean
   redeId?: boolean
   discipuladorMemberId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
   discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["discipulado"]>
 
 export type DiscipuladoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  matrixId?: boolean
   redeId?: boolean
   discipuladorMemberId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
   discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["discipulado"]>
 
 export type DiscipuladoSelectScalar = {
   id?: boolean
+  matrixId?: boolean
   redeId?: boolean
   discipuladorMemberId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DiscipuladoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "redeId" | "discipuladorMemberId" | "createdAt" | "updatedAt", ExtArgs["result"]["discipulado"]>
+export type DiscipuladoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "matrixId" | "redeId" | "discipuladorMemberId" | "createdAt" | "updatedAt", ExtArgs["result"]["discipulado"]>
 export type DiscipuladoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   celulas?: boolean | Prisma.Discipulado$celulasArgs<ExtArgs>
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
   discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DiscipuladoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DiscipuladoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
   discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }
 export type DiscipuladoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   rede?: boolean | Prisma.RedeDefaultArgs<ExtArgs>
   discipulador?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
 }
@@ -770,11 +945,13 @@ export type $DiscipuladoPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "Discipulado"
   objects: {
     celulas: Prisma.$CelulaPayload<ExtArgs>[]
+    matrix: Prisma.$MatrixPayload<ExtArgs>
     rede: Prisma.$RedePayload<ExtArgs>
     discipulador: Prisma.$MemberPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    matrixId: number
     redeId: number
     discipuladorMemberId: number
     createdAt: Date
@@ -1174,6 +1351,7 @@ readonly fields: DiscipuladoFieldRefs;
 export interface Prisma__DiscipuladoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   celulas<T extends Prisma.Discipulado$celulasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Discipulado$celulasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CelulaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  matrix<T extends Prisma.MatrixDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MatrixDefaultArgs<ExtArgs>>): Prisma.Prisma__MatrixClient<runtime.Types.Result.GetResult<Prisma.$MatrixPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   rede<T extends Prisma.RedeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RedeDefaultArgs<ExtArgs>>): Prisma.Prisma__RedeClient<runtime.Types.Result.GetResult<Prisma.$RedePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   discipulador<T extends Prisma.MemberDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MemberDefaultArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1206,6 +1384,7 @@ export interface Prisma__DiscipuladoClient<T, Null = never, ExtArgs extends runt
  */
 export interface DiscipuladoFieldRefs {
   readonly id: Prisma.FieldRef<"Discipulado", 'Int'>
+  readonly matrixId: Prisma.FieldRef<"Discipulado", 'Int'>
   readonly redeId: Prisma.FieldRef<"Discipulado", 'Int'>
   readonly discipuladorMemberId: Prisma.FieldRef<"Discipulado", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Discipulado", 'DateTime'>

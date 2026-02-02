@@ -9,4 +9,7 @@ export class DiscipuladoCreateInput {
 
     @ApiProperty({ description: 'User id of discipulador', required: true, example: 2 })
     public readonly discipuladorMemberId: number;
+
+    @ApiProperty({ description: 'Matrix id', required: false })
+    public readonly matrixId?: number;
 }

@@ -20,8 +20,8 @@ const API_DEFAULT_PREFIX = '/api/v1/';
  *
  * @todo Change the constants below following your API requirements
  */
-const SWAGGER_TITLE = 'API Gerenciador Financeiro';
-const SWAGGER_DESCRIPTION = 'API completa para gerenciar orçamentos, categorias e transações financeiras com sincronização mensal/anual. Permite controlar rendas e despesas, comparar gastos planejados versus reais, e organizar finanças pessoais de forma estruturada.';
+const SWAGGER_TITLE = 'API Portal Uvas';
+const SWAGGER_DESCRIPTION = 'API completa para gerenciar membros, células, discipulados e ministérios do Portal Uvas.';
 const SWAGGER_PREFIX = '/docs';
 
 /**
@@ -39,6 +39,7 @@ function createSwagger(app: INestApplication) {
         .setTitle(SWAGGER_TITLE)
         .setDescription(SWAGGER_DESCRIPTION)
         .addBearerAuth()
+        .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')
         .build();
 
     const document = SwaggerModule.createDocument(app, options);
@@ -82,7 +83,7 @@ async function bootstrap(): Promise<void> {
         origin: true,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'X-API-KEY'],
     });
 
     // @todo Enable Helmet for better API security headers

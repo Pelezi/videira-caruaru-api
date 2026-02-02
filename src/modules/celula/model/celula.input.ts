@@ -19,6 +19,30 @@ export class CelulaCreateInput {
 
     @ApiProperty({ description: 'Horário da reunião (formato HH:mm)', example: '19:30' })
     public readonly time: string;
+
+    @ApiProperty({ description: 'País da célula', example: 'Brasil', required: false })
+    public readonly country?: string;
+
+    @ApiProperty({ description: 'CEP da célula', example: '55020-000', required: false })
+    public readonly zipCode?: string;
+
+    @ApiProperty({ description: 'Rua da célula', example: 'Rua das Flores', required: false })
+    public readonly street?: string;
+
+    @ApiProperty({ description: 'Número da rua', example: '123', required: false })
+    public readonly streetNumber?: string;
+
+    @ApiProperty({ description: 'Bairro da célula', example: 'Centro', required: false })
+    public readonly neighborhood?: string;
+
+    @ApiProperty({ description: 'Cidade da célula', example: 'Caruaru', required: false })
+    public readonly city?: string;
+
+    @ApiProperty({ description: 'Complemento do endereço', example: 'Apartamento 202', required: false })
+    public readonly complement?: string;
+
+    @ApiProperty({ description: 'Estado da célula', example: 'PE', required: false })
+    public readonly state?: string;
 }
 
 export class CelulaUpdateInput {
@@ -32,6 +56,22 @@ export class CelulaUpdateInput {
     public readonly weekday?: number;
     @ApiProperty({ description: 'Horário da reunião (formato HH:mm)', example: '19:30', required: false })
     public readonly time?: string;
+    @ApiProperty({ description: 'País da célula', example: 'Brasil', required: false })
+    public readonly country?: string;
+    @ApiProperty({ description: 'CEP da célula', example: '55020-000', required: false })
+    public readonly zipCode?: string;
+    @ApiProperty({ description: 'Rua da célula', example: 'Rua das Flores', required: false })
+    public readonly street?: string;
+    @ApiProperty({ description: 'Número da rua', example: '123', required: false })
+    public readonly streetNumber?: string;
+    @ApiProperty({ description: 'Bairro da célula', example: 'Centro', required: false })
+    public readonly neighborhood?: string;
+    @ApiProperty({ description: 'Cidade da célula', example: 'Caruaru', required: false })
+    public readonly city?: string;
+    @ApiProperty({ description: 'Complemento do endereço', example: 'Apartamento 202', required: false })
+    public readonly complement?: string;
+    @ApiProperty({ description: 'Estado da célula', example: 'PE', required: false })
+    public readonly state?: string;
 }
 
 export class CelulaMultiplyInput {

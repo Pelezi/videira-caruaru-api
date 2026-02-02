@@ -51,6 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Matrix: 'Matrix',
+  MatrixDomain: 'MatrixDomain',
+  MemberMatrix: 'MemberMatrix',
   Celula: 'Celula',
   Role: 'Role',
   Ministry: 'Ministry',
@@ -60,7 +63,9 @@ export const ModelName = {
   Discipulado: 'Discipulado',
   Report: 'Report',
   ReportAttendance: 'ReportAttendance',
-  MemberRole: 'MemberRole'
+  MemberRole: 'MemberRole',
+  RefreshToken: 'RefreshToken',
+  ApiKey: 'ApiKey'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -79,14 +84,53 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const MatrixScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MatrixScalarFieldEnum = (typeof MatrixScalarFieldEnum)[keyof typeof MatrixScalarFieldEnum]
+
+
+export const MatrixDomainScalarFieldEnum = {
+  id: 'id',
+  domain: 'domain',
+  matrixId: 'matrixId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MatrixDomainScalarFieldEnum = (typeof MatrixDomainScalarFieldEnum)[keyof typeof MatrixDomainScalarFieldEnum]
+
+
+export const MemberMatrixScalarFieldEnum = {
+  id: 'id',
+  memberId: 'memberId',
+  matrixId: 'matrixId'
+} as const
+
+export type MemberMatrixScalarFieldEnum = (typeof MemberMatrixScalarFieldEnum)[keyof typeof MemberMatrixScalarFieldEnum]
+
+
 export const CelulaScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   leaderMemberId: 'leaderMemberId',
   viceLeaderMemberId: 'viceLeaderMemberId',
   discipuladoId: 'discipuladoId',
   weekday: 'weekday',
   time: 'time',
+  country: 'country',
+  zipCode: 'zipCode',
+  street: 'street',
+  streetNumber: 'streetNumber',
+  neighborhood: 'neighborhood',
+  city: 'city',
+  complement: 'complement',
+  state: 'state',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -97,6 +141,7 @@ export type CelulaScalarFieldEnum = (typeof CelulaScalarFieldEnum)[keyof typeof 
 export const RoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -108,6 +153,7 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 export const MinistryScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   type: 'type',
   priority: 'priority',
   createdAt: 'createdAt',
@@ -120,6 +166,7 @@ export type MinistryScalarFieldEnum = (typeof MinistryScalarFieldEnum)[keyof typ
 export const WinnerPathScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   priority: 'priority',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -134,6 +181,8 @@ export const MemberScalarFieldEnum = {
   password: 'password',
   phone: 'phone',
   hasDefaultPassword: 'hasDefaultPassword',
+  inviteSent: 'inviteSent',
+  hasLoggedIn: 'hasLoggedIn',
   name: 'name',
   celulaId: 'celulaId',
   isActive: 'isActive',
@@ -157,6 +206,7 @@ export const MemberScalarFieldEnum = {
   complement: 'complement',
   state: 'state',
   hasSystemAccess: 'hasSystemAccess',
+  isOwner: 'isOwner',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -167,6 +217,7 @@ export type MemberScalarFieldEnum = (typeof MemberScalarFieldEnum)[keyof typeof 
 export const RedeScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   pastorMemberId: 'pastorMemberId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -177,6 +228,7 @@ export type RedeScalarFieldEnum = (typeof RedeScalarFieldEnum)[keyof typeof Rede
 
 export const DiscipuladoScalarFieldEnum = {
   id: 'id',
+  matrixId: 'matrixId',
   redeId: 'redeId',
   discipuladorMemberId: 'discipuladorMemberId',
   createdAt: 'createdAt',
@@ -188,6 +240,7 @@ export type DiscipuladoScalarFieldEnum = (typeof DiscipuladoScalarFieldEnum)[key
 
 export const ReportScalarFieldEnum = {
   id: 'id',
+  matrixId: 'matrixId',
   createdAt: 'createdAt',
   celulaId: 'celulaId'
 } as const
@@ -211,6 +264,34 @@ export const MemberRoleScalarFieldEnum = {
 } as const
 
 export type MemberRoleScalarFieldEnum = (typeof MemberRoleScalarFieldEnum)[keyof typeof MemberRoleScalarFieldEnum]
+
+
+export const RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  memberId: 'memberId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  isRevoked: 'isRevoked'
+} as const
+
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const ApiKeyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  matrixId: 'matrixId',
+  key: 'key',
+  isActive: 'isActive',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastUsedAt: 'lastUsedAt'
+} as const
+
+export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
 
 
 export const SortOrder = {

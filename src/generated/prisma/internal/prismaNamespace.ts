@@ -384,6 +384,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  Matrix: 'Matrix',
+  MatrixDomain: 'MatrixDomain',
+  MemberMatrix: 'MemberMatrix',
   Celula: 'Celula',
   Role: 'Role',
   Ministry: 'Ministry',
@@ -393,7 +396,9 @@ export const ModelName = {
   Discipulado: 'Discipulado',
   Report: 'Report',
   ReportAttendance: 'ReportAttendance',
-  MemberRole: 'MemberRole'
+  MemberRole: 'MemberRole',
+  RefreshToken: 'RefreshToken',
+  ApiKey: 'ApiKey'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,10 +414,232 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "celula" | "role" | "ministry" | "winnerPath" | "member" | "rede" | "discipulado" | "report" | "reportAttendance" | "memberRole"
+    modelProps: "matrix" | "matrixDomain" | "memberMatrix" | "celula" | "role" | "ministry" | "winnerPath" | "member" | "rede" | "discipulado" | "report" | "reportAttendance" | "memberRole" | "refreshToken" | "apiKey"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    Matrix: {
+      payload: Prisma.$MatrixPayload<ExtArgs>
+      fields: Prisma.MatrixFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MatrixFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MatrixFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>
+        }
+        findFirst: {
+          args: Prisma.MatrixFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MatrixFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>
+        }
+        findMany: {
+          args: Prisma.MatrixFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>[]
+        }
+        create: {
+          args: Prisma.MatrixCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>
+        }
+        createMany: {
+          args: Prisma.MatrixCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MatrixCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>[]
+        }
+        delete: {
+          args: Prisma.MatrixDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>
+        }
+        update: {
+          args: Prisma.MatrixUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>
+        }
+        deleteMany: {
+          args: Prisma.MatrixDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MatrixUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MatrixUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>[]
+        }
+        upsert: {
+          args: Prisma.MatrixUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixPayload>
+        }
+        aggregate: {
+          args: Prisma.MatrixAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMatrix>
+        }
+        groupBy: {
+          args: Prisma.MatrixGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MatrixGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MatrixCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MatrixCountAggregateOutputType> | number
+        }
+      }
+    }
+    MatrixDomain: {
+      payload: Prisma.$MatrixDomainPayload<ExtArgs>
+      fields: Prisma.MatrixDomainFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MatrixDomainFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MatrixDomainFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>
+        }
+        findFirst: {
+          args: Prisma.MatrixDomainFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MatrixDomainFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>
+        }
+        findMany: {
+          args: Prisma.MatrixDomainFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>[]
+        }
+        create: {
+          args: Prisma.MatrixDomainCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>
+        }
+        createMany: {
+          args: Prisma.MatrixDomainCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MatrixDomainCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>[]
+        }
+        delete: {
+          args: Prisma.MatrixDomainDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>
+        }
+        update: {
+          args: Prisma.MatrixDomainUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>
+        }
+        deleteMany: {
+          args: Prisma.MatrixDomainDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MatrixDomainUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MatrixDomainUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>[]
+        }
+        upsert: {
+          args: Prisma.MatrixDomainUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatrixDomainPayload>
+        }
+        aggregate: {
+          args: Prisma.MatrixDomainAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMatrixDomain>
+        }
+        groupBy: {
+          args: Prisma.MatrixDomainGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MatrixDomainGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MatrixDomainCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MatrixDomainCountAggregateOutputType> | number
+        }
+      }
+    }
+    MemberMatrix: {
+      payload: Prisma.$MemberMatrixPayload<ExtArgs>
+      fields: Prisma.MemberMatrixFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MemberMatrixFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MemberMatrixFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>
+        }
+        findFirst: {
+          args: Prisma.MemberMatrixFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MemberMatrixFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>
+        }
+        findMany: {
+          args: Prisma.MemberMatrixFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>[]
+        }
+        create: {
+          args: Prisma.MemberMatrixCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>
+        }
+        createMany: {
+          args: Prisma.MemberMatrixCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MemberMatrixCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>[]
+        }
+        delete: {
+          args: Prisma.MemberMatrixDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>
+        }
+        update: {
+          args: Prisma.MemberMatrixUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>
+        }
+        deleteMany: {
+          args: Prisma.MemberMatrixDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MemberMatrixUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MemberMatrixUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>[]
+        }
+        upsert: {
+          args: Prisma.MemberMatrixUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberMatrixPayload>
+        }
+        aggregate: {
+          args: Prisma.MemberMatrixAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMemberMatrix>
+        }
+        groupBy: {
+          args: Prisma.MemberMatrixGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberMatrixGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MemberMatrixCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberMatrixCountAggregateOutputType> | number
+        }
+      }
+    }
     Celula: {
       payload: Prisma.$CelulaPayload<ExtArgs>
       fields: Prisma.CelulaFieldRefs
@@ -1153,6 +1380,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    RefreshToken: {
+      payload: Prisma.$RefreshTokenPayload<ExtArgs>
+      fields: Prisma.RefreshTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RefreshTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RefreshTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.RefreshTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RefreshTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>
+        }
+        findMany: {
+          args: Prisma.RefreshTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>[]
+        }
+        create: {
+          args: Prisma.RefreshTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>
+        }
+        createMany: {
+          args: Prisma.RefreshTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RefreshTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.RefreshTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>
+        }
+        update: {
+          args: Prisma.RefreshTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.RefreshTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RefreshTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RefreshTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.RefreshTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RefreshTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.RefreshTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRefreshToken>
+        }
+        groupBy: {
+          args: Prisma.RefreshTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RefreshTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RefreshTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RefreshTokenCountAggregateOutputType> | number
+        }
+      }
+    }
+    ApiKey: {
+      payload: Prisma.$ApiKeyPayload<ExtArgs>
+      fields: Prisma.ApiKeyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ApiKeyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ApiKeyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+        }
+        findFirst: {
+          args: Prisma.ApiKeyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ApiKeyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+        }
+        findMany: {
+          args: Prisma.ApiKeyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+        }
+        create: {
+          args: Prisma.ApiKeyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+        }
+        createMany: {
+          args: Prisma.ApiKeyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ApiKeyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+        }
+        delete: {
+          args: Prisma.ApiKeyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+        }
+        update: {
+          args: Prisma.ApiKeyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+        }
+        deleteMany: {
+          args: Prisma.ApiKeyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ApiKeyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ApiKeyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+        }
+        upsert: {
+          args: Prisma.ApiKeyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+        }
+        aggregate: {
+          args: Prisma.ApiKeyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateApiKey>
+        }
+        groupBy: {
+          args: Prisma.ApiKeyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ApiKeyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ApiKeyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ApiKeyCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1192,14 +1567,53 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const MatrixScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MatrixScalarFieldEnum = (typeof MatrixScalarFieldEnum)[keyof typeof MatrixScalarFieldEnum]
+
+
+export const MatrixDomainScalarFieldEnum = {
+  id: 'id',
+  domain: 'domain',
+  matrixId: 'matrixId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MatrixDomainScalarFieldEnum = (typeof MatrixDomainScalarFieldEnum)[keyof typeof MatrixDomainScalarFieldEnum]
+
+
+export const MemberMatrixScalarFieldEnum = {
+  id: 'id',
+  memberId: 'memberId',
+  matrixId: 'matrixId'
+} as const
+
+export type MemberMatrixScalarFieldEnum = (typeof MemberMatrixScalarFieldEnum)[keyof typeof MemberMatrixScalarFieldEnum]
+
+
 export const CelulaScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   leaderMemberId: 'leaderMemberId',
   viceLeaderMemberId: 'viceLeaderMemberId',
   discipuladoId: 'discipuladoId',
   weekday: 'weekday',
   time: 'time',
+  country: 'country',
+  zipCode: 'zipCode',
+  street: 'street',
+  streetNumber: 'streetNumber',
+  neighborhood: 'neighborhood',
+  city: 'city',
+  complement: 'complement',
+  state: 'state',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1210,6 +1624,7 @@ export type CelulaScalarFieldEnum = (typeof CelulaScalarFieldEnum)[keyof typeof 
 export const RoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1221,6 +1636,7 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 export const MinistryScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   type: 'type',
   priority: 'priority',
   createdAt: 'createdAt',
@@ -1233,6 +1649,7 @@ export type MinistryScalarFieldEnum = (typeof MinistryScalarFieldEnum)[keyof typ
 export const WinnerPathScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   priority: 'priority',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1247,6 +1664,8 @@ export const MemberScalarFieldEnum = {
   password: 'password',
   phone: 'phone',
   hasDefaultPassword: 'hasDefaultPassword',
+  inviteSent: 'inviteSent',
+  hasLoggedIn: 'hasLoggedIn',
   name: 'name',
   celulaId: 'celulaId',
   isActive: 'isActive',
@@ -1270,6 +1689,7 @@ export const MemberScalarFieldEnum = {
   complement: 'complement',
   state: 'state',
   hasSystemAccess: 'hasSystemAccess',
+  isOwner: 'isOwner',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1280,6 +1700,7 @@ export type MemberScalarFieldEnum = (typeof MemberScalarFieldEnum)[keyof typeof 
 export const RedeScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  matrixId: 'matrixId',
   pastorMemberId: 'pastorMemberId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1290,6 +1711,7 @@ export type RedeScalarFieldEnum = (typeof RedeScalarFieldEnum)[keyof typeof Rede
 
 export const DiscipuladoScalarFieldEnum = {
   id: 'id',
+  matrixId: 'matrixId',
   redeId: 'redeId',
   discipuladorMemberId: 'discipuladorMemberId',
   createdAt: 'createdAt',
@@ -1301,6 +1723,7 @@ export type DiscipuladoScalarFieldEnum = (typeof DiscipuladoScalarFieldEnum)[key
 
 export const ReportScalarFieldEnum = {
   id: 'id',
+  matrixId: 'matrixId',
   createdAt: 'createdAt',
   celulaId: 'celulaId'
 } as const
@@ -1324,6 +1747,34 @@ export const MemberRoleScalarFieldEnum = {
 } as const
 
 export type MemberRoleScalarFieldEnum = (typeof MemberRoleScalarFieldEnum)[keyof typeof MemberRoleScalarFieldEnum]
+
+
+export const RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  memberId: 'memberId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  isRevoked: 'isRevoked'
+} as const
+
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const ApiKeyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  matrixId: 'matrixId',
+  key: 'key',
+  isActive: 'isActive',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastUsedAt: 'lastUsedAt'
+} as const
+
+export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1555,6 +2006,9 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  matrix?: Prisma.MatrixOmit
+  matrixDomain?: Prisma.MatrixDomainOmit
+  memberMatrix?: Prisma.MemberMatrixOmit
   celula?: Prisma.CelulaOmit
   role?: Prisma.RoleOmit
   ministry?: Prisma.MinistryOmit
@@ -1565,6 +2019,8 @@ export type GlobalOmitConfig = {
   report?: Prisma.ReportOmit
   reportAttendance?: Prisma.ReportAttendanceOmit
   memberRole?: Prisma.MemberRoleOmit
+  refreshToken?: Prisma.RefreshTokenOmit
+  apiKey?: Prisma.ApiKeyOmit
 }
 
 /* Types for Logging */

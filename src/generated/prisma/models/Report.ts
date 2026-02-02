@@ -28,28 +28,33 @@ export type AggregateReport = {
 
 export type ReportAvgAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   celulaId: number | null
 }
 
 export type ReportSumAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   celulaId: number | null
 }
 
 export type ReportMinAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   createdAt: Date | null
   celulaId: number | null
 }
 
 export type ReportMaxAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   createdAt: Date | null
   celulaId: number | null
 }
 
 export type ReportCountAggregateOutputType = {
   id: number
+  matrixId: number
   createdAt: number
   celulaId: number
   _all: number
@@ -58,28 +63,33 @@ export type ReportCountAggregateOutputType = {
 
 export type ReportAvgAggregateInputType = {
   id?: true
+  matrixId?: true
   celulaId?: true
 }
 
 export type ReportSumAggregateInputType = {
   id?: true
+  matrixId?: true
   celulaId?: true
 }
 
 export type ReportMinAggregateInputType = {
   id?: true
+  matrixId?: true
   createdAt?: true
   celulaId?: true
 }
 
 export type ReportMaxAggregateInputType = {
   id?: true
+  matrixId?: true
   createdAt?: true
   celulaId?: true
 }
 
 export type ReportCountAggregateInputType = {
   id?: true
+  matrixId?: true
   createdAt?: true
   celulaId?: true
   _all?: true
@@ -173,6 +183,7 @@ export type ReportGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type ReportGroupByOutputType = {
   id: number
+  matrixId: number
   createdAt: Date
   celulaId: number
   _count: ReportCountAggregateOutputType | null
@@ -202,16 +213,20 @@ export type ReportWhereInput = {
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   id?: Prisma.IntFilter<"Report"> | number
+  matrixId?: Prisma.IntFilter<"Report"> | number
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   celulaId?: Prisma.IntFilter<"Report"> | number
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   celula?: Prisma.XOR<Prisma.CelulaScalarRelationFilter, Prisma.CelulaWhereInput>
   attendances?: Prisma.ReportAttendanceListRelationFilter
 }
 
 export type ReportOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  matrix?: Prisma.MatrixOrderByWithRelationInput
   celula?: Prisma.CelulaOrderByWithRelationInput
   attendances?: Prisma.ReportAttendanceOrderByRelationAggregateInput
 }
@@ -221,14 +236,17 @@ export type ReportWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
+  matrixId?: Prisma.IntFilter<"Report"> | number
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   celulaId?: Prisma.IntFilter<"Report"> | number
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   celula?: Prisma.XOR<Prisma.CelulaScalarRelationFilter, Prisma.CelulaWhereInput>
   attendances?: Prisma.ReportAttendanceListRelationFilter
 }, "id">
 
 export type ReportOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
   _count?: Prisma.ReportCountOrderByAggregateInput
@@ -243,18 +261,21 @@ export type ReportScalarWhereWithAggregatesInput = {
   OR?: Prisma.ReportScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReportScalarWhereWithAggregatesInput | Prisma.ReportScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Report"> | number
+  matrixId?: Prisma.IntWithAggregatesFilter<"Report"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Report"> | Date | string
   celulaId?: Prisma.IntWithAggregatesFilter<"Report"> | number
 }
 
 export type ReportCreateInput = {
   createdAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutReportsInput
   celula: Prisma.CelulaCreateNestedOneWithoutReportsInput
   attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutReportInput
 }
 
 export type ReportUncheckedCreateInput = {
   id?: number
+  matrixId: number
   createdAt?: Date | string
   celulaId: number
   attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutReportInput
@@ -262,12 +283,14 @@ export type ReportUncheckedCreateInput = {
 
 export type ReportUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutReportsNestedInput
   celula?: Prisma.CelulaUpdateOneRequiredWithoutReportsNestedInput
   attendances?: Prisma.ReportAttendanceUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
   attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutReportNestedInput
@@ -275,6 +298,7 @@ export type ReportUncheckedUpdateInput = {
 
 export type ReportCreateManyInput = {
   id?: number
+  matrixId: number
   createdAt?: Date | string
   celulaId: number
 }
@@ -285,6 +309,7 @@ export type ReportUpdateManyMutationInput = {
 
 export type ReportUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -301,35 +326,82 @@ export type ReportOrderByRelationAggregateInput = {
 
 export type ReportCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
 }
 
 export type ReportAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
 }
 
 export type ReportMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
 }
 
 export type ReportMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
 }
 
 export type ReportSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
 }
 
 export type ReportScalarRelationFilter = {
   is?: Prisma.ReportWhereInput
   isNot?: Prisma.ReportWhereInput
+}
+
+export type ReportCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutMatrixInput, Prisma.ReportUncheckedCreateWithoutMatrixInput> | Prisma.ReportCreateWithoutMatrixInput[] | Prisma.ReportUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutMatrixInput | Prisma.ReportCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.ReportCreateManyMatrixInputEnvelope
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+}
+
+export type ReportUncheckedCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutMatrixInput, Prisma.ReportUncheckedCreateWithoutMatrixInput> | Prisma.ReportCreateWithoutMatrixInput[] | Prisma.ReportUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutMatrixInput | Prisma.ReportCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.ReportCreateManyMatrixInputEnvelope
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+}
+
+export type ReportUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutMatrixInput, Prisma.ReportUncheckedCreateWithoutMatrixInput> | Prisma.ReportCreateWithoutMatrixInput[] | Prisma.ReportUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutMatrixInput | Prisma.ReportCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.ReportUpsertWithWhereUniqueWithoutMatrixInput | Prisma.ReportUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.ReportCreateManyMatrixInputEnvelope
+  set?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  disconnect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  delete?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  update?: Prisma.ReportUpdateWithWhereUniqueWithoutMatrixInput | Prisma.ReportUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.ReportUpdateManyWithWhereWithoutMatrixInput | Prisma.ReportUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
+}
+
+export type ReportUncheckedUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutMatrixInput, Prisma.ReportUncheckedCreateWithoutMatrixInput> | Prisma.ReportCreateWithoutMatrixInput[] | Prisma.ReportUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutMatrixInput | Prisma.ReportCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.ReportUpsertWithWhereUniqueWithoutMatrixInput | Prisma.ReportUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.ReportCreateManyMatrixInputEnvelope
+  set?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  disconnect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  delete?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  update?: Prisma.ReportUpdateWithWhereUniqueWithoutMatrixInput | Prisma.ReportUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.ReportUpdateManyWithWhereWithoutMatrixInput | Prisma.ReportUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
 }
 
 export type ReportCreateNestedManyWithoutCelulaInput = {
@@ -388,13 +460,64 @@ export type ReportUpdateOneRequiredWithoutAttendancesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ReportUpdateToOneWithWhereWithoutAttendancesInput, Prisma.ReportUpdateWithoutAttendancesInput>, Prisma.ReportUncheckedUpdateWithoutAttendancesInput>
 }
 
+export type ReportCreateWithoutMatrixInput = {
+  createdAt?: Date | string
+  celula: Prisma.CelulaCreateNestedOneWithoutReportsInput
+  attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutReportInput
+}
+
+export type ReportUncheckedCreateWithoutMatrixInput = {
+  id?: number
+  createdAt?: Date | string
+  celulaId: number
+  attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutReportInput
+}
+
+export type ReportCreateOrConnectWithoutMatrixInput = {
+  where: Prisma.ReportWhereUniqueInput
+  create: Prisma.XOR<Prisma.ReportCreateWithoutMatrixInput, Prisma.ReportUncheckedCreateWithoutMatrixInput>
+}
+
+export type ReportCreateManyMatrixInputEnvelope = {
+  data: Prisma.ReportCreateManyMatrixInput | Prisma.ReportCreateManyMatrixInput[]
+  skipDuplicates?: boolean
+}
+
+export type ReportUpsertWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.ReportWhereUniqueInput
+  update: Prisma.XOR<Prisma.ReportUpdateWithoutMatrixInput, Prisma.ReportUncheckedUpdateWithoutMatrixInput>
+  create: Prisma.XOR<Prisma.ReportCreateWithoutMatrixInput, Prisma.ReportUncheckedCreateWithoutMatrixInput>
+}
+
+export type ReportUpdateWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.ReportWhereUniqueInput
+  data: Prisma.XOR<Prisma.ReportUpdateWithoutMatrixInput, Prisma.ReportUncheckedUpdateWithoutMatrixInput>
+}
+
+export type ReportUpdateManyWithWhereWithoutMatrixInput = {
+  where: Prisma.ReportScalarWhereInput
+  data: Prisma.XOR<Prisma.ReportUpdateManyMutationInput, Prisma.ReportUncheckedUpdateManyWithoutMatrixInput>
+}
+
+export type ReportScalarWhereInput = {
+  AND?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
+  OR?: Prisma.ReportScalarWhereInput[]
+  NOT?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
+  id?: Prisma.IntFilter<"Report"> | number
+  matrixId?: Prisma.IntFilter<"Report"> | number
+  createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
+  celulaId?: Prisma.IntFilter<"Report"> | number
+}
+
 export type ReportCreateWithoutCelulaInput = {
   createdAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutReportsInput
   attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutReportInput
 }
 
 export type ReportUncheckedCreateWithoutCelulaInput = {
   id?: number
+  matrixId: number
   createdAt?: Date | string
   attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutReportInput
 }
@@ -425,22 +548,15 @@ export type ReportUpdateManyWithWhereWithoutCelulaInput = {
   data: Prisma.XOR<Prisma.ReportUpdateManyMutationInput, Prisma.ReportUncheckedUpdateManyWithoutCelulaInput>
 }
 
-export type ReportScalarWhereInput = {
-  AND?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
-  OR?: Prisma.ReportScalarWhereInput[]
-  NOT?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
-  id?: Prisma.IntFilter<"Report"> | number
-  createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
-  celulaId?: Prisma.IntFilter<"Report"> | number
-}
-
 export type ReportCreateWithoutAttendancesInput = {
   createdAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutReportsInput
   celula: Prisma.CelulaCreateNestedOneWithoutReportsInput
 }
 
 export type ReportUncheckedCreateWithoutAttendancesInput = {
   id?: number
+  matrixId: number
   createdAt?: Date | string
   celulaId: number
 }
@@ -463,10 +579,37 @@ export type ReportUpdateToOneWithWhereWithoutAttendancesInput = {
 
 export type ReportUpdateWithoutAttendancesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutReportsNestedInput
   celula?: Prisma.CelulaUpdateOneRequiredWithoutReportsNestedInput
 }
 
 export type ReportUncheckedUpdateWithoutAttendancesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  celulaId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type ReportCreateManyMatrixInput = {
+  id?: number
+  createdAt?: Date | string
+  celulaId: number
+}
+
+export type ReportUpdateWithoutMatrixInput = {
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  celula?: Prisma.CelulaUpdateOneRequiredWithoutReportsNestedInput
+  attendances?: Prisma.ReportAttendanceUpdateManyWithoutReportNestedInput
+}
+
+export type ReportUncheckedUpdateWithoutMatrixInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  celulaId?: Prisma.IntFieldUpdateOperationsInput | number
+  attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutReportNestedInput
+}
+
+export type ReportUncheckedUpdateManyWithoutMatrixInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -474,22 +617,26 @@ export type ReportUncheckedUpdateWithoutAttendancesInput = {
 
 export type ReportCreateManyCelulaInput = {
   id?: number
+  matrixId: number
   createdAt?: Date | string
 }
 
 export type ReportUpdateWithoutCelulaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutReportsNestedInput
   attendances?: Prisma.ReportAttendanceUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateWithoutCelulaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateManyWithoutCelulaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -526,8 +673,10 @@ export type ReportCountOutputTypeCountAttendancesArgs<ExtArgs extends runtime.Ty
 
 export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
   attendances?: boolean | Prisma.Report$attendancesArgs<ExtArgs>
   _count?: boolean | Prisma.ReportCountOutputTypeDefaultArgs<ExtArgs>
@@ -535,45 +684,55 @@ export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 
 export type ReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
 
 export type ReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
 
 export type ReportSelectScalar = {
   id?: boolean
+  matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
 }
 
-export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "celulaId", ExtArgs["result"]["report"]>
+export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "matrixId" | "createdAt" | "celulaId", ExtArgs["result"]["report"]>
 export type ReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
   attendances?: boolean | Prisma.Report$attendancesArgs<ExtArgs>
   _count?: boolean | Prisma.ReportCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
 }
 export type ReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
 }
 
 export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Report"
   objects: {
+    matrix: Prisma.$MatrixPayload<ExtArgs>
     celula: Prisma.$CelulaPayload<ExtArgs>
     attendances: Prisma.$ReportAttendancePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    matrixId: number
     createdAt: Date
     celulaId: number
   }, ExtArgs["result"]["report"]>
@@ -970,6 +1129,7 @@ readonly fields: ReportFieldRefs;
  */
 export interface Prisma__ReportClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  matrix<T extends Prisma.MatrixDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MatrixDefaultArgs<ExtArgs>>): Prisma.Prisma__MatrixClient<runtime.Types.Result.GetResult<Prisma.$MatrixPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   celula<T extends Prisma.CelulaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CelulaDefaultArgs<ExtArgs>>): Prisma.Prisma__CelulaClient<runtime.Types.Result.GetResult<Prisma.$CelulaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   attendances<T extends Prisma.Report$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Report$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1002,6 +1162,7 @@ export interface Prisma__ReportClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface ReportFieldRefs {
   readonly id: Prisma.FieldRef<"Report", 'Int'>
+  readonly matrixId: Prisma.FieldRef<"Report", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Report", 'DateTime'>
   readonly celulaId: Prisma.FieldRef<"Report", 'Int'>
 }

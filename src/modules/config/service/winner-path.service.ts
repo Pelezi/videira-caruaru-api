@@ -5,18 +5,22 @@ import { PrismaService } from '../../common';
 export class WinnerPathService {
     constructor(private readonly prisma: PrismaService) {}
 
-    public async findAll() {
-        return this.prisma.winnerPath.findMany({ orderBy: { priority: 'asc' } });
+    public async findAll(matrixId: number) {
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
+        return this.prisma.winnerPath.findMany({ 
+            where: { matrixId }, 
+            orderBy: { priority: 'asc' } 
+        });
     }
 
     public async findById(id: number) {
         return this.prisma.winnerPath.findUnique({ where: { id } });
     }
 
-    public async create(name: string) {
+    public async create(name: string, matrixId: number) {
         const maxPriority = await this.prisma.winnerPath.findFirst({ orderBy: { priority: 'desc' } });
         const priority = maxPriority ? maxPriority.priority + 1 : 0;
-        return this.prisma.winnerPath.create({ data: { name, priority } });
+        return this.prisma.winnerPath.create({ data: { name, priority, matrix: { connect: { id: matrixId } } } });
     }
 
     public async update(id: number, name: string) {

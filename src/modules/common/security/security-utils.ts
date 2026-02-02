@@ -4,6 +4,7 @@ import { UnauthorizedException } from '@nestjs/common';
 
 interface TokenPayload {
     userId: number;
+    matrixId: number;
     email?: string;
     iat?: number;
     exp?: number;
@@ -17,7 +18,7 @@ interface TokenPayload {
  * @param request - The Fastify request object
  * @returns Token payload if valid, null otherwise
  */
-export function extractTokenPayload(request: FastifyRequest): { userId: number } | null {
+export function extractTokenPayload(request: FastifyRequest): { userId: number; matrixId: number } | null {
 
     const header = request.headers.authorization;
     if (!header || !header.startsWith('Bearer ')) {
@@ -53,6 +54,10 @@ export function extractTokenPayload(request: FastifyRequest): { userId: number }
             throw new UnauthorizedException('token inválido: o campo userId está ausente ou inválido');
         }
 
+        if (!tokenPayload.matrixId || typeof tokenPayload.matrixId !== 'number') {
+            throw new UnauthorizedException('token inválido: o campo matrixId está ausente ou inválido');
+        }
+
         // Explicit expiration check (redundant with jwt.verify but more explicit)
         if (tokenPayload.exp) {
             const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -67,7 +72,8 @@ export function extractTokenPayload(request: FastifyRequest): { userId: number }
         }
 
         return {
-            userId: tokenPayload.userId
+            userId: tokenPayload.userId,
+            matrixId: tokenPayload.matrixId
         };
 
     }

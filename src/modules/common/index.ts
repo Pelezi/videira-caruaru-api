@@ -6,3 +6,4 @@ export * from './security';
 export * from './provider';
 export * from './provider/email.provider';
 export * from './types/authenticated-request.interface';
+export * from './helpers/matrix-validation.helper';

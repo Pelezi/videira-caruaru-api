@@ -17,7 +17,8 @@ export class RestrictedGuard implements CanActivate {
 
         // Attach user info to request for use in controllers
         request.member = {
-            id: payload.userId
+            id: payload.userId,
+            matrixId: payload.matrixId
         };
 
         return true;

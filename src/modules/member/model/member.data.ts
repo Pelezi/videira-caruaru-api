@@ -76,6 +76,9 @@ export class MemberInput {
     @ApiProperty({ description: 'Has system access', example: false, required: false })
     public readonly hasSystemAccess?: boolean;
 
+    @ApiProperty({ description: 'Has default password (123456)', example: true, required: false })
+    public readonly hasDefaultPassword?: boolean;
+
     @ApiProperty({ description: 'Is active in church', example: true, required: false })
     public readonly isActive?: boolean;
 
@@ -92,6 +95,9 @@ export class LoginInput {
 
     @ApiProperty({ description: 'Password', example: 'password123' })
     public readonly password: string;
+
+    // Domain is extracted from request headers on the server side
+    public readonly domain?: string;
 }
 
 export class MemberData {
@@ -117,10 +123,24 @@ export class MemberPermissions {
 
 }
 
+export class InviteResponse {
+    @ApiProperty({ description: 'Indica se a operação foi bem-sucedida', example: true })
+    public readonly success: boolean;
+
+    @ApiProperty({ description: 'Mensagem descritiva do resultado', example: 'Convite enviado no email e WhatsApp' })
+    public readonly message: string;
+
+    @ApiProperty({ description: 'Indica se o convite foi enviado via WhatsApp', example: true })
+    public readonly whatsappSent: boolean;
+}
+
 export class LoginOutput {
 
     @ApiProperty({ description: 'JWT token para autenticação', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' })
     public readonly token: string;
+
+    @ApiProperty({ description: 'Refresh token para renovação de acesso', example: 'a1b2c3d4...', required: false })
+    public readonly refreshToken?: string;
 
     @ApiProperty({ description: 'Dados do membro autenticado' })
     public readonly member: MemberData;
@@ -130,4 +150,13 @@ export class LoginOutput {
 
     @ApiProperty({ description: 'URL para definir a senha (se aplicável)', example: 'https://frontend-url/auth/set-password?token=...', required: false })
     public readonly setPasswordUrl?: string;
+
+    @ApiProperty({ description: 'Lista de matrizes que o usuário tem acesso', required: false })
+    public readonly matrices?: Array<{ id: number; name: string; domains: Array<{ domain: string }> }>;
+
+    @ApiProperty({ description: 'Matriz atual do login', required: false })
+    public readonly currentMatrix?: { id: number; name: string };
+
+    @ApiProperty({ description: 'Indica se o usuário deve escolher uma matriz', required: false })
+    public readonly requireMatrixSelection?: boolean;
 }

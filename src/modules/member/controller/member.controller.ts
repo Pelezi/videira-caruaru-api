@@ -20,11 +20,17 @@ export class MemberController {
     @ApiOperation({ summary: 'Buscar estatísticas dos membros' })
     @ApiResponse({ status: 200, description: 'Estatísticas dos membros' })
     public async getStatistics(
+        @Req() req: AuthenticatedRequest,
         @Query('celulaId') celulaId?: string,
         @Query('discipuladoId') discipuladoId?: string,
         @Query('redeId') redeId?: string
     ) {
-        const filters: { celulaId?: number; discipuladoId?: number; redeId?: number } = {};
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID is required', HttpStatus.BAD_REQUEST);
+        }
+        const filters: { celulaId?: number; discipuladoId?: number; redeId?: number; matrixId?: number } = {
+            matrixId: req.member.matrixId
+        };
         if (celulaId) filters.celulaId = Number(celulaId);
         if (discipuladoId) filters.discipuladoId = Number(discipuladoId);
         if (redeId) filters.redeId = Number(redeId);
@@ -52,13 +58,17 @@ export class MemberController {
         @Query('redeId') redeId?: string,
         @Query('ministryType') ministryType?: string
     ) {
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
+        }
+        
         const filters: { celulaId?: number; discipuladoId?: number; redeId?: number; ministryType?: string } = {};
         if (celulaId) filters.celulaId = Number(celulaId);
         if (discipuladoId) filters.discipuladoId = Number(discipuladoId);
         if (redeId) filters.redeId = Number(redeId);
         if (ministryType) filters.ministryType = ministryType;
         
-        return this.service.findAll(filters);
+        return this.service.findAll(req.member.matrixId, filters);
     }
 
     @Get('celulas/:celulaId/members')
@@ -67,7 +77,7 @@ export class MemberController {
         const celulaId = Number(celulaIdParam);
         
         if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
-            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.UNAUTHORIZED);
         }
 
         return this.service.findByCelula(celulaId);
@@ -85,13 +95,13 @@ export class MemberController {
         
         // Validar que usuário tem permissão para criar membros (admin ou líder)
         if (!permission || (!permission.isAdmin && permission.celulaIds.length === 0)) {
-            throw new HttpException('Você não tem permissão para criar membros', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem permissão para criar membros', HttpStatus.UNAUTHORIZED);
         }
         
         // Se não for admin e está atribuindo a uma célula, validar acesso à célula
         if (!permission.isAdmin && body.celulaId) {
             if (!this.permissionService.hasCelulaAccess(permission, body.celulaId)) {
-                throw new HttpException('Você não tem acesso a esta célula', HttpStatus.FORBIDDEN);
+                throw new HttpException('Você não tem acesso a esta célula', HttpStatus.UNAUTHORIZED);
             }
         }
 
@@ -99,7 +109,7 @@ export class MemberController {
             throw new HttpException('Requisição não autenticada', HttpStatus.UNAUTHORIZED);
         }
         
-        return this.service.create(body, req.member.id);
+        return this.service.create(body, req.member.id, req.member.matrixId);
     }
 
     @Delete(':memberId')
@@ -115,7 +125,7 @@ export class MemberController {
         }
         
         if (member.celulaId && !this.permissionService.hasCelulaAccess(permission, member.celulaId)) {
-            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.UNAUTHORIZED);
         }
 
         return this.service.removeFromCelula(memberId);
@@ -138,14 +148,14 @@ export class MemberController {
         }
         
         if (member.celulaId && !this.permissionService.hasCelulaAccess(permission, member.celulaId)) {
-            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.UNAUTHORIZED);
         }
 
         if (!req.member) {
             throw new HttpException('Requisição não autenticada', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.service.update(memberId, body, req.member.id);
+        return this.service.update(memberId, body, req.member.id, req.member.matrixId);
     }
 
     @Get('profile/me')
@@ -189,24 +199,65 @@ export class MemberController {
         return this.service.setPasswordWithToken(body.token, body.password);
     }
 
-    @Post('request-set-password')
-    public async requestSetPassword(@Body() body: { email: string }) {
-        return this.service.requestSetPassword(body.email);
+    @Post(':memberId/send-invite')
+    @ApiOperation({ summary: 'Enviar convite inicial para membro' })
+    @ApiResponse({ status: 200, description: 'Convite enviado' })
+    public async sendInvite(
+        @Req() req: AuthenticatedRequest,
+        @Param('memberId') memberIdParam: string
+    ) {
+        const permission = req.permission;
+        const memberId = Number(memberIdParam);
+        
+        // Verificar permissão (admin ou líder da célula do membro)
+        const member = await this.service.findById(memberId);
+        if (!member) {
+            throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
+        }
+        
+        if (!permission?.isAdmin && permission?.ministryType !== 'PASTOR' && permission?.ministryType !== 'PRESIDENT_PASTOR' && member.celulaId) {
+            if (!this.permissionService.hasCelulaAccess(permission, member.celulaId)) {
+                throw new HttpException('Você não tem permissão para enviar convite para este membro', HttpStatus.UNAUTHORIZED);
+            }
+        }
+        
+        return this.service.sendInvite(memberId, req.member!.matrixId);
+    }
+
+    @Post(':memberId/resend-invite')
+    @ApiOperation({ summary: 'Reenviar convite para membro' })
+    @ApiResponse({ status: 200, description: 'Convite reenviado' })
+    public async resendInvite(
+        @Req() req: AuthenticatedRequest,
+        @Param('memberId') memberIdParam: string
+    ) {
+        const permission = req.permission;
+        const memberId = Number(memberIdParam);
+        
+        // Verificar permissão (admin ou líder da célula do membro)
+        const member = await this.service.findById(memberId);
+        if (!member) {
+            throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
+        }
+        
+        if (!permission?.isAdmin && permission?.ministryType !== 'PASTOR' && permission?.ministryType !== 'PRESIDENT_PASTOR' && member.celulaId) {
+            if (!this.permissionService.hasCelulaAccess(permission, member.celulaId)) {
+                throw new HttpException('Você não tem permissão para reenviar convite para este membro', HttpStatus.UNAUTHORIZED);
+            }
+        }
+        
+        return this.service.resendInvite(memberId, req.member!.matrixId);
     }
 
     @Get('with-roles')
     @ApiOperation({ summary: 'Listar membros com informações de roles' })
     @ApiResponse({ status: 200, description: 'Lista de membros com roles' })
     public async listWithRoles(@Req() req: AuthenticatedRequest) {
-        const permission = req.permission;
-        
-        try {
-            this.permissionService.requireAdmin(permission);
-        } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem acessar esta lista', HttpStatus.FORBIDDEN);
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         }
         
-        return this.service.findAllWithRoles();
+        return this.service.findAllWithRoles(req.member.matrixId);
     }
 
 }

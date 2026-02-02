@@ -3,13 +3,19 @@ import { PrismaService } from '../../common';
 import { CelulaCreateInput } from '../model/celula.input';
 import { canBeLeader, canBeViceLeader, getMinistryTypeLabel } from '../../common/helpers/ministry-permissions.helper';
 import { Prisma } from '../../../generated/prisma/client';
+import { createMatrixValidator } from '../../common/helpers/matrix-validation.helper';
 
 @Injectable()
 export class CelulaService {
     constructor(private readonly prisma: PrismaService) { }
 
-    public async findAll() {
-        return this.prisma.celula.findMany({ orderBy: { name: 'asc' }, include: { leader: true, viceLeader: true } });
+    public async findAll(matrixId: number) {
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
+        return this.prisma.celula.findMany({ 
+            where: { matrixId }, 
+            orderBy: { name: 'asc' }, 
+            include: { leader: true, viceLeader: true } 
+        });
     }
 
     public async findByPermission(celulaIds: number[]) {
@@ -22,7 +28,9 @@ export class CelulaService {
         });
     }
 
-    public async create(body: CelulaCreateInput) {
+    public async create(body: CelulaCreateInput, matrixId: number) {
+        const validator = createMatrixValidator(this.prisma);
+        
         // Validação de weekday
         if (body.weekday === undefined || body.weekday === null) {
             throw new HttpException('Dia da semana é obrigatório', HttpStatus.BAD_REQUEST);
@@ -47,6 +55,12 @@ export class CelulaService {
             throw new HttpException('Horário deve estar no formato HH:mm (ex: 19:30)', HttpStatus.BAD_REQUEST);
         }
 
+        // Validate discipulado belongs to same matrix
+        await validator.validateDiscipuladoBelongsToMatrix(body.discipuladoId, matrixId);
+        
+        // Validate leader belongs to same matrix
+        await validator.validateMemberBelongsToMatrix(body.leaderMemberId, matrixId);
+
         const leader = await this.prisma.member.findUnique({
             where: { id: body.leaderMemberId },
             include: { ministryPosition: true }
@@ -68,9 +82,21 @@ export class CelulaService {
             time: body.time,
             leaderMemberId: body.leaderMemberId,
             discipuladoId: body.discipuladoId,
+            matrixId,
+            country: body.country,
+            zipCode: body.zipCode,
+            street: body.street,
+            streetNumber: body.streetNumber,
+            neighborhood: body.neighborhood,
+            city: body.city,
+            complement: body.complement,
+            state: body.state,
         };
 
         if (body.viceLeaderMemberId) {
+            // Validate vice leader belongs to same matrix
+            await validator.validateMemberBelongsToMatrix(body.viceLeaderMemberId, matrixId);
+            
             const viceLeader = await this.prisma.member.findUnique({
                 where: { id: body.viceLeaderMemberId },
                 include: { ministryPosition: true }
@@ -111,7 +137,26 @@ export class CelulaService {
         });
     }
 
-    public async update(id: number, data: { name?: string; leaderMemberId?: number; discipuladoId?: number; weekday?: number; time?: string }) {
+    public async update(id: number, data: { 
+        name?: string; 
+        leaderMemberId?: number; 
+        discipuladoId?: number; 
+        weekday?: number; 
+        time?: string;
+        country?: string;
+        zipCode?: string;
+        street?: string;
+        streetNumber?: string;
+        neighborhood?: string;
+        city?: string;
+        complement?: string;
+        state?: string;
+    }, matrixId: number) {
+        const validator = createMatrixValidator(this.prisma);
+        
+        // Validate the celula being updated belongs to the matrix
+        await validator.validateCelulaBelongsToMatrix(id, matrixId);
+        
         const updateData: Prisma.CelulaUncheckedUpdateInput = {};
         if (data.name !== undefined) updateData.name = data.name;
 
@@ -134,8 +179,21 @@ export class CelulaService {
             updateData.time = data.time;
         }
 
+        // Address fields
+        if (data.country !== undefined) updateData.country = data.country;
+        if (data.zipCode !== undefined) updateData.zipCode = data.zipCode;
+        if (data.street !== undefined) updateData.street = data.street;
+        if (data.streetNumber !== undefined) updateData.streetNumber = data.streetNumber;
+        if (data.neighborhood !== undefined) updateData.neighborhood = data.neighborhood;
+        if (data.city !== undefined) updateData.city = data.city;
+        if (data.complement !== undefined) updateData.complement = data.complement;
+        if (data.state !== undefined) updateData.state = data.state;
+
         if (data.leaderMemberId !== undefined) {
             if (data.leaderMemberId !== null) {
+                // Validate leader belongs to same matrix
+                await validator.validateMemberBelongsToMatrix(data.leaderMemberId, matrixId);
+                
                 const leader = await this.prisma.member.findUnique({
                     where: { id: data.leaderMemberId },
                     include: { ministryPosition: true }
@@ -157,6 +215,9 @@ export class CelulaService {
         // Atualizar discipulado se fornecido
         if (data.discipuladoId !== undefined) {
             if (data.discipuladoId !== null) {
+                // Validate discipulado belongs to same matrix
+                await validator.validateDiscipuladoBelongsToMatrix(data.discipuladoId, matrixId);
+                
                 const discipulado = await this.prisma.discipulado.findUnique({
                     where: { id: data.discipuladoId }
                 });
@@ -177,6 +238,7 @@ export class CelulaService {
         originalCelulaId: number,
         memberIds: number[],
         newCelulaName: string,
+        matrixId: number,
         newLeaderMemberId?: number,
         oldLeaderMemberId?: number,
     ) {
@@ -226,7 +288,8 @@ export class CelulaService {
                 const createData: Prisma.CelulaUncheckedCreateInput = {
                     name: newCelulaName,
                     discipuladoId: original.discipuladoId,
-                    leaderMemberId: newLeaderMemberId
+                    leaderMemberId: newLeaderMemberId,
+                    matrixId
                 };
                 const newCelula = await tx.celula.create({
                     data: createData,

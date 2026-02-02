@@ -6,20 +6,25 @@ import { Prisma, $Enums } from '../../../generated/prisma/client';
 export class MinistryService {
     constructor(private readonly prisma: PrismaService) {}
 
-    public async findAll() {
-        return this.prisma.ministry.findMany({ orderBy: { priority: 'asc' } });
+    public async findAll(matrixId: number) {
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
+        return this.prisma.ministry.findMany({ 
+            where: { matrixId }, 
+            orderBy: { priority: 'asc' } 
+        });
     }
 
     public async findById(id: number) {
         return this.prisma.ministry.findUnique({ where: { id } });
     }
 
-    public async create(name: string, type?: $Enums.MinistryType) {
+    public async create(name: string, matrixId: number, type?: $Enums.MinistryType) {
         const maxPriority = await this.prisma.ministry.findFirst({ orderBy: { priority: 'desc' } });
         const priority = maxPriority ? maxPriority.priority + 1 : 0;
         const data: Prisma.MinistryCreateInput = { 
             name, 
             priority,
+            matrix: { connect: { id: matrixId } },
             ...(type && { type })
         };
         return this.prisma.ministry.create({ data });

@@ -6,7 +6,7 @@ import { Prisma } from '../../../generated/prisma/client';
 export class ReportService {
     constructor(private readonly prisma: PrismaService) {}
 
-    public async create(celulaId: number, memberIds: number[], date?: string) {
+    public async create(celulaId: number, memberIds: number[], matrixId: number, date?: string) {
         const brazilOffsetHours = 3;
 
         let startUtc: Date;
@@ -35,8 +35,9 @@ export class ReportService {
 
         await this.prisma.report.deleteMany({ where: { celulaId, createdAt: { gte: startUtc, lte: endUtc } } });
 
-        const createData: Partial<Prisma.ReportCreateInput> & { celula: { connect: { id: number } } } = { 
+        const createData: Partial<Prisma.ReportCreateInput> & { celula: { connect: { id: number } }; matrix: { connect: { id: number } } } = { 
             celula: { connect: { id: celulaId } },
+            matrix: { connect: { id: matrixId } },
             ...(date && { createdAt: startUtc })
         };
 
@@ -54,13 +55,25 @@ export class ReportService {
         return this.prisma.report.findUnique({ where: { id }, include: { attendances: { include: { member: true } } } });
     }
 
-    public async findByCelula(celulaId: number) {
-        return this.prisma.report.findMany({ where: { celulaId }, orderBy: { createdAt: 'desc' }, include: { attendances: { include: { member: true } } } });
+    public async findByCelula(celulaId: number, matrixId: number) {
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
+        return this.prisma.report.findMany({ 
+            where: { 
+                celulaId,
+                matrixId  // Verify report belongs to correct matrix
+            }, 
+            orderBy: { createdAt: 'desc' }, 
+            include: { attendances: { include: { member: true } } } 
+        });
     }
 
-    public async presences(celulaId: number) {
+    public async presences(celulaId: number, matrixId: number) {
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
         const reports = await this.prisma.report.findMany({
-            where: { celulaId },
+            where: { 
+                celulaId,
+                matrixId  // Verify report belongs to correct matrix
+            },
             orderBy: { createdAt: 'desc' },
             include: { attendances: { include: { member: true } } }
         });
@@ -71,7 +84,7 @@ export class ReportService {
         }));
     }
 
-    public async reportsByMonth(celulaId: number, year: number, month: number) {
+    public async reportsByMonth(celulaId: number, year: number, month: number, matrixId: number) {
         const brazilOffsetHours = 3;
         
         // Calcular início e fim do mês em UTC
@@ -81,9 +94,11 @@ export class ReportService {
         const endUtc = new Date(endBrazilUtcMillis);
 
         // Buscar todos os relatórios do mês
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
         const reports = await this.prisma.report.findMany({
             where: { 
                 celulaId,
+                matrixId,  // Verify report belongs to correct matrix
                 createdAt: {
                     gte: startUtc,
                     lte: endUtc

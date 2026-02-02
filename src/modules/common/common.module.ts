@@ -6,6 +6,7 @@ import { LogInterceptor } from './flow';
 import { configProvider, LoggerService, PrismaService } from './provider';
 import { PermissionGuard } from './security/permission.guard';
 import { PermissionService } from './security/permission.service';
+import { ApiKeyGuard } from './security/api-key.guard';
 import { EmailService } from './provider/email.provider';
 
 @Module({
@@ -19,6 +20,7 @@ import { EmailService } from './provider/email.provider';
         PrismaService,
         PermissionGuard,
         PermissionService,
+        ApiKeyGuard,
         EmailService
     ],
     exports: [
@@ -28,6 +30,7 @@ import { EmailService } from './provider/email.provider';
         PrismaService,
         PermissionGuard,
         PermissionService,
+        ApiKeyGuard,
         EmailService
     ],
     controllers: [

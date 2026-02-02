@@ -28,6 +28,7 @@ export type AggregateCelula = {
 
 export type CelulaAvgAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
@@ -36,6 +37,7 @@ export type CelulaAvgAggregateOutputType = {
 
 export type CelulaSumAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
@@ -45,11 +47,20 @@ export type CelulaSumAggregateOutputType = {
 export type CelulaMinAggregateOutputType = {
   id: number | null
   name: string | null
+  matrixId: number | null
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
   weekday: number | null
   time: string | null
+  country: string | null
+  zipCode: string | null
+  street: string | null
+  streetNumber: string | null
+  neighborhood: string | null
+  city: string | null
+  complement: string | null
+  state: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -57,11 +68,20 @@ export type CelulaMinAggregateOutputType = {
 export type CelulaMaxAggregateOutputType = {
   id: number | null
   name: string | null
+  matrixId: number | null
   leaderMemberId: number | null
   viceLeaderMemberId: number | null
   discipuladoId: number | null
   weekday: number | null
   time: string | null
+  country: string | null
+  zipCode: string | null
+  street: string | null
+  streetNumber: string | null
+  neighborhood: string | null
+  city: string | null
+  complement: string | null
+  state: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -69,11 +89,20 @@ export type CelulaMaxAggregateOutputType = {
 export type CelulaCountAggregateOutputType = {
   id: number
   name: number
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId: number
   discipuladoId: number
   weekday: number
   time: number
+  country: number
+  zipCode: number
+  street: number
+  streetNumber: number
+  neighborhood: number
+  city: number
+  complement: number
+  state: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -82,6 +111,7 @@ export type CelulaCountAggregateOutputType = {
 
 export type CelulaAvgAggregateInputType = {
   id?: true
+  matrixId?: true
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
@@ -90,6 +120,7 @@ export type CelulaAvgAggregateInputType = {
 
 export type CelulaSumAggregateInputType = {
   id?: true
+  matrixId?: true
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
@@ -99,11 +130,20 @@ export type CelulaSumAggregateInputType = {
 export type CelulaMinAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
   weekday?: true
   time?: true
+  country?: true
+  zipCode?: true
+  street?: true
+  streetNumber?: true
+  neighborhood?: true
+  city?: true
+  complement?: true
+  state?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -111,11 +151,20 @@ export type CelulaMinAggregateInputType = {
 export type CelulaMaxAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
   weekday?: true
   time?: true
+  country?: true
+  zipCode?: true
+  street?: true
+  streetNumber?: true
+  neighborhood?: true
+  city?: true
+  complement?: true
+  state?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -123,11 +172,20 @@ export type CelulaMaxAggregateInputType = {
 export type CelulaCountAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   leaderMemberId?: true
   viceLeaderMemberId?: true
   discipuladoId?: true
   weekday?: true
   time?: true
+  country?: true
+  zipCode?: true
+  street?: true
+  streetNumber?: true
+  neighborhood?: true
+  city?: true
+  complement?: true
+  state?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -222,11 +280,20 @@ export type CelulaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type CelulaGroupByOutputType = {
   id: number
   name: string
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId: number | null
   discipuladoId: number
   weekday: number | null
   time: string | null
+  country: string | null
+  zipCode: string | null
+  street: string | null
+  streetNumber: string | null
+  neighborhood: string | null
+  city: string | null
+  complement: string | null
+  state: string | null
   createdAt: Date
   updatedAt: Date
   _count: CelulaCountAggregateOutputType | null
@@ -257,15 +324,25 @@ export type CelulaWhereInput = {
   NOT?: Prisma.CelulaWhereInput | Prisma.CelulaWhereInput[]
   id?: Prisma.IntFilter<"Celula"> | number
   name?: Prisma.StringFilter<"Celula"> | string
+  matrixId?: Prisma.IntFilter<"Celula"> | number
   leaderMemberId?: Prisma.IntFilter<"Celula"> | number
   viceLeaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   discipuladoId?: Prisma.IntFilter<"Celula"> | number
   weekday?: Prisma.IntNullableFilter<"Celula"> | number | null
   time?: Prisma.StringNullableFilter<"Celula"> | string | null
+  country?: Prisma.StringNullableFilter<"Celula"> | string | null
+  zipCode?: Prisma.StringNullableFilter<"Celula"> | string | null
+  street?: Prisma.StringNullableFilter<"Celula"> | string | null
+  streetNumber?: Prisma.StringNullableFilter<"Celula"> | string | null
+  neighborhood?: Prisma.StringNullableFilter<"Celula"> | string | null
+  city?: Prisma.StringNullableFilter<"Celula"> | string | null
+  complement?: Prisma.StringNullableFilter<"Celula"> | string | null
+  state?: Prisma.StringNullableFilter<"Celula"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   members?: Prisma.MemberListRelationFilter
   reports?: Prisma.ReportListRelationFilter
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   discipulado?: Prisma.XOR<Prisma.DiscipuladoScalarRelationFilter, Prisma.DiscipuladoWhereInput>
   leader?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
   viceLeader?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
@@ -274,15 +351,25 @@ export type CelulaWhereInput = {
 export type CelulaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
   weekday?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
+  country?: Prisma.SortOrderInput | Prisma.SortOrder
+  zipCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  street?: Prisma.SortOrderInput | Prisma.SortOrder
+  streetNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  neighborhood?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  complement?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   members?: Prisma.MemberOrderByRelationAggregateInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
+  matrix?: Prisma.MatrixOrderByWithRelationInput
   discipulado?: Prisma.DiscipuladoOrderByWithRelationInput
   leader?: Prisma.MemberOrderByWithRelationInput
   viceLeader?: Prisma.MemberOrderByWithRelationInput
@@ -290,32 +377,52 @@ export type CelulaOrderByWithRelationInput = {
 
 export type CelulaWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  name?: string
+  name_matrixId?: Prisma.CelulaNameMatrixIdCompoundUniqueInput
   AND?: Prisma.CelulaWhereInput | Prisma.CelulaWhereInput[]
   OR?: Prisma.CelulaWhereInput[]
   NOT?: Prisma.CelulaWhereInput | Prisma.CelulaWhereInput[]
+  name?: Prisma.StringFilter<"Celula"> | string
+  matrixId?: Prisma.IntFilter<"Celula"> | number
   leaderMemberId?: Prisma.IntFilter<"Celula"> | number
   viceLeaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
   discipuladoId?: Prisma.IntFilter<"Celula"> | number
   weekday?: Prisma.IntNullableFilter<"Celula"> | number | null
   time?: Prisma.StringNullableFilter<"Celula"> | string | null
+  country?: Prisma.StringNullableFilter<"Celula"> | string | null
+  zipCode?: Prisma.StringNullableFilter<"Celula"> | string | null
+  street?: Prisma.StringNullableFilter<"Celula"> | string | null
+  streetNumber?: Prisma.StringNullableFilter<"Celula"> | string | null
+  neighborhood?: Prisma.StringNullableFilter<"Celula"> | string | null
+  city?: Prisma.StringNullableFilter<"Celula"> | string | null
+  complement?: Prisma.StringNullableFilter<"Celula"> | string | null
+  state?: Prisma.StringNullableFilter<"Celula"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
   members?: Prisma.MemberListRelationFilter
   reports?: Prisma.ReportListRelationFilter
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   discipulado?: Prisma.XOR<Prisma.DiscipuladoScalarRelationFilter, Prisma.DiscipuladoWhereInput>
   leader?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
   viceLeader?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
-}, "id" | "name">
+}, "id" | "name_matrixId">
 
 export type CelulaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrderInput | Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
   weekday?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
+  country?: Prisma.SortOrderInput | Prisma.SortOrder
+  zipCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  street?: Prisma.SortOrderInput | Prisma.SortOrder
+  streetNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  neighborhood?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  complement?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CelulaCountOrderByAggregateInput
@@ -331,11 +438,20 @@ export type CelulaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CelulaScalarWhereWithAggregatesInput | Prisma.CelulaScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Celula"> | number
   name?: Prisma.StringWithAggregatesFilter<"Celula"> | string
+  matrixId?: Prisma.IntWithAggregatesFilter<"Celula"> | number
   leaderMemberId?: Prisma.IntWithAggregatesFilter<"Celula"> | number
   viceLeaderMemberId?: Prisma.IntNullableWithAggregatesFilter<"Celula"> | number | null
   discipuladoId?: Prisma.IntWithAggregatesFilter<"Celula"> | number
   weekday?: Prisma.IntNullableWithAggregatesFilter<"Celula"> | number | null
   time?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  country?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  zipCode?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  street?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  streetNumber?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  neighborhood?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  complement?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
+  state?: Prisma.StringNullableWithAggregatesFilter<"Celula"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Celula"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Celula"> | Date | string
 }
@@ -344,10 +460,19 @@ export type CelulaCreateInput = {
   name: string
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
   reports?: Prisma.ReportCreateNestedManyWithoutCelulaInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutCelulasInput
   discipulado: Prisma.DiscipuladoCreateNestedOneWithoutCelulasInput
   leader: Prisma.MemberCreateNestedOneWithoutLedCelulasInput
   viceLeader?: Prisma.MemberCreateNestedOneWithoutViceLedCelulasInput
@@ -356,11 +481,20 @@ export type CelulaCreateInput = {
 export type CelulaUncheckedCreateInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId?: number | null
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -371,10 +505,19 @@ export type CelulaUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
   reports?: Prisma.ReportUpdateManyWithoutCelulaNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutCelulasNestedInput
   discipulado?: Prisma.DiscipuladoUpdateOneRequiredWithoutCelulasNestedInput
   leader?: Prisma.MemberUpdateOneRequiredWithoutLedCelulasNestedInput
   viceLeader?: Prisma.MemberUpdateOneWithoutViceLedCelulasNestedInput
@@ -383,11 +526,20 @@ export type CelulaUpdateInput = {
 export type CelulaUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -397,11 +549,20 @@ export type CelulaUncheckedUpdateInput = {
 export type CelulaCreateManyInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId?: number | null
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -410,6 +571,14 @@ export type CelulaUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -417,29 +586,63 @@ export type CelulaUpdateManyMutationInput = {
 export type CelulaUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CelulaListRelationFilter = {
+  every?: Prisma.CelulaWhereInput
+  some?: Prisma.CelulaWhereInput
+  none?: Prisma.CelulaWhereInput
+}
+
+export type CelulaOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type CelulaNameMatrixIdCompoundUniqueInput = {
+  name: string
+  matrixId: number
 }
 
 export type CelulaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
   weekday?: Prisma.SortOrder
   time?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  street?: Prisma.SortOrder
+  streetNumber?: Prisma.SortOrder
+  neighborhood?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  complement?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type CelulaAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
@@ -449,11 +652,20 @@ export type CelulaAvgOrderByAggregateInput = {
 export type CelulaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
   weekday?: Prisma.SortOrder
   time?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  street?: Prisma.SortOrder
+  streetNumber?: Prisma.SortOrder
+  neighborhood?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  complement?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -461,27 +673,31 @@ export type CelulaMaxOrderByAggregateInput = {
 export type CelulaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
   weekday?: Prisma.SortOrder
   time?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  street?: Prisma.SortOrder
+  streetNumber?: Prisma.SortOrder
+  neighborhood?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  complement?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type CelulaSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   leaderMemberId?: Prisma.SortOrder
   viceLeaderMemberId?: Prisma.SortOrder
   discipuladoId?: Prisma.SortOrder
   weekday?: Prisma.SortOrder
-}
-
-export type CelulaListRelationFilter = {
-  every?: Prisma.CelulaWhereInput
-  some?: Prisma.CelulaWhereInput
-  none?: Prisma.CelulaWhereInput
 }
 
 export type CelulaNullableScalarRelationFilter = {
@@ -489,17 +705,51 @@ export type CelulaNullableScalarRelationFilter = {
   isNot?: Prisma.CelulaWhereInput | null
 }
 
-export type CelulaOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type CelulaScalarRelationFilter = {
   is?: Prisma.CelulaWhereInput
   isNot?: Prisma.CelulaWhereInput
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type CelulaCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.CelulaCreateWithoutMatrixInput, Prisma.CelulaUncheckedCreateWithoutMatrixInput> | Prisma.CelulaCreateWithoutMatrixInput[] | Prisma.CelulaUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.CelulaCreateOrConnectWithoutMatrixInput | Prisma.CelulaCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.CelulaCreateManyMatrixInputEnvelope
+  connect?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+}
+
+export type CelulaUncheckedCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.CelulaCreateWithoutMatrixInput, Prisma.CelulaUncheckedCreateWithoutMatrixInput> | Prisma.CelulaCreateWithoutMatrixInput[] | Prisma.CelulaUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.CelulaCreateOrConnectWithoutMatrixInput | Prisma.CelulaCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.CelulaCreateManyMatrixInputEnvelope
+  connect?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+}
+
+export type CelulaUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.CelulaCreateWithoutMatrixInput, Prisma.CelulaUncheckedCreateWithoutMatrixInput> | Prisma.CelulaCreateWithoutMatrixInput[] | Prisma.CelulaUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.CelulaCreateOrConnectWithoutMatrixInput | Prisma.CelulaCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.CelulaUpsertWithWhereUniqueWithoutMatrixInput | Prisma.CelulaUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.CelulaCreateManyMatrixInputEnvelope
+  set?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  disconnect?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  delete?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  connect?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  update?: Prisma.CelulaUpdateWithWhereUniqueWithoutMatrixInput | Prisma.CelulaUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.CelulaUpdateManyWithWhereWithoutMatrixInput | Prisma.CelulaUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.CelulaScalarWhereInput | Prisma.CelulaScalarWhereInput[]
+}
+
+export type CelulaUncheckedUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.CelulaCreateWithoutMatrixInput, Prisma.CelulaUncheckedCreateWithoutMatrixInput> | Prisma.CelulaCreateWithoutMatrixInput[] | Prisma.CelulaUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.CelulaCreateOrConnectWithoutMatrixInput | Prisma.CelulaCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.CelulaUpsertWithWhereUniqueWithoutMatrixInput | Prisma.CelulaUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.CelulaCreateManyMatrixInputEnvelope
+  set?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  disconnect?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  delete?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  connect?: Prisma.CelulaWhereUniqueInput | Prisma.CelulaWhereUniqueInput[]
+  update?: Prisma.CelulaUpdateWithWhereUniqueWithoutMatrixInput | Prisma.CelulaUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.CelulaUpdateManyWithWhereWithoutMatrixInput | Prisma.CelulaUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.CelulaScalarWhereInput | Prisma.CelulaScalarWhereInput[]
 }
 
 export type NullableIntFieldUpdateOperationsInput = {
@@ -512,18 +762,6 @@ export type NullableIntFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type CelulaCreateNestedManyWithoutLeaderInput = {
@@ -682,14 +920,116 @@ export type CelulaUpdateOneRequiredWithoutReportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CelulaUpdateToOneWithWhereWithoutReportsInput, Prisma.CelulaUpdateWithoutReportsInput>, Prisma.CelulaUncheckedUpdateWithoutReportsInput>
 }
 
-export type CelulaCreateWithoutLeaderInput = {
+export type CelulaCreateWithoutMatrixInput = {
   name: string
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
   reports?: Prisma.ReportCreateNestedManyWithoutCelulaInput
+  discipulado: Prisma.DiscipuladoCreateNestedOneWithoutCelulasInput
+  leader: Prisma.MemberCreateNestedOneWithoutLedCelulasInput
+  viceLeader?: Prisma.MemberCreateNestedOneWithoutViceLedCelulasInput
+}
+
+export type CelulaUncheckedCreateWithoutMatrixInput = {
+  id?: number
+  name: string
+  leaderMemberId: number
+  viceLeaderMemberId?: number | null
+  discipuladoId: number
+  weekday?: number | null
+  time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutCelulaInput
+}
+
+export type CelulaCreateOrConnectWithoutMatrixInput = {
+  where: Prisma.CelulaWhereUniqueInput
+  create: Prisma.XOR<Prisma.CelulaCreateWithoutMatrixInput, Prisma.CelulaUncheckedCreateWithoutMatrixInput>
+}
+
+export type CelulaCreateManyMatrixInputEnvelope = {
+  data: Prisma.CelulaCreateManyMatrixInput | Prisma.CelulaCreateManyMatrixInput[]
+  skipDuplicates?: boolean
+}
+
+export type CelulaUpsertWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.CelulaWhereUniqueInput
+  update: Prisma.XOR<Prisma.CelulaUpdateWithoutMatrixInput, Prisma.CelulaUncheckedUpdateWithoutMatrixInput>
+  create: Prisma.XOR<Prisma.CelulaCreateWithoutMatrixInput, Prisma.CelulaUncheckedCreateWithoutMatrixInput>
+}
+
+export type CelulaUpdateWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.CelulaWhereUniqueInput
+  data: Prisma.XOR<Prisma.CelulaUpdateWithoutMatrixInput, Prisma.CelulaUncheckedUpdateWithoutMatrixInput>
+}
+
+export type CelulaUpdateManyWithWhereWithoutMatrixInput = {
+  where: Prisma.CelulaScalarWhereInput
+  data: Prisma.XOR<Prisma.CelulaUpdateManyMutationInput, Prisma.CelulaUncheckedUpdateManyWithoutMatrixInput>
+}
+
+export type CelulaScalarWhereInput = {
+  AND?: Prisma.CelulaScalarWhereInput | Prisma.CelulaScalarWhereInput[]
+  OR?: Prisma.CelulaScalarWhereInput[]
+  NOT?: Prisma.CelulaScalarWhereInput | Prisma.CelulaScalarWhereInput[]
+  id?: Prisma.IntFilter<"Celula"> | number
+  name?: Prisma.StringFilter<"Celula"> | string
+  matrixId?: Prisma.IntFilter<"Celula"> | number
+  leaderMemberId?: Prisma.IntFilter<"Celula"> | number
+  viceLeaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
+  discipuladoId?: Prisma.IntFilter<"Celula"> | number
+  weekday?: Prisma.IntNullableFilter<"Celula"> | number | null
+  time?: Prisma.StringNullableFilter<"Celula"> | string | null
+  country?: Prisma.StringNullableFilter<"Celula"> | string | null
+  zipCode?: Prisma.StringNullableFilter<"Celula"> | string | null
+  street?: Prisma.StringNullableFilter<"Celula"> | string | null
+  streetNumber?: Prisma.StringNullableFilter<"Celula"> | string | null
+  neighborhood?: Prisma.StringNullableFilter<"Celula"> | string | null
+  city?: Prisma.StringNullableFilter<"Celula"> | string | null
+  complement?: Prisma.StringNullableFilter<"Celula"> | string | null
+  state?: Prisma.StringNullableFilter<"Celula"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
+}
+
+export type CelulaCreateWithoutLeaderInput = {
+  name: string
+  weekday?: number | null
+  time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
+  reports?: Prisma.ReportCreateNestedManyWithoutCelulaInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutCelulasInput
   discipulado: Prisma.DiscipuladoCreateNestedOneWithoutCelulasInput
   viceLeader?: Prisma.MemberCreateNestedOneWithoutViceLedCelulasInput
 }
@@ -697,10 +1037,19 @@ export type CelulaCreateWithoutLeaderInput = {
 export type CelulaUncheckedCreateWithoutLeaderInput = {
   id?: number
   name: string
+  matrixId: number
   viceLeaderMemberId?: number | null
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -721,10 +1070,19 @@ export type CelulaCreateWithoutViceLeaderInput = {
   name: string
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
   reports?: Prisma.ReportCreateNestedManyWithoutCelulaInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutCelulasInput
   discipulado: Prisma.DiscipuladoCreateNestedOneWithoutCelulasInput
   leader: Prisma.MemberCreateNestedOneWithoutLedCelulasInput
 }
@@ -732,10 +1090,19 @@ export type CelulaCreateWithoutViceLeaderInput = {
 export type CelulaUncheckedCreateWithoutViceLeaderInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -756,9 +1123,18 @@ export type CelulaCreateWithoutMembersInput = {
   name: string
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   reports?: Prisma.ReportCreateNestedManyWithoutCelulaInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutCelulasInput
   discipulado: Prisma.DiscipuladoCreateNestedOneWithoutCelulasInput
   leader: Prisma.MemberCreateNestedOneWithoutLedCelulasInput
   viceLeader?: Prisma.MemberCreateNestedOneWithoutViceLedCelulasInput
@@ -767,11 +1143,20 @@ export type CelulaCreateWithoutMembersInput = {
 export type CelulaUncheckedCreateWithoutMembersInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId?: number | null
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutCelulaInput
@@ -796,21 +1181,6 @@ export type CelulaUpdateWithWhereUniqueWithoutLeaderInput = {
 export type CelulaUpdateManyWithWhereWithoutLeaderInput = {
   where: Prisma.CelulaScalarWhereInput
   data: Prisma.XOR<Prisma.CelulaUpdateManyMutationInput, Prisma.CelulaUncheckedUpdateManyWithoutLeaderInput>
-}
-
-export type CelulaScalarWhereInput = {
-  AND?: Prisma.CelulaScalarWhereInput | Prisma.CelulaScalarWhereInput[]
-  OR?: Prisma.CelulaScalarWhereInput[]
-  NOT?: Prisma.CelulaScalarWhereInput | Prisma.CelulaScalarWhereInput[]
-  id?: Prisma.IntFilter<"Celula"> | number
-  name?: Prisma.StringFilter<"Celula"> | string
-  leaderMemberId?: Prisma.IntFilter<"Celula"> | number
-  viceLeaderMemberId?: Prisma.IntNullableFilter<"Celula"> | number | null
-  discipuladoId?: Prisma.IntFilter<"Celula"> | number
-  weekday?: Prisma.IntNullableFilter<"Celula"> | number | null
-  time?: Prisma.StringNullableFilter<"Celula"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Celula"> | Date | string
 }
 
 export type CelulaUpsertWithWhereUniqueWithoutViceLeaderInput = {
@@ -844,9 +1214,18 @@ export type CelulaUpdateWithoutMembersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.ReportUpdateManyWithoutCelulaNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutCelulasNestedInput
   discipulado?: Prisma.DiscipuladoUpdateOneRequiredWithoutCelulasNestedInput
   leader?: Prisma.MemberUpdateOneRequiredWithoutLedCelulasNestedInput
   viceLeader?: Prisma.MemberUpdateOneWithoutViceLedCelulasNestedInput
@@ -855,11 +1234,20 @@ export type CelulaUpdateWithoutMembersInput = {
 export type CelulaUncheckedUpdateWithoutMembersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.ReportUncheckedUpdateManyWithoutCelulaNestedInput
@@ -869,10 +1257,19 @@ export type CelulaCreateWithoutDiscipuladoInput = {
   name: string
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
   reports?: Prisma.ReportCreateNestedManyWithoutCelulaInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutCelulasInput
   leader: Prisma.MemberCreateNestedOneWithoutLedCelulasInput
   viceLeader?: Prisma.MemberCreateNestedOneWithoutViceLedCelulasInput
 }
@@ -880,10 +1277,19 @@ export type CelulaCreateWithoutDiscipuladoInput = {
 export type CelulaUncheckedCreateWithoutDiscipuladoInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId?: number | null
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -920,9 +1326,18 @@ export type CelulaCreateWithoutReportsInput = {
   name: string
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberCreateNestedManyWithoutCelulaInput
+  matrix: Prisma.MatrixCreateNestedOneWithoutCelulasInput
   discipulado: Prisma.DiscipuladoCreateNestedOneWithoutCelulasInput
   leader: Prisma.MemberCreateNestedOneWithoutLedCelulasInput
   viceLeader?: Prisma.MemberCreateNestedOneWithoutViceLedCelulasInput
@@ -931,11 +1346,20 @@ export type CelulaCreateWithoutReportsInput = {
 export type CelulaUncheckedCreateWithoutReportsInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId?: number | null
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutCelulaInput
@@ -961,9 +1385,18 @@ export type CelulaUpdateWithoutReportsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutCelulasNestedInput
   discipulado?: Prisma.DiscipuladoUpdateOneRequiredWithoutCelulasNestedInput
   leader?: Prisma.MemberUpdateOneRequiredWithoutLedCelulasNestedInput
   viceLeader?: Prisma.MemberUpdateOneWithoutViceLedCelulasNestedInput
@@ -972,23 +1405,124 @@ export type CelulaUpdateWithoutReportsInput = {
 export type CelulaUncheckedUpdateWithoutReportsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
 }
 
-export type CelulaCreateManyLeaderInput = {
+export type CelulaCreateManyMatrixInput = {
   id?: number
   name: string
+  leaderMemberId: number
   viceLeaderMemberId?: number | null
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CelulaUpdateWithoutMatrixInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutCelulaNestedInput
+  discipulado?: Prisma.DiscipuladoUpdateOneRequiredWithoutCelulasNestedInput
+  leader?: Prisma.MemberUpdateOneRequiredWithoutLedCelulasNestedInput
+  viceLeader?: Prisma.MemberUpdateOneWithoutViceLedCelulasNestedInput
+}
+
+export type CelulaUncheckedUpdateWithoutMatrixInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
+  viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutCelulaNestedInput
+}
+
+export type CelulaUncheckedUpdateManyWithoutMatrixInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
+  viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
+  weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CelulaCreateManyLeaderInput = {
+  id?: number
+  name: string
+  matrixId: number
+  viceLeaderMemberId?: number | null
+  discipuladoId: number
+  weekday?: number | null
+  time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -996,10 +1530,19 @@ export type CelulaCreateManyLeaderInput = {
 export type CelulaCreateManyViceLeaderInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   discipuladoId: number
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1008,10 +1551,19 @@ export type CelulaUpdateWithoutLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
   reports?: Prisma.ReportUpdateManyWithoutCelulaNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutCelulasNestedInput
   discipulado?: Prisma.DiscipuladoUpdateOneRequiredWithoutCelulasNestedInput
   viceLeader?: Prisma.MemberUpdateOneWithoutViceLedCelulasNestedInput
 }
@@ -1019,10 +1571,19 @@ export type CelulaUpdateWithoutLeaderInput = {
 export type CelulaUncheckedUpdateWithoutLeaderInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -1032,10 +1593,19 @@ export type CelulaUncheckedUpdateWithoutLeaderInput = {
 export type CelulaUncheckedUpdateManyWithoutLeaderInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1044,10 +1614,19 @@ export type CelulaUpdateWithoutViceLeaderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
   reports?: Prisma.ReportUpdateManyWithoutCelulaNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutCelulasNestedInput
   discipulado?: Prisma.DiscipuladoUpdateOneRequiredWithoutCelulasNestedInput
   leader?: Prisma.MemberUpdateOneRequiredWithoutLedCelulasNestedInput
 }
@@ -1055,10 +1634,19 @@ export type CelulaUpdateWithoutViceLeaderInput = {
 export type CelulaUncheckedUpdateWithoutViceLeaderInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -1068,10 +1656,19 @@ export type CelulaUncheckedUpdateWithoutViceLeaderInput = {
 export type CelulaUncheckedUpdateManyWithoutViceLeaderInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   discipuladoId?: Prisma.IntFieldUpdateOperationsInput | number
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1079,10 +1676,19 @@ export type CelulaUncheckedUpdateManyWithoutViceLeaderInput = {
 export type CelulaCreateManyDiscipuladoInput = {
   id?: number
   name: string
+  matrixId: number
   leaderMemberId: number
   viceLeaderMemberId?: number | null
   weekday?: number | null
   time?: string | null
+  country?: string | null
+  zipCode?: string | null
+  street?: string | null
+  streetNumber?: string | null
+  neighborhood?: string | null
+  city?: string | null
+  complement?: string | null
+  state?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1091,10 +1697,19 @@ export type CelulaUpdateWithoutDiscipuladoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUpdateManyWithoutCelulaNestedInput
   reports?: Prisma.ReportUpdateManyWithoutCelulaNestedInput
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutCelulasNestedInput
   leader?: Prisma.MemberUpdateOneRequiredWithoutLedCelulasNestedInput
   viceLeader?: Prisma.MemberUpdateOneWithoutViceLedCelulasNestedInput
 }
@@ -1102,10 +1717,19 @@ export type CelulaUpdateWithoutDiscipuladoInput = {
 export type CelulaUncheckedUpdateWithoutDiscipuladoInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.MemberUncheckedUpdateManyWithoutCelulaNestedInput
@@ -1115,10 +1739,19 @@ export type CelulaUncheckedUpdateWithoutDiscipuladoInput = {
 export type CelulaUncheckedUpdateManyWithoutDiscipuladoInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   leaderMemberId?: Prisma.IntFieldUpdateOperationsInput | number
   viceLeaderMemberId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weekday?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  street?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  streetNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1166,15 +1799,25 @@ export type CelulaCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.
 export type CelulaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
   weekday?: boolean
   time?: boolean
+  country?: boolean
+  zipCode?: boolean
+  street?: boolean
+  streetNumber?: boolean
+  neighborhood?: boolean
+  city?: boolean
+  complement?: boolean
+  state?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   members?: boolean | Prisma.Celula$membersArgs<ExtArgs>
   reports?: boolean | Prisma.Celula$reportsArgs<ExtArgs>
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   discipulado?: boolean | Prisma.DiscipuladoDefaultArgs<ExtArgs>
   leader?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   viceLeader?: boolean | Prisma.Celula$viceLeaderArgs<ExtArgs>
@@ -1184,13 +1827,23 @@ export type CelulaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type CelulaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
   weekday?: boolean
   time?: boolean
+  country?: boolean
+  zipCode?: boolean
+  street?: boolean
+  streetNumber?: boolean
+  neighborhood?: boolean
+  city?: boolean
+  complement?: boolean
+  state?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   discipulado?: boolean | Prisma.DiscipuladoDefaultArgs<ExtArgs>
   leader?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   viceLeader?: boolean | Prisma.Celula$viceLeaderArgs<ExtArgs>
@@ -1199,13 +1852,23 @@ export type CelulaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type CelulaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
   weekday?: boolean
   time?: boolean
+  country?: boolean
+  zipCode?: boolean
+  street?: boolean
+  streetNumber?: boolean
+  neighborhood?: boolean
+  city?: boolean
+  complement?: boolean
+  state?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   discipulado?: boolean | Prisma.DiscipuladoDefaultArgs<ExtArgs>
   leader?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   viceLeader?: boolean | Prisma.Celula$viceLeaderArgs<ExtArgs>
@@ -1214,30 +1877,42 @@ export type CelulaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type CelulaSelectScalar = {
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   leaderMemberId?: boolean
   viceLeaderMemberId?: boolean
   discipuladoId?: boolean
   weekday?: boolean
   time?: boolean
+  country?: boolean
+  zipCode?: boolean
+  street?: boolean
+  streetNumber?: boolean
+  neighborhood?: boolean
+  city?: boolean
+  complement?: boolean
+  state?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CelulaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "leaderMemberId" | "viceLeaderMemberId" | "discipuladoId" | "weekday" | "time" | "createdAt" | "updatedAt", ExtArgs["result"]["celula"]>
+export type CelulaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "matrixId" | "leaderMemberId" | "viceLeaderMemberId" | "discipuladoId" | "weekday" | "time" | "country" | "zipCode" | "street" | "streetNumber" | "neighborhood" | "city" | "complement" | "state" | "createdAt" | "updatedAt", ExtArgs["result"]["celula"]>
 export type CelulaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | Prisma.Celula$membersArgs<ExtArgs>
   reports?: boolean | Prisma.Celula$reportsArgs<ExtArgs>
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   discipulado?: boolean | Prisma.DiscipuladoDefaultArgs<ExtArgs>
   leader?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   viceLeader?: boolean | Prisma.Celula$viceLeaderArgs<ExtArgs>
   _count?: boolean | Prisma.CelulaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CelulaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   discipulado?: boolean | Prisma.DiscipuladoDefaultArgs<ExtArgs>
   leader?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   viceLeader?: boolean | Prisma.Celula$viceLeaderArgs<ExtArgs>
 }
 export type CelulaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   discipulado?: boolean | Prisma.DiscipuladoDefaultArgs<ExtArgs>
   leader?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
   viceLeader?: boolean | Prisma.Celula$viceLeaderArgs<ExtArgs>
@@ -1248,6 +1923,7 @@ export type $CelulaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     members: Prisma.$MemberPayload<ExtArgs>[]
     reports: Prisma.$ReportPayload<ExtArgs>[]
+    matrix: Prisma.$MatrixPayload<ExtArgs>
     discipulado: Prisma.$DiscipuladoPayload<ExtArgs>
     leader: Prisma.$MemberPayload<ExtArgs>
     viceLeader: Prisma.$MemberPayload<ExtArgs> | null
@@ -1255,11 +1931,20 @@ export type $CelulaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
+    matrixId: number
     leaderMemberId: number
     viceLeaderMemberId: number | null
     discipuladoId: number
     weekday: number | null
     time: string | null
+    country: string | null
+    zipCode: string | null
+    street: string | null
+    streetNumber: string | null
+    neighborhood: string | null
+    city: string | null
+    complement: string | null
+    state: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["celula"]>
@@ -1658,6 +2343,7 @@ export interface Prisma__CelulaClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   members<T extends Prisma.Celula$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Celula$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.Celula$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Celula$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  matrix<T extends Prisma.MatrixDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MatrixDefaultArgs<ExtArgs>>): Prisma.Prisma__MatrixClient<runtime.Types.Result.GetResult<Prisma.$MatrixPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   discipulado<T extends Prisma.DiscipuladoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DiscipuladoDefaultArgs<ExtArgs>>): Prisma.Prisma__DiscipuladoClient<runtime.Types.Result.GetResult<Prisma.$DiscipuladoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   leader<T extends Prisma.MemberDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MemberDefaultArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   viceLeader<T extends Prisma.Celula$viceLeaderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Celula$viceLeaderArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -1692,11 +2378,20 @@ export interface Prisma__CelulaClient<T, Null = never, ExtArgs extends runtime.T
 export interface CelulaFieldRefs {
   readonly id: Prisma.FieldRef<"Celula", 'Int'>
   readonly name: Prisma.FieldRef<"Celula", 'String'>
+  readonly matrixId: Prisma.FieldRef<"Celula", 'Int'>
   readonly leaderMemberId: Prisma.FieldRef<"Celula", 'Int'>
   readonly viceLeaderMemberId: Prisma.FieldRef<"Celula", 'Int'>
   readonly discipuladoId: Prisma.FieldRef<"Celula", 'Int'>
   readonly weekday: Prisma.FieldRef<"Celula", 'Int'>
   readonly time: Prisma.FieldRef<"Celula", 'String'>
+  readonly country: Prisma.FieldRef<"Celula", 'String'>
+  readonly zipCode: Prisma.FieldRef<"Celula", 'String'>
+  readonly street: Prisma.FieldRef<"Celula", 'String'>
+  readonly streetNumber: Prisma.FieldRef<"Celula", 'String'>
+  readonly neighborhood: Prisma.FieldRef<"Celula", 'String'>
+  readonly city: Prisma.FieldRef<"Celula", 'String'>
+  readonly complement: Prisma.FieldRef<"Celula", 'String'>
+  readonly state: Prisma.FieldRef<"Celula", 'String'>
   readonly createdAt: Prisma.FieldRef<"Celula", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Celula", 'DateTime'>
 }

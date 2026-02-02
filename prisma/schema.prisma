@@ -7,24 +7,82 @@ datasource db {
   provider = "postgresql"
 }
 
+model Matrix {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  domains       MatrixDomain[]
+  members       MemberMatrix[]
+  celulas       Celula[]
+  roles         Role[]
+  ministries    Ministry[]
+  winnerPaths   WinnerPath[]
+  redes         Rede[]
+  discipulados  Discipulado[]
+  reports       Report[]
+  apiKeys       ApiKey[]
+}
+
+model MatrixDomain {
+  id        Int      @id @default(autoincrement())
+  domain    String   @unique
+  matrixId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matrix Matrix @relation(fields: [matrixId], references: [id], onDelete: Cascade)
+
+  @@index([matrixId])
+}
+
+model MemberMatrix {
+  id       Int @id @default(autoincrement())
+  memberId Int
+  matrixId Int
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  matrix Matrix @relation(fields: [matrixId], references: [id], onDelete: Cascade)
+
+  @@unique([memberId, matrixId])
+  @@index([memberId])
+  @@index([matrixId])
+}
+
 model Celula {
   id                 Int      @id @default(autoincrement())
-  name               String   @unique
+  name               String
+  matrixId           Int
   leaderMemberId     Int
   viceLeaderMemberId Int?
   discipuladoId      Int
   weekday            Int?
   time               String?
+  
+  // Address fields
+  country      String?       @default("Brasil")
+  zipCode      String?
+  street       String?
+  streetNumber String?
+  neighborhood String?
+  city         String?
+  complement   String?
+  state        String?
+  
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
   members Member[]
   reports Report[]
 
+  matrix      Matrix      @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   discipulado Discipulado @relation(fields: [discipuladoId], references: [id])
   leader      Member      @relation("CelulaLeader", fields: [leaderMemberId], references: [id], onDelete: NoAction)
   viceLeader  Member?      @relation("CelulaViceLeader", fields: [viceLeaderMemberId], references: [id], onDelete: NoAction)
 
+  @@unique([name, matrixId])
+  @@index([matrixId])
   @@index([discipuladoId])
   @@index([leaderMemberId])
   @@index([viceLeaderMemberId])
@@ -32,34 +90,49 @@ model Celula {
 
 model Role {
   id        Int      @id @default(autoincrement())
-  name      String   @unique
+  name      String
+  matrixId  Int
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   // To do: Permissões de tesoureiro, gerenciar landing page, gerenciar revistas, etc.
 
+  matrix  Matrix       @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   members MemberRole[]
+
+  @@unique([name, matrixId])
+  @@index([matrixId])
 }
 
 model Ministry {
   id        Int          @id @default(autoincrement())
-  name      String       @unique
+  name      String
+  matrixId  Int
   type      MinistryType @default(MEMBER)
   priority  Int          @default(0)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 
+  matrix  Matrix   @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   members Member[]
+
+  @@unique([name, matrixId])
+  @@index([matrixId])
 }
 
 model WinnerPath {
   id        Int      @id @default(autoincrement())
-  name      String   @unique
+  name      String
+  matrixId  Int
   priority  Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  matrix  Matrix   @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   members Member[]
+
+  @@unique([name, matrixId])
+  @@index([matrixId])
 }
 
 model Member {
@@ -69,7 +142,9 @@ model Member {
   email       String?      @unique
   password    String?
   phone       String?
-  hasDefaultPassword Boolean  @default(true)
+  hasDefaultPassword Boolean?
+  inviteSent  Boolean      @default(false)
+  hasLoggedIn Boolean      @default(false)
   
   // Member info fields (from old Member model)
   name          String
@@ -103,6 +178,7 @@ model Member {
   
   // Access
   hasSystemAccess  Boolean    @default(false)
+  isOwner          Boolean    @default(false)
   
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -119,6 +195,9 @@ model Member {
   spouse           Member?       @relation("MemberSpouse", fields: [spouseId], references: [id], onDelete: NoAction)
   spouseOf         Member?       @relation("MemberSpouse")
   roles            MemberRole[]
+  refreshTokens    RefreshToken[]
+  createdApiKeys   ApiKey[]
+  matrices         MemberMatrix[]
 
   @@index([celulaId])
   @@index([ministryPositionId])
@@ -153,18 +232,23 @@ enum MinistryType {
 
 model Rede {
   id           Int      @id @default(autoincrement())
-  name         String   @unique
+  name         String
+  matrixId     Int
   pastorMemberId Int?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  matrix       Matrix          @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   discipulados Discipulado[]
+  pastor       Member? @relation(fields: [pastorMemberId], references: [id], onDelete: NoAction)
 
-  pastor Member? @relation(fields: [pastorMemberId], references: [id], onDelete: NoAction)
+  @@unique([name, matrixId])
+  @@index([matrixId])
 }
 
 model Discipulado {
   id                 Int      @id @default(autoincrement())
+  matrixId           Int
   redeId             Int
   discipuladorMemberId Int
   createdAt          DateTime @default(now())
@@ -172,21 +256,26 @@ model Discipulado {
 
   celulas Celula[]
 
+  matrix       Matrix @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   rede         Rede   @relation(fields: [redeId], references: [id], onDelete: NoAction)
   discipulador Member @relation(fields: [discipuladorMemberId], references: [id], onDelete: NoAction)
 
+  @@index([matrixId])
   @@index([redeId])
   @@index([discipuladorMemberId])
 }
 
 model Report {
   id        Int      @id @default(autoincrement())
+  matrixId  Int
   createdAt DateTime @default(now())
   celulaId  Int
 
+  matrix      Matrix             @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   celula      Celula             @relation(fields: [celulaId], references: [id], onDelete: NoAction)
   attendances ReportAttendance[]
 
+  @@index([matrixId])
   @@index([celulaId])
 }
 
@@ -214,4 +303,38 @@ model MemberRole {
   @@unique([memberId, roleId])
   @@index([memberId])
   @@index([roleId])
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  memberId  Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isRevoked Boolean  @default(false)
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([memberId])
+  @@index([token])
+}
+
+model ApiKey {
+  id          Int      @id @default(autoincrement())
+  name        String
+  matrixId    Int
+  key         String   @unique
+  isActive    Boolean  @default(true)
+  createdById Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lastUsedAt  DateTime?
+
+  matrix    Matrix @relation(fields: [matrixId], references: [id], onDelete: NoAction)
+  createdBy Member @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([matrixId])
+  @@index([key])
+  @@index([createdById])
 }

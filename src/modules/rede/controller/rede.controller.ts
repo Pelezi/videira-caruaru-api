@@ -13,7 +13,10 @@ export class RedeController {
 
     @Get()
     public async list(@Req() req: AuthenticatedRequest) {
-        return this.service.findAll();
+        if (!req.member?.matrixId) {
+            throw new Error('Matrix ID não encontrado');
+        }
+        return this.service.findAll(req.member.matrixId);
     }
 
     @Post()
@@ -21,13 +24,13 @@ export class RedeController {
     @ApiBody({ type: RedeCreateInput })
     @ApiResponse({ status: 201, description: 'Rede criada' })
     public async create(@Req() req: AuthenticatedRequest, @Body() body: RedeCreateInput) {
-        return this.service.create(body);
+        return this.service.create({ ...body, matrixId: req.member!.matrixId });
     }
 
     @Put(':id')
     @ApiOperation({ summary: 'Atualizar rede' })
     public async update(@Req() req: AuthenticatedRequest, @Param('id') id: string, @Body() body: RedeCreateInput) {
-        return this.service.update(Number(id), body as any);
+        return this.service.update(Number(id), body as any, req.member!.matrixId);
     }
 
     @Delete(':id')

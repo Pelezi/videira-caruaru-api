@@ -18,16 +18,14 @@ export class MinistryController {
 
     @Get()
     public async findAll(@Req() req: AuthenticatedRequest) {
-        return this.ministryService.findAll();
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
+        }
+        return this.ministryService.findAll(req.member.matrixId);
     }
 
     @Get(':id')
     public async findById(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
-        try {
-            this.permissionService.requireAdmin(req.permission);
-        } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem acessar ministérios', HttpStatus.FORBIDDEN);
-        }
         return this.ministryService.findById(parseInt(id, 10));
     }
 
@@ -36,9 +34,9 @@ export class MinistryController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem criar ministérios', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem criar ministérios', HttpStatus.UNAUTHORIZED);
         }
-        return this.ministryService.create(body.name, body.type);
+        return this.ministryService.create(body.name, req.member!.matrixId, body.type);
     }
 
     @Put(':id')
@@ -46,7 +44,7 @@ export class MinistryController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem atualizar ministérios', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem atualizar ministérios', HttpStatus.UNAUTHORIZED);
         }
         return this.ministryService.update(parseInt(id, 10), body.name, body.type);
     }
@@ -56,7 +54,7 @@ export class MinistryController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem atualizar prioridade de ministérios', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem atualizar prioridade de ministérios', HttpStatus.UNAUTHORIZED);
         }
         return this.ministryService.updatePriority(parseInt(id, 10), body.priority);
     }
@@ -66,7 +64,7 @@ export class MinistryController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem deletar ministérios', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem deletar ministérios', HttpStatus.UNAUTHORIZED);
         }
         return this.ministryService.delete(parseInt(id, 10));
     }

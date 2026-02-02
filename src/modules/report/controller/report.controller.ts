@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req, Param, Get, ForbiddenException, Query } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, Param, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBody, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { ReportService } from '../service/report.service';
 import { RestrictedGuard } from '../../common/security/restricted.guard';
@@ -26,10 +26,10 @@ export class ReportController {
         const celulaId = Number(celulaIdParam);
         
         if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
-            throw new ForbiddenException('No access to this celula');
+            throw new HttpException('No access to this celula', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.service.create(celulaId, body.memberIds || [], body.date);
+        return this.service.create(celulaId, body.memberIds || [], req.member!.matrixId, body.date);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
@@ -39,10 +39,14 @@ export class ReportController {
         const celulaId = Number(celulaIdParam);
         
         if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
-            throw new ForbiddenException('No access to this celula');
+            throw new HttpException('No access to this celula', HttpStatus.UNAUTHORIZED);
+        }
+        
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.service.findByCelula(celulaId);
+        return this.service.findByCelula(celulaId, req.member.matrixId);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
@@ -53,10 +57,14 @@ export class ReportController {
         const celulaId = Number(celulaIdParam);
         
         if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
-            throw new ForbiddenException('No access to this celula');
+            throw new HttpException('No access to this celula', HttpStatus.UNAUTHORIZED);
+        }
+        
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.service.presences(celulaId);
+        return this.service.presences(celulaId, req.member.matrixId);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
@@ -74,10 +82,14 @@ export class ReportController {
         const month = Number(monthParam);
         
         if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
-            throw new ForbiddenException('No access to this celula');
+            throw new HttpException('No access to this celula', HttpStatus.UNAUTHORIZED);
+        }
+        
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.service.reportsByMonth(celulaId, year, month);
+        return this.service.reportsByMonth(celulaId, year, month, req.member.matrixId);
     }
 
 }
@@ -145,7 +157,7 @@ export class ReportGlobalController {
         }
 
         if (celulaIds.length === 0) {
-            throw new ForbiddenException('No access to any celula');
+            throw new HttpException('No access to any celula', HttpStatus.UNAUTHORIZED);
         }
 
         return this.service.reportsByMonthMultipleCelulas(celulaIds, year, month);

@@ -17,9 +17,10 @@ export class CelulaController {
     public async find(@Req() req: AuthenticatedRequest) {
         const permission = req.permission;
         if (!permission) throw new HttpException('Você não tem permissão', HttpStatus.UNAUTHORIZED);
+        if (!req.member?.matrixId) throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         
         if (permission.isAdmin) {
-            return this.service.findAll();
+            return this.service.findAll(req.member.matrixId);
         }
 
         return this.service.findByPermission(permission.celulaIds);
@@ -50,11 +51,11 @@ export class CelulaController {
                             permission.redeIds.includes(discipulado.redeId);
             
             if (!canCreate) {
-                throw new HttpException('Você não tem permissão para criar células neste discipulado', HttpStatus.FORBIDDEN);
+                throw new HttpException('Você não tem permissão para criar células neste discipulado', HttpStatus.UNAUTHORIZED);
             }
         }
 
-        return this.service.create(body);
+        return this.service.create(body, req.member!.matrixId);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
@@ -64,7 +65,7 @@ export class CelulaController {
         const celulaId = Number(id);
         
         if (!permission?.isAdmin && !permission?.celulaIds.includes(celulaId)) {
-            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.UNAUTHORIZED);
         }
 
         return this.service.findById(celulaId);
@@ -79,7 +80,7 @@ export class CelulaController {
         const celulaId = Number(id);
         
         if (!permission?.isAdmin && !permission?.celulaIds.includes(celulaId)) {
-            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem acesso a esta célula', HttpStatus.UNAUTHORIZED);
         }
 
         return this.service.findMembersByCelulaId(celulaId);
@@ -95,10 +96,10 @@ export class CelulaController {
         const celulaId = Number(id);
         
         if (!permission?.isAdmin && !permission?.celulaIds.includes(celulaId)) {
-            throw new HttpException('Você não tem permissão para atualizar esta célula', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem permissão para atualizar esta célula', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.service.update(celulaId, body as any);
+        return this.service.update(celulaId, body as any, req.member!.matrixId);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
@@ -125,7 +126,7 @@ export class CelulaController {
                             (celula.discipulado.redeId && permission.redeIds.includes(celula.discipulado.redeId));
             
             if (!canDelete) {
-                throw new HttpException('Apenas discipuladores, pastores ou admins podem excluir células', HttpStatus.FORBIDDEN);
+                throw new HttpException('Apenas discipuladores, pastores ou admins podem excluir células', HttpStatus.UNAUTHORIZED);
             }
         }
         
@@ -165,12 +166,12 @@ export class CelulaController {
             if (!isLeader && !isViceLeader && !isDiscipulador && !isPastor) {
                 throw new HttpException(
                     'Apenas a liderança da célula (líder ou vice), discipulador, pastor ou admins podem multiplicar esta célula',
-                    HttpStatus.FORBIDDEN
+                    HttpStatus.UNAUTHORIZED
                 );
             }
         }
 
-        return this.service.multiply(celulaId, body.memberIds, body.newCelulaName, body.newLeaderMemberId, body.oldLeaderMemberId);
+        return this.service.multiply(celulaId, body.memberIds, body.newCelulaName, req.member!.matrixId, body.newLeaderMemberId, body.oldLeaderMemberId);
     }
 
 }

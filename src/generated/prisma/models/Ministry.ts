@@ -28,17 +28,20 @@ export type AggregateMinistry = {
 
 export type MinistryAvgAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   priority: number | null
 }
 
 export type MinistrySumAggregateOutputType = {
   id: number | null
+  matrixId: number | null
   priority: number | null
 }
 
 export type MinistryMinAggregateOutputType = {
   id: number | null
   name: string | null
+  matrixId: number | null
   type: $Enums.MinistryType | null
   priority: number | null
   createdAt: Date | null
@@ -48,6 +51,7 @@ export type MinistryMinAggregateOutputType = {
 export type MinistryMaxAggregateOutputType = {
   id: number | null
   name: string | null
+  matrixId: number | null
   type: $Enums.MinistryType | null
   priority: number | null
   createdAt: Date | null
@@ -57,6 +61,7 @@ export type MinistryMaxAggregateOutputType = {
 export type MinistryCountAggregateOutputType = {
   id: number
   name: number
+  matrixId: number
   type: number
   priority: number
   createdAt: number
@@ -67,17 +72,20 @@ export type MinistryCountAggregateOutputType = {
 
 export type MinistryAvgAggregateInputType = {
   id?: true
+  matrixId?: true
   priority?: true
 }
 
 export type MinistrySumAggregateInputType = {
   id?: true
+  matrixId?: true
   priority?: true
 }
 
 export type MinistryMinAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   type?: true
   priority?: true
   createdAt?: true
@@ -87,6 +95,7 @@ export type MinistryMinAggregateInputType = {
 export type MinistryMaxAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   type?: true
   priority?: true
   createdAt?: true
@@ -96,6 +105,7 @@ export type MinistryMaxAggregateInputType = {
 export type MinistryCountAggregateInputType = {
   id?: true
   name?: true
+  matrixId?: true
   type?: true
   priority?: true
   createdAt?: true
@@ -192,6 +202,7 @@ export type MinistryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type MinistryGroupByOutputType = {
   id: number
   name: string
+  matrixId: number
   type: $Enums.MinistryType
   priority: number
   createdAt: Date
@@ -224,39 +235,47 @@ export type MinistryWhereInput = {
   NOT?: Prisma.MinistryWhereInput | Prisma.MinistryWhereInput[]
   id?: Prisma.IntFilter<"Ministry"> | number
   name?: Prisma.StringFilter<"Ministry"> | string
+  matrixId?: Prisma.IntFilter<"Ministry"> | number
   type?: Prisma.EnumMinistryTypeFilter<"Ministry"> | $Enums.MinistryType
   priority?: Prisma.IntFilter<"Ministry"> | number
   createdAt?: Prisma.DateTimeFilter<"Ministry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Ministry"> | Date | string
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   members?: Prisma.MemberListRelationFilter
 }
 
 export type MinistryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  matrix?: Prisma.MatrixOrderByWithRelationInput
   members?: Prisma.MemberOrderByRelationAggregateInput
 }
 
 export type MinistryWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  name?: string
+  name_matrixId?: Prisma.MinistryNameMatrixIdCompoundUniqueInput
   AND?: Prisma.MinistryWhereInput | Prisma.MinistryWhereInput[]
   OR?: Prisma.MinistryWhereInput[]
   NOT?: Prisma.MinistryWhereInput | Prisma.MinistryWhereInput[]
+  name?: Prisma.StringFilter<"Ministry"> | string
+  matrixId?: Prisma.IntFilter<"Ministry"> | number
   type?: Prisma.EnumMinistryTypeFilter<"Ministry"> | $Enums.MinistryType
   priority?: Prisma.IntFilter<"Ministry"> | number
   createdAt?: Prisma.DateTimeFilter<"Ministry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Ministry"> | Date | string
+  matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   members?: Prisma.MemberListRelationFilter
-}, "id" | "name">
+}, "id" | "name_matrixId">
 
 export type MinistryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -274,6 +293,7 @@ export type MinistryScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MinistryScalarWhereWithAggregatesInput | Prisma.MinistryScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Ministry"> | number
   name?: Prisma.StringWithAggregatesFilter<"Ministry"> | string
+  matrixId?: Prisma.IntWithAggregatesFilter<"Ministry"> | number
   type?: Prisma.EnumMinistryTypeWithAggregatesFilter<"Ministry"> | $Enums.MinistryType
   priority?: Prisma.IntWithAggregatesFilter<"Ministry"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Ministry"> | Date | string
@@ -286,12 +306,14 @@ export type MinistryCreateInput = {
   priority?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutMinistriesInput
   members?: Prisma.MemberCreateNestedManyWithoutMinistryPositionInput
 }
 
 export type MinistryUncheckedCreateInput = {
   id?: number
   name: string
+  matrixId: number
   type?: $Enums.MinistryType
   priority?: number
   createdAt?: Date | string
@@ -305,12 +327,14 @@ export type MinistryUpdateInput = {
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutMinistriesNestedInput
   members?: Prisma.MemberUpdateManyWithoutMinistryPositionNestedInput
 }
 
 export type MinistryUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumMinistryTypeFieldUpdateOperationsInput | $Enums.MinistryType
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -321,6 +345,7 @@ export type MinistryUncheckedUpdateInput = {
 export type MinistryCreateManyInput = {
   id?: number
   name: string
+  matrixId: number
   type?: $Enums.MinistryType
   priority?: number
   createdAt?: Date | string
@@ -338,15 +363,32 @@ export type MinistryUpdateManyMutationInput = {
 export type MinistryUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumMinistryTypeFieldUpdateOperationsInput | $Enums.MinistryType
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type MinistryListRelationFilter = {
+  every?: Prisma.MinistryWhereInput
+  some?: Prisma.MinistryWhereInput
+  none?: Prisma.MinistryWhereInput
+}
+
+export type MinistryOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type MinistryNameMatrixIdCompoundUniqueInput = {
+  name: string
+  matrixId: number
+}
+
 export type MinistryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -355,12 +397,14 @@ export type MinistryCountOrderByAggregateInput = {
 
 export type MinistryAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
 }
 
 export type MinistryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -370,6 +414,7 @@ export type MinistryMaxOrderByAggregateInput = {
 export type MinistryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -378,12 +423,55 @@ export type MinistryMinOrderByAggregateInput = {
 
 export type MinistrySumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  matrixId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
 }
 
 export type MinistryScalarRelationFilter = {
   is?: Prisma.MinistryWhereInput
   isNot?: Prisma.MinistryWhereInput
+}
+
+export type MinistryCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.MinistryCreateWithoutMatrixInput, Prisma.MinistryUncheckedCreateWithoutMatrixInput> | Prisma.MinistryCreateWithoutMatrixInput[] | Prisma.MinistryUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.MinistryCreateOrConnectWithoutMatrixInput | Prisma.MinistryCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.MinistryCreateManyMatrixInputEnvelope
+  connect?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+}
+
+export type MinistryUncheckedCreateNestedManyWithoutMatrixInput = {
+  create?: Prisma.XOR<Prisma.MinistryCreateWithoutMatrixInput, Prisma.MinistryUncheckedCreateWithoutMatrixInput> | Prisma.MinistryCreateWithoutMatrixInput[] | Prisma.MinistryUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.MinistryCreateOrConnectWithoutMatrixInput | Prisma.MinistryCreateOrConnectWithoutMatrixInput[]
+  createMany?: Prisma.MinistryCreateManyMatrixInputEnvelope
+  connect?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+}
+
+export type MinistryUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.MinistryCreateWithoutMatrixInput, Prisma.MinistryUncheckedCreateWithoutMatrixInput> | Prisma.MinistryCreateWithoutMatrixInput[] | Prisma.MinistryUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.MinistryCreateOrConnectWithoutMatrixInput | Prisma.MinistryCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.MinistryUpsertWithWhereUniqueWithoutMatrixInput | Prisma.MinistryUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.MinistryCreateManyMatrixInputEnvelope
+  set?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  disconnect?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  delete?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  connect?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  update?: Prisma.MinistryUpdateWithWhereUniqueWithoutMatrixInput | Prisma.MinistryUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.MinistryUpdateManyWithWhereWithoutMatrixInput | Prisma.MinistryUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.MinistryScalarWhereInput | Prisma.MinistryScalarWhereInput[]
+}
+
+export type MinistryUncheckedUpdateManyWithoutMatrixNestedInput = {
+  create?: Prisma.XOR<Prisma.MinistryCreateWithoutMatrixInput, Prisma.MinistryUncheckedCreateWithoutMatrixInput> | Prisma.MinistryCreateWithoutMatrixInput[] | Prisma.MinistryUncheckedCreateWithoutMatrixInput[]
+  connectOrCreate?: Prisma.MinistryCreateOrConnectWithoutMatrixInput | Prisma.MinistryCreateOrConnectWithoutMatrixInput[]
+  upsert?: Prisma.MinistryUpsertWithWhereUniqueWithoutMatrixInput | Prisma.MinistryUpsertWithWhereUniqueWithoutMatrixInput[]
+  createMany?: Prisma.MinistryCreateManyMatrixInputEnvelope
+  set?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  disconnect?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  delete?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  connect?: Prisma.MinistryWhereUniqueInput | Prisma.MinistryWhereUniqueInput[]
+  update?: Prisma.MinistryUpdateWithWhereUniqueWithoutMatrixInput | Prisma.MinistryUpdateWithWhereUniqueWithoutMatrixInput[]
+  updateMany?: Prisma.MinistryUpdateManyWithWhereWithoutMatrixInput | Prisma.MinistryUpdateManyWithWhereWithoutMatrixInput[]
+  deleteMany?: Prisma.MinistryScalarWhereInput | Prisma.MinistryScalarWhereInput[]
 }
 
 export type EnumMinistryTypeFieldUpdateOperationsInput = {
@@ -404,17 +492,77 @@ export type MinistryUpdateOneRequiredWithoutMembersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MinistryUpdateToOneWithWhereWithoutMembersInput, Prisma.MinistryUpdateWithoutMembersInput>, Prisma.MinistryUncheckedUpdateWithoutMembersInput>
 }
 
+export type MinistryCreateWithoutMatrixInput = {
+  name: string
+  type?: $Enums.MinistryType
+  priority?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.MemberCreateNestedManyWithoutMinistryPositionInput
+}
+
+export type MinistryUncheckedCreateWithoutMatrixInput = {
+  id?: number
+  name: string
+  type?: $Enums.MinistryType
+  priority?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutMinistryPositionInput
+}
+
+export type MinistryCreateOrConnectWithoutMatrixInput = {
+  where: Prisma.MinistryWhereUniqueInput
+  create: Prisma.XOR<Prisma.MinistryCreateWithoutMatrixInput, Prisma.MinistryUncheckedCreateWithoutMatrixInput>
+}
+
+export type MinistryCreateManyMatrixInputEnvelope = {
+  data: Prisma.MinistryCreateManyMatrixInput | Prisma.MinistryCreateManyMatrixInput[]
+  skipDuplicates?: boolean
+}
+
+export type MinistryUpsertWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.MinistryWhereUniqueInput
+  update: Prisma.XOR<Prisma.MinistryUpdateWithoutMatrixInput, Prisma.MinistryUncheckedUpdateWithoutMatrixInput>
+  create: Prisma.XOR<Prisma.MinistryCreateWithoutMatrixInput, Prisma.MinistryUncheckedCreateWithoutMatrixInput>
+}
+
+export type MinistryUpdateWithWhereUniqueWithoutMatrixInput = {
+  where: Prisma.MinistryWhereUniqueInput
+  data: Prisma.XOR<Prisma.MinistryUpdateWithoutMatrixInput, Prisma.MinistryUncheckedUpdateWithoutMatrixInput>
+}
+
+export type MinistryUpdateManyWithWhereWithoutMatrixInput = {
+  where: Prisma.MinistryScalarWhereInput
+  data: Prisma.XOR<Prisma.MinistryUpdateManyMutationInput, Prisma.MinistryUncheckedUpdateManyWithoutMatrixInput>
+}
+
+export type MinistryScalarWhereInput = {
+  AND?: Prisma.MinistryScalarWhereInput | Prisma.MinistryScalarWhereInput[]
+  OR?: Prisma.MinistryScalarWhereInput[]
+  NOT?: Prisma.MinistryScalarWhereInput | Prisma.MinistryScalarWhereInput[]
+  id?: Prisma.IntFilter<"Ministry"> | number
+  name?: Prisma.StringFilter<"Ministry"> | string
+  matrixId?: Prisma.IntFilter<"Ministry"> | number
+  type?: Prisma.EnumMinistryTypeFilter<"Ministry"> | $Enums.MinistryType
+  priority?: Prisma.IntFilter<"Ministry"> | number
+  createdAt?: Prisma.DateTimeFilter<"Ministry"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Ministry"> | Date | string
+}
+
 export type MinistryCreateWithoutMembersInput = {
   name: string
   type?: $Enums.MinistryType
   priority?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  matrix: Prisma.MatrixCreateNestedOneWithoutMinistriesInput
 }
 
 export type MinistryUncheckedCreateWithoutMembersInput = {
   id?: number
   name: string
+  matrixId: number
   type?: $Enums.MinistryType
   priority?: number
   createdAt?: Date | string
@@ -443,9 +591,48 @@ export type MinistryUpdateWithoutMembersInput = {
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matrix?: Prisma.MatrixUpdateOneRequiredWithoutMinistriesNestedInput
 }
 
 export type MinistryUncheckedUpdateWithoutMembersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  matrixId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumMinistryTypeFieldUpdateOperationsInput | $Enums.MinistryType
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MinistryCreateManyMatrixInput = {
+  id?: number
+  name: string
+  type?: $Enums.MinistryType
+  priority?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type MinistryUpdateWithoutMatrixInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMinistryTypeFieldUpdateOperationsInput | $Enums.MinistryType
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.MemberUpdateManyWithoutMinistryPositionNestedInput
+}
+
+export type MinistryUncheckedUpdateWithoutMatrixInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMinistryTypeFieldUpdateOperationsInput | $Enums.MinistryType
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.MemberUncheckedUpdateManyWithoutMinistryPositionNestedInput
+}
+
+export type MinistryUncheckedUpdateManyWithoutMatrixInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMinistryTypeFieldUpdateOperationsInput | $Enums.MinistryType
@@ -488,10 +675,12 @@ export type MinistryCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Type
 export type MinistrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   type?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   members?: boolean | Prisma.Ministry$membersArgs<ExtArgs>
   _count?: boolean | Prisma.MinistryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ministry"]>
@@ -499,46 +688,58 @@ export type MinistrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type MinistrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   type?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ministry"]>
 
 export type MinistrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   type?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ministry"]>
 
 export type MinistrySelectScalar = {
   id?: boolean
   name?: boolean
+  matrixId?: boolean
   type?: boolean
   priority?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MinistryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "type" | "priority" | "createdAt" | "updatedAt", ExtArgs["result"]["ministry"]>
+export type MinistryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "matrixId" | "type" | "priority" | "createdAt" | "updatedAt", ExtArgs["result"]["ministry"]>
 export type MinistryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   members?: boolean | Prisma.Ministry$membersArgs<ExtArgs>
   _count?: boolean | Prisma.MinistryCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type MinistryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type MinistryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type MinistryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
+}
+export type MinistryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
+}
 
 export type $MinistryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Ministry"
   objects: {
+    matrix: Prisma.$MatrixPayload<ExtArgs>
     members: Prisma.$MemberPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
+    matrixId: number
     type: $Enums.MinistryType
     priority: number
     createdAt: Date
@@ -937,6 +1138,7 @@ readonly fields: MinistryFieldRefs;
  */
 export interface Prisma__MinistryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  matrix<T extends Prisma.MatrixDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MatrixDefaultArgs<ExtArgs>>): Prisma.Prisma__MatrixClient<runtime.Types.Result.GetResult<Prisma.$MatrixPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   members<T extends Prisma.Ministry$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ministry$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -969,6 +1171,7 @@ export interface Prisma__MinistryClient<T, Null = never, ExtArgs extends runtime
 export interface MinistryFieldRefs {
   readonly id: Prisma.FieldRef<"Ministry", 'Int'>
   readonly name: Prisma.FieldRef<"Ministry", 'String'>
+  readonly matrixId: Prisma.FieldRef<"Ministry", 'Int'>
   readonly type: Prisma.FieldRef<"Ministry", 'MinistryType'>
   readonly priority: Prisma.FieldRef<"Ministry", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Ministry", 'DateTime'>
@@ -1222,6 +1425,10 @@ export type MinistryCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    */
   data: Prisma.MinistryCreateManyInput | Prisma.MinistryCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MinistryIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1292,6 +1499,10 @@ export type MinistryUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many Ministries to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MinistryIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -8,6 +8,9 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Matrix'
+export type * from './models/MatrixDomain'
+export type * from './models/MemberMatrix'
 export type * from './models/Celula'
 export type * from './models/Role'
 export type * from './models/Ministry'
@@ -18,4 +21,6 @@ export type * from './models/Discipulado'
 export type * from './models/Report'
 export type * from './models/ReportAttendance'
 export type * from './models/MemberRole'
+export type * from './models/RefreshToken'
+export type * from './models/ApiKey'
 export type * from './commonInputTypes'

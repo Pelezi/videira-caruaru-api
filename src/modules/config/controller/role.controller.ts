@@ -17,21 +17,14 @@ export class RoleController {
 
     @Get()
     public async findAll(@Req() req: AuthenticatedRequest) {
-        try {
-            this.permissionService.requireAdmin(req.permission);
-        } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem acessar funções', HttpStatus.FORBIDDEN);
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         }
-        return this.roleService.findAll();
+        return this.roleService.findAll(req.member.matrixId);
     }
 
     @Get(':id')
     public async findById(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
-        try {
-            this.permissionService.requireAdmin(req.permission);
-        } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem acessar funções', HttpStatus.FORBIDDEN);
-        }
         return this.roleService.findById(parseInt(id, 10));
     }
 
@@ -40,9 +33,9 @@ export class RoleController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem criar funções', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem criar funções', HttpStatus.UNAUTHORIZED);
         }
-        return this.roleService.create(body.name, body.isAdmin);
+        return this.roleService.create(body.name, req.member!.matrixId, body.isAdmin);
     }
 
     @Put(':id')
@@ -50,7 +43,7 @@ export class RoleController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem atualizar funções', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem atualizar funções', HttpStatus.UNAUTHORIZED);
         }
         return this.roleService.update(parseInt(id, 10), body.name, body.isAdmin);
     }
@@ -60,7 +53,7 @@ export class RoleController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem deletar funções', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem deletar funções', HttpStatus.UNAUTHORIZED);
         }
         return this.roleService.delete(parseInt(id, 10));
     }

@@ -1,22 +1,26 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Inject, forwardRef } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { EmailService, PrismaService, PermissionService } from '../../common';
 import { SecurityConfigService } from '../../config/service/security-config.service';
+import { AuthService } from '../../auth/auth.service';
+import { MatrixService } from '../../matrix/service/matrix.service';
 import * as MemberData from '../model';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { CelulaWhereInput, MemberUncheckedCreateInput, MemberWhereInput } from '../../../generated/prisma/models';
+import { firstValueFrom } from 'rxjs';
 
 interface SetPasswordPayload extends jwt.JwtPayload {
     userId: number;
     purpose: string;
 }
 
-import { CelulaWhereInput, MemberUncheckedCreateInput, MemberWhereInput } from '../../../generated/prisma/models';
 
 // Função auxiliar para limpar datas
 function cleanDateField(dateStr: string | undefined): Date | null | undefined {
     if (dateStr === undefined) return undefined;
     if (!dateStr || !dateStr.trim()) return null;
-    
+
     // Se já é uma data válida ISO, adicionar horário para garantir formato completo
     const trimmed = dateStr.trim();
     // Verificar se é apenas data (yyyy-mm-dd) e adicionar hora
@@ -27,6 +31,14 @@ function cleanDateField(dateStr: string | undefined): Date | null | undefined {
     return new Date(trimmed);
 }
 
+// Função auxiliar para limpar telefone (remover caracteres não numéricos)
+function cleanPhoneField(phone: string | undefined): string | null | undefined {
+    if (phone === undefined) return undefined;
+    if (!phone || !phone.trim()) return null;
+    // Remove tudo que não é dígito
+    return phone.replace(/\D/g, '');
+}
+
 @Injectable()
 export class MemberService {
 
@@ -34,14 +46,25 @@ export class MemberService {
         private readonly prisma: PrismaService,
         private readonly emailService: EmailService,
         private readonly securityConfig: SecurityConfigService,
-        private readonly permissionService: PermissionService
+        private readonly permissionService: PermissionService,
+        private readonly httpService: HttpService,
+        private readonly matrixService: MatrixService,
+        @Inject(forwardRef(() => AuthService))
+        private readonly authService: AuthService
     ) { }
 
-    public async findAll(filters: { celulaId?: number; discipuladoId?: number; redeId?: number; ministryType?: string }) {
-        const where: MemberWhereInput = {};
+    public async findAll(matrixId: number, filters?: { celulaId?: number; discipuladoId?: number; redeId?: number; ministryType?: string }) {
+        const where: MemberWhereInput = {
+            isActive: true,
+            matrices: {
+                some: {
+                    matrixId: matrixId
+                }
+            }
+        };
 
         // celulaId = 0 significa "sem célula" (celulaId is null)
-        if (filters.celulaId !== undefined) {
+        if (filters?.celulaId !== undefined) {
             if (filters.celulaId === 0) {
                 where.celulaId = null;
             } else {
@@ -51,11 +74,11 @@ export class MemberService {
 
             const celulaWhere: CelulaWhereInput = {};
 
-            if (filters.discipuladoId) {
+            if (filters?.discipuladoId) {
                 celulaWhere.discipuladoId = filters.discipuladoId;
             }
 
-            if (filters.redeId) {
+            if (filters?.redeId) {
                 celulaWhere.discipulado = {
                     redeId: filters.redeId
                 };
@@ -67,14 +90,14 @@ export class MemberService {
         }
 
         // Filtrar por tipo de ministério (para selecionar pastores, discipuladores, líderes)
-        if (filters.ministryType) {
+        if (filters?.ministryType) {
             const ministryTypes = filters.ministryType.split(',');
             where.ministryPosition = {
                 type: { in: ministryTypes as any }
             };
         }
 
-        return this.prisma.member.findMany({
+        const response = await this.prisma.member.findMany({
             where,
             include: {
                 celula: {
@@ -93,10 +116,12 @@ export class MemberService {
             },
             orderBy: { name: 'asc' }
         });
+        
+        return response;
     }
 
     public async findByCelula(celulaId: number) {
-        return this.prisma.member.findMany({
+        return await this.prisma.member.findMany({
             where: { celulaId },
             include: {
                 roles: {
@@ -108,7 +133,7 @@ export class MemberService {
     }
 
     public async findById(memberId: number) {
-        return this.prisma.member.findUnique({
+        return await this.prisma.member.findUnique({
             where: { id: memberId },
             include: {
                 celula: true,
@@ -119,10 +144,42 @@ export class MemberService {
         });
     }
 
-    public async create(body: MemberData.MemberInput, requestingMemberId?: number) {
+    public async create(body: MemberData.MemberInput, requestingMemberId?: number, matrixId?: number) {
         // Validar que se hasSystemAccess é true, email é obrigatório
         if (body.hasSystemAccess && (!body.email || !body.email.trim())) {
             throw new HttpException('Email é obrigatório para membros com acesso ao sistema', HttpStatus.BAD_REQUEST);
+        }
+
+        // Validate that celulaId belongs to the same matrix if provided
+        if (body.celulaId && matrixId) {
+            const celula = await this.prisma.celula.findUnique({
+                where: { id: body.celulaId },
+                select: { matrixId: true }
+            });
+
+            if (!celula) {
+                throw new HttpException('Célula não encontrada', HttpStatus.NOT_FOUND);
+            }
+
+            if (celula.matrixId !== matrixId) {
+                throw new HttpException('Célula pertence a outra matriz', HttpStatus.FORBIDDEN);
+            }
+        }
+
+        // Validate that ministryPositionId belongs to the same matrix
+        if (body.ministryPositionId && matrixId) {
+            const ministry = await this.prisma.ministry.findUnique({
+                where: { id: body.ministryPositionId },
+                select: { matrixId: true }
+            });
+
+            if (!ministry) {
+                throw new HttpException('Cargo ministerial não encontrado', HttpStatus.NOT_FOUND);
+            }
+
+            if (ministry.matrixId !== matrixId) {
+                throw new HttpException('Cargo ministerial pertence a outra matriz', HttpStatus.FORBIDDEN);
+            }
         }
 
         // Validar hierarquia ministerial: usuário só pode criar membros com cargos abaixo do seu
@@ -139,8 +196,9 @@ export class MemberService {
 
         // Se hasSystemAccess é true e não foi fornecida senha, definir senha padrão
         if (memberData.hasSystemAccess && !memberData.password) {
-            const defaultPassword = '12345678';
+            const defaultPassword = '123456';
             memberData.password = await bcrypt.hash(defaultPassword, this.securityConfig.bcryptSaltRounds);
+            (memberData as any).hasDefaultPassword = true;
         }
 
         // Converter strings vazias em null para datas e garantir formato ISO-8601 completo
@@ -148,6 +206,7 @@ export class MemberService {
         cleanedData.baptismDate = cleanDateField(memberData.baptismDate);
         cleanedData.birthDate = cleanDateField(memberData.birthDate);
         cleanedData.registerDate = cleanDateField(memberData.registerDate);
+        cleanedData.phone = cleanPhoneField(memberData.phone);
 
         const data: MemberUncheckedCreateInput = cleanedData;
 
@@ -162,13 +221,23 @@ export class MemberService {
             if (hasAdminRole) {
                 const requestingPermission = await this.permissionService.loadPermissionForMember(requestingMemberId);
                 if (!requestingPermission || !requestingPermission.isAdmin) {
-                    throw new HttpException('Apenas administradores podem atribuir roles de administrador', HttpStatus.FORBIDDEN);
+                    throw new HttpException('Apenas administradores podem atribuir roles de administrador', HttpStatus.UNAUTHORIZED);
                 }
             }
         }
 
         try {
             const member = await this.prisma.member.create({ data });
+
+            // Criar associação MemberMatrix se matrixId fornecido
+            if (matrixId) {
+                await this.prisma.memberMatrix.create({
+                    data: {
+                        memberId: member.id,
+                        matrixId
+                    }
+                });
+            }
 
             // Criar associações de roles se fornecidas
             if (roleIds && roleIds.length > 0) {
@@ -200,10 +269,10 @@ export class MemberService {
         }
     }
 
-    public async update(memberId: number, data: MemberData.MemberInput, requestingMemberId?: number) {
+    public async update(memberId: number, data: MemberData.MemberInput, requestingMemberId?: number, matrixId?: number) {
         try {
             const currentMember = await this.prisma.member.findUnique({ where: { id: memberId } });
-            
+
             // Validar que se hasSystemAccess é true, email é obrigatório
             if (data.hasSystemAccess) {
                 const finalEmail = data.email !== undefined ? data.email : currentMember?.email;
@@ -213,27 +282,50 @@ export class MemberService {
                 }
             }
 
+            // Validate that celulaId belongs to the same matrix if provided
+            if (data.celulaId !== undefined && data.celulaId !== null && matrixId) {
+                const celula = await this.prisma.celula.findUnique({
+                    where: { id: data.celulaId },
+                    select: { matrixId: true }
+                });
+
+                if (!celula) {
+                    throw new HttpException('Célula não encontrada', HttpStatus.NOT_FOUND);
+                }
+
+                if (celula.matrixId !== matrixId) {
+                    throw new HttpException('Célula pertence a outra matriz', HttpStatus.FORBIDDEN);
+                }
+            }
+
+            // Validate that ministryPositionId belongs to the same matrix
+            if (data.ministryPositionId !== undefined && matrixId) {
+                const ministry = await this.prisma.ministry.findUnique({
+                    where: { id: data.ministryPositionId },
+                    select: { matrixId: true }
+                });
+
+                if (!ministry) {
+                    throw new HttpException('Cargo ministerial não encontrado', HttpStatus.NOT_FOUND);
+                }
+
+                if (ministry.matrixId !== matrixId) {
+                    throw new HttpException('Cargo ministerial pertence a outra matriz', HttpStatus.FORBIDDEN);
+                }
+            }
+
             // Validar hierarquia ministerial: usuário só pode atualizar cargos para níveis abaixo do seu
             if (data.ministryPositionId !== undefined && requestingMemberId) {
                 await this.validateMinistryHierarchy(requestingMemberId, data.ministryPositionId);
             }
-            
+
             // Se está ativando hasSystemAccess e não tinha senha, definir senha padrão
             const wasAccessEnabled = currentMember?.hasSystemAccess;
             const isEnablingAccess = data.hasSystemAccess && !wasAccessEnabled;
             let updatedData = { ...data };
             if (isEnablingAccess && !currentMember?.password) {
-                const defaultPassword = '12345678';
-                updatedData = { ...updatedData, password: await bcrypt.hash(defaultPassword, this.securityConfig.bcryptSaltRounds) };
-            }
-            
-            // Se email mudou ou está ativando acesso, enviar email de boas-vindas
-            const emailChanged = updatedData.email !== undefined && updatedData.email !== currentMember?.email;
-            const shouldSendWelcomeEmail = updatedData.hasSystemAccess && (isEnablingAccess || emailChanged);
-            if (shouldSendWelcomeEmail && (updatedData.email || currentMember?.email)) {
-                const memberEmail = updatedData.email || currentMember?.email;
-                const memberName = updatedData.name || currentMember?.name || 'amado(a)';
-                await this.sendWelcomeEmail(memberEmail!, memberName);
+                const defaultPassword = '123456';
+                updatedData = { ...updatedData, password: await bcrypt.hash(defaultPassword, this.securityConfig.bcryptSaltRounds), hasDefaultPassword: true };
             }
 
             // Validar cônjuge se casado
@@ -248,6 +340,7 @@ export class MemberService {
             cleanedMemberData.baptismDate = cleanDateField(memberData.baptismDate);
             cleanedMemberData.birthDate = cleanDateField(memberData.birthDate);
             cleanedMemberData.registerDate = cleanDateField(memberData.registerDate);
+            cleanedMemberData.phone = cleanPhoneField(memberData.phone);
 
             // Validar que apenas admins podem atribuir roles admin
             if (roleIds !== undefined && roleIds.length > 0 && requestingMemberId) {
@@ -260,7 +353,7 @@ export class MemberService {
                 if (hasAdminRole) {
                     const requestingPermission = await this.permissionService.loadPermissionForMember(requestingMemberId);
                     if (!requestingPermission || !requestingPermission.isAdmin) {
-                        throw new HttpException('Apenas administradores podem atribuir roles de administrador', HttpStatus.FORBIDDEN);
+                        throw new HttpException('Apenas administradores podem atribuir roles de administrador', HttpStatus.UNAUTHORIZED);
                     }
                 }
             }
@@ -312,8 +405,17 @@ export class MemberService {
         });
     }
 
-    public async getStatistics(filters: { celulaId?: number; discipuladoId?: number; redeId?: number } = {}) {
+    public async getStatistics(filters: { celulaId?: number; discipuladoId?: number; redeId?: number; matrixId?: number } = {}) {
         const where: MemberWhereInput = { isActive: true };
+
+        // MANDATORY: Filter by matrixId to prevent cross-matrix access
+        if (filters.matrixId) {
+            where.matrices = {
+                some: {
+                    matrixId: filters.matrixId
+                }
+            };
+        }
 
         // Aplicar filtros
         if (filters.celulaId !== undefined) {
@@ -324,6 +426,11 @@ export class MemberService {
             }
         } else {
             const celulaWhere: CelulaWhereInput = {};
+
+            // Add matrixId filter to celula if filtering by discipulado or rede
+            if (filters.matrixId && (filters.discipuladoId || filters.redeId)) {
+                celulaWhere.matrixId = filters.matrixId;
+            }
 
             if (filters.discipuladoId) {
                 celulaWhere.discipuladoId = filters.discipuladoId;
@@ -435,22 +542,117 @@ export class MemberService {
     }
 
     /**
-     * Send welcome email with login credentials
+     * Send invite email and mark inviteSent as true (método público para chamar via endpoint)
      */
-    private async sendWelcomeEmail(email: string, name: string) {
+    public async sendInvite(memberId: number, matrixId: number): Promise<MemberData.InviteResponse> {
+        const member = await this.prisma.member.findUnique({ where: { id: memberId } });
+
+        if (!member) {
+            throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
+        }
+
+        if (!member.hasSystemAccess) {
+            throw new HttpException('Membro não tem acesso ao sistema', HttpStatus.BAD_REQUEST);
+        }
+
+        if (!member.email || !member.email.trim()) {
+            throw new HttpException('Membro não tem email cadastrado', HttpStatus.BAD_REQUEST);
+        }
+
+        const whatsappSent = await this.sendInviteAndMarkSent(memberId, member.email, member.name || 'amado(a)', member.phone, matrixId);
+
+        return {
+            success: true,
+            message: whatsappSent ? 'Convite enviado no email e WhatsApp' : 'Convite enviado no email',
+            whatsappSent
+        };
+    }
+
+    /**
+     * Send invite email and mark inviteSent as true (método privado)
+     * Retorna true se WhatsApp foi enviado com sucesso
+     */
+    private async sendInviteAndMarkSent(memberId: number, email: string, name: string, phone?: string | null, matrixId?: number): Promise<boolean> {
         const frontend = process.env.FRONTEND_URL;
         if (!frontend) {
             throw new HttpException('Frontend URL não configurada', HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        const loginLink = `${frontend}/auth/login`;
+
+        // Get matrix information for personalized invite
+        let matrixName = 'Igreja Videira'; // Default fallback
+        let matrixDomain = frontend;
+
+        if (matrixId) {
+            try {
+                const matrix = await this.prisma.matrix.findUnique({
+                    where: { id: matrixId },
+                    include: { domains: true }
+                });
+
+                if (matrix) {
+                    matrixName = matrix.name;
+                    // Use the first domain if available, otherwise use frontend URL
+                    if (matrix.domains && matrix.domains.length > 0) {
+                        // Construct full URL with protocol
+                        const domain = matrix.domains[0].domain;
+                        matrixDomain = domain.startsWith('http') ? domain : `https://${domain}`;
+                    }
+                }
+            } catch (err) {
+                // If matrix fetch fails, use defaults
+                console.warn(`Failed to fetch matrix ${matrixId}, using defaults`);
+            }
+        }
+
+        const loginLink = `${matrixDomain}/auth/login`;
+        let whatsappSent = false;
 
         try {
-            await this.emailService.sendWelcomeEmail(email, loginLink, name, '12345678');
+            await this.emailService.sendWelcomeEmail(email, loginLink, name, '123456');
+            // Marcar como enviado
+            await this.prisma.member.update({
+                where: { id: memberId },
+                data: { inviteSent: true }
+            });
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Erro desconhecido';
             console.error(`Falha ao enviar email de boas-vindas: ${message}`);
             // Não bloquear o fluxo se o email falhar
         }
+
+        // Enviar WhatsApp se houver telefone
+        if (phone && phone.trim()) {
+            try {
+                const whatsappApiUrl = process.env.WHATSAPP_MANAGER_API;
+                if (whatsappApiUrl) {
+                    const params = new URLSearchParams({
+                        to: phone,
+                        name: name,
+                        platform: matrixName,  // Use matrix name instead of hardcoded
+                        platformUrl: matrixDomain,  // Use matrix domain instead of hardcoded
+                        login: email,
+                        password: '123456'
+                    });
+
+                    const url = `${whatsappApiUrl}/conversations/inviteToChurch?${params.toString()}`;
+
+                    await firstValueFrom(
+                        this.httpService.post(url, null, {
+                            headers: { 'accept': '*/*' }
+                        })
+                    );
+
+                    whatsappSent = true;
+                    console.log(`WhatsApp enviado com sucesso para ${phone}`);
+                }
+            } catch (err: unknown) {
+                const message = err instanceof Error ? err.message : 'Erro desconhecido';
+                console.error(`Falha ao enviar WhatsApp: ${message}`);
+                // Não bloquear o fluxo se o WhatsApp falhar
+            }
+        }
+
+        return whatsappSent;
     }
 
     /**
@@ -474,35 +676,36 @@ export class MemberService {
     }
 
     /**
-     * Send a set-password email for existing user (request from user)
+     * Resend invite email to a member
      */
-    public async requestSetPassword(email: string) {
-        const member = await this.prisma.member.findUnique({ where: { email } });
-        if (!member) throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
+    public async resendInvite(memberId: number, matrixId: number): Promise<MemberData.InviteResponse> {
+        const member = await this.prisma.member.findUnique({ where: { id: memberId } });
 
-        const token = jwt.sign(
-            { userId: member.id, purpose: 'set-password' },
-            this.securityConfig.jwtSecret,
-            {
-                expiresIn: this.securityConfig.jwtPasswordResetExpiresIn as string,
-                issuer: this.securityConfig.jwtIssuer
-            } as jwt.SignOptions
-        );
-        const frontend = process.env.FRONTEND_URL;
-        if (!frontend) {
-            throw new HttpException('Frontend URL não configurada', HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        const link = `${frontend}/auth/set-password?token=${token}`;
-
-        try {
-            await this.emailService.sendInviteEmail(email, link, `${member.name || 'amado(a)'}`);
-        } catch (err: unknown) {
-            const message = err instanceof Error ? err.message : 'Erro desconhecido';
-            throw new HttpException(`Falha ao enviar email de convite: ${message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+        if (!member) {
+            throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
         }
 
-        return true;
+        if (!member.hasSystemAccess) {
+            throw new HttpException('Membro não tem acesso ao sistema', HttpStatus.BAD_REQUEST);
+        }
+
+        if (!member.email || !member.email.trim()) {
+            throw new HttpException('Membro não tem email cadastrado', HttpStatus.BAD_REQUEST);
+        }
+
+        if (member.hasLoggedIn) {
+            throw new HttpException('Membro já acessou o sistema', HttpStatus.BAD_REQUEST);
+        }
+
+        const whatsappSent = await this.sendInviteAndMarkSent(memberId, member.email, member.name || 'amado(a)', member.phone, matrixId);
+
+        return {
+            success: true,
+            message: whatsappSent ? 'Convite reenviado no email e WhatsApp' : 'Convite reenviado no email',
+            whatsappSent
+        };
     }
+
 
     /**
      * Authenticate a user and return a JWT token
@@ -529,6 +732,15 @@ export class MemberService {
                             }
                         }
                     }
+                },
+                matrices: {
+                    include: {
+                        matrix: {
+                            include: {
+                                domains: true
+                            }
+                        }
+                    }
                 }
             },
             where: { email: data.email }
@@ -540,14 +752,14 @@ export class MemberService {
 
         // Verificar se o membro tem acesso ao sistema
         if (!member.hasSystemAccess) {
-            throw new HttpException('Acesso ao sistema não autorizado', HttpStatus.FORBIDDEN);
+            throw new HttpException('Acesso ao sistema não autorizado', HttpStatus.UNAUTHORIZED);
         }
 
         if (!member.password) {
             const token = jwt.sign(
-                { 
-                    userId: member.id, 
-                    purpose: 'set-password' 
+                {
+                    userId: member.id,
+                    purpose: 'set-password'
                 },
                 this.securityConfig.jwtSecret,
                 {
@@ -574,22 +786,129 @@ export class MemberService {
             throw new HttpException('Credenciais inválidas', HttpStatus.UNAUTHORIZED);
         }
 
-        const token = jwt.sign(
+        // Buscar matrizes do usuário
+        const userMatrices = member.matrices.map(mm => mm.matrix);
+
+        // Se o usuário não tem matrizes associadas
+        if (userMatrices.length === 0) {
+            throw new HttpException('Usuário não está associado a nenhuma base/matriz', HttpStatus.UNAUTHORIZED);
+        }
+
+        // Login com domain específico - se o domain está no banco, usa ele para fazer login direto
+        if (data.domain) {
+            const matrix = await this.matrixService.findByDomain(data.domain);
+
+            // Se o domínio foi encontrado no banco de dados, usar ele para login direto
+            if (matrix) {
+                // Verificar se o usuário tem acesso a esta matriz
+                const hasAccess = userMatrices.some(m => m.id === matrix.id);
+                if (!hasAccess) {
+                    throw new HttpException('Usuário não tem acesso a esta base/matriz', HttpStatus.UNAUTHORIZED);
+                }
+
+                // Marcar que o usuário fez login pela primeira vez
+                if (!member.hasLoggedIn) {
+                    await this.prisma.member.update({
+                        where: { id: member.id },
+                        data: { hasLoggedIn: true }
+                    });
+                }
+
+                const token = jwt.sign(
+                    {
+                        userId: member.id,
+                        email: member.email,
+                        matrixId: matrix.id
+                    },
+                    this.securityConfig.jwtSecret,
+                    {
+                        expiresIn: this.securityConfig.jwtExpiresIn as string,
+                        issuer: this.securityConfig.jwtIssuer
+                    } as jwt.SignOptions
+                );
+
+                // Generate refresh token
+                let refreshToken: string | undefined;
+                if (this.authService) {
+                    refreshToken = await this.authService.generateRefreshToken(member.id);
+                }
+
+                return {
+                    token,
+                    refreshToken,
+                    member: member,
+                    permission: await this.permissionService.loadSimplifiedPermissionForMember(member.id),
+                    currentMatrix: { id: matrix.id, name: matrix.name },
+                    matrices: userMatrices,
+                    requireMatrixSelection: false
+                };
+            }
+            // Se o domínio não foi encontrado (localhost, domínio desconhecido, etc), 
+            // prosseguir com a lógica normal de verificação de múltiplas matrizes abaixo
+        }
+
+        // Login sem domain específico ou domain não encontrado - verificar quantas matrizes o usuário tem
+        if (userMatrices.length === 1) {
+            // Se só tem uma matriz, logar automaticamente nela
+            const matrix = userMatrices[0];
+
+            if (!member.hasLoggedIn) {
+                await this.prisma.member.update({
+                    where: { id: member.id },
+                    data: { hasLoggedIn: true }
+                });
+            }
+
+            const token = jwt.sign(
+                {
+                    userId: member.id,
+                    email: member.email,
+                    matrixId: matrix.id
+                },
+                this.securityConfig.jwtSecret,
+                {
+                    expiresIn: this.securityConfig.jwtExpiresIn as string,
+                    issuer: this.securityConfig.jwtIssuer
+                } as jwt.SignOptions
+            );
+
+            let refreshToken: string | undefined;
+            if (this.authService) {
+                refreshToken = await this.authService.generateRefreshToken(member.id);
+            }
+
+            return {
+                token,
+                refreshToken,
+                member: member,
+                permission: await this.permissionService.loadSimplifiedPermissionForMember(member.id),
+                currentMatrix: { id: matrix.id, name: matrix.name },
+                matrices: userMatrices,
+                requireMatrixSelection: false
+            };
+        }
+
+        // Se tem múltiplas matrizes, retornar a lista para o usuário escolher
+        // Gerar um token temporário só para seleção de matriz
+        const tempToken = jwt.sign(
             {
                 userId: member.id,
-                email: member.email
+                email: member.email,
+                purpose: 'matrix-selection'
             },
             this.securityConfig.jwtSecret,
             {
-                expiresIn: this.securityConfig.jwtExpiresIn as string,
+                expiresIn: '10m', // Token temporário de 10 minutos
                 issuer: this.securityConfig.jwtIssuer
             } as jwt.SignOptions
         );
 
         return {
-            token,
+            token: tempToken,
             member: member,
-            permission: await this.permissionService.loadSimplifiedPermissionForMember(member.id)
+            permission: null,
+            matrices: userMatrices,
+            requireMatrixSelection: true
         };
     }
 
@@ -601,25 +920,25 @@ export class MemberService {
         if (!member) {
             throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
         }
-        
+
         if (!member.password) {
             throw new HttpException('Usuário não tem senha configurada', HttpStatus.BAD_REQUEST);
         }
-        
+
         const isPasswordValid = await bcrypt.compare(currentPassword, member.password);
         if (!isPasswordValid) {
             throw new HttpException('Senha atual incorreta', HttpStatus.UNAUTHORIZED);
         }
-        
+
         const hashedPassword = await bcrypt.hash(newPassword, this.securityConfig.bcryptSaltRounds);
         await this.prisma.member.update({
             where: { id: memberId },
             data: { password: hashedPassword, hasDefaultPassword: false }
         });
-        
+
         return { success: true };
     }
-    
+
     /**
      * Update own email (authenticated user)
      */
@@ -629,15 +948,15 @@ export class MemberService {
         if (existing && existing.id !== memberId) {
             throw new HttpException('Este email já está em uso', HttpStatus.BAD_REQUEST);
         }
-        
+
         const member = await this.prisma.member.update({
             where: { id: memberId },
             data: { email: newEmail }
         });
-        
+
         return member;
     }
-    
+
     /**
      * Get own profile (authenticated user)
      */
@@ -649,11 +968,11 @@ export class MemberService {
                 roles: { include: { role: true } }
             }
         });
-        
+
         if (!member) {
             throw new HttpException('Membro não encontrado', HttpStatus.NOT_FOUND);
         }
-        
+
         return member;
     }
 
@@ -665,35 +984,35 @@ export class MemberService {
     private async validateMinistryHierarchy(requestingMemberId: number, targetMinistryPositionId: number) {
         // Carregar permissões do usuário solicitante
         const requestingPermission = await this.permissionService.loadPermissionForMember(requestingMemberId);
-        
+
         // Admins e pastores podem atribuir qualquer cargo
-        if (requestingPermission?.isAdmin || 
-            requestingPermission?.ministryType === 'PRESIDENT_PASTOR' || 
+        if (requestingPermission?.isAdmin ||
+            requestingPermission?.ministryType === 'PRESIDENT_PASTOR' ||
             requestingPermission?.ministryType === 'PASTOR') {
             return;
         }
-        
+
         // Se o usuário não tem cargo ministerial, não pode criar membros
         if (!requestingPermission?.ministryPositionId) {
-            throw new HttpException('Você não tem permissão para criar membros com cargo ministerial', HttpStatus.FORBIDDEN);
+            throw new HttpException('Você não tem permissão para criar membros com cargo ministerial', HttpStatus.UNAUTHORIZED);
         }
-        
+
         // Buscar os cargos ministeriais
         const [requestingMinistry, targetMinistry] = await Promise.all([
             this.prisma.ministry.findUnique({ where: { id: requestingPermission.ministryPositionId } }),
             this.prisma.ministry.findUnique({ where: { id: targetMinistryPositionId } })
         ]);
-        
+
         if (!requestingMinistry || !targetMinistry) {
             throw new HttpException('Cargo ministerial não encontrado', HttpStatus.BAD_REQUEST);
         }
-        
+
         // Validar hierarquia: priority maior = cargo menor
         // O usuário só pode atribuir cargos com priority MAIOR (menor na hierarquia) que o seu
         if (targetMinistry.priority <= requestingMinistry.priority) {
             throw new HttpException(
-                'Você só pode criar membros com cargos abaixo do seu na hierarquia ministerial', 
-                HttpStatus.FORBIDDEN
+                'Você só pode criar membros com cargos abaixo do seu na hierarquia ministerial',
+                HttpStatus.UNAUTHORIZED
             );
         }
     }
@@ -701,8 +1020,16 @@ export class MemberService {
     /**
      * List all members with their admin status and basic role info
      */
-    public async findAllWithRoles() {
+    public async findAllWithRoles(matrixId: number) {
+        // MANDATORY: Filter by matrixId through matrices relation
         const members = await this.prisma.member.findMany({
+            where: {
+                matrices: {
+                    some: {
+                        matrixId: matrixId
+                    }
+                }
+            },
             include: {
                 ledCelulas: true,
                 viceLedCelulas: true,

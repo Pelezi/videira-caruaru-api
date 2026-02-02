@@ -17,21 +17,14 @@ export class WinnerPathController {
 
     @Get()
     public async findAll(@Req() req: AuthenticatedRequest) {
-        try {
-            this.permissionService.requireAdmin(req.permission);
-        } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem acessar o caminho do vencedor', HttpStatus.FORBIDDEN);
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         }
-        return this.winnerPathService.findAll();
+        return this.winnerPathService.findAll(req.member.matrixId);
     }
 
     @Get(':id')
     public async findById(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
-        try {
-            this.permissionService.requireAdmin(req.permission);
-        } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem acessar o caminho do vencedor', HttpStatus.FORBIDDEN);
-        }
         return this.winnerPathService.findById(parseInt(id, 10));
     }
 
@@ -40,9 +33,9 @@ export class WinnerPathController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem criar o caminho do vencedor', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem criar o caminho do vencedor', HttpStatus.UNAUTHORIZED);
         }
-        return this.winnerPathService.create(body.name);
+        return this.winnerPathService.create(body.name, req.member!.matrixId);
     }
 
     @Put(':id')
@@ -50,7 +43,7 @@ export class WinnerPathController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem atualizar o caminho do vencedor', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem atualizar o caminho do vencedor', HttpStatus.UNAUTHORIZED);
         }
         return this.winnerPathService.update(parseInt(id, 10), body.name);
     }
@@ -60,7 +53,7 @@ export class WinnerPathController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem atualizar prioridade de o caminho do vencedor', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem atualizar prioridade de o caminho do vencedor', HttpStatus.UNAUTHORIZED);
         }
         return this.winnerPathService.updatePriority(parseInt(id, 10), body.priority);
     }
@@ -70,7 +63,7 @@ export class WinnerPathController {
         try {
             this.permissionService.requireAdmin(req.permission);
         } catch (error: unknown) {
-            throw new HttpException('Apenas administradores podem deletar o caminho do vencedor', HttpStatus.FORBIDDEN);
+            throw new HttpException('Apenas administradores podem deletar o caminho do vencedor', HttpStatus.UNAUTHORIZED);
         }
         return this.winnerPathService.delete(parseInt(id, 10));
     }
