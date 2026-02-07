@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Param, UseGuards, Req, Put, HttpException, Delete, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Req, Put, HttpException, Delete, HttpStatus, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
 import { CelulaService } from '../service/celula.service';
 import { RestrictedGuard } from '../../common/security/restricted.guard';
 import { PermissionGuard } from '../../common/security/permission.guard';
 import { PrismaService } from '../../common';
 import { AuthenticatedRequest } from '../../common/types/authenticated-request.interface';
-import { CelulaCreateInput, CelulaUpdateInput, CelulaMultiplyInput } from '../model/celula.input';
+import * as CelulaData from '../model';
 
 @Controller('celulas')
 @ApiTags('celulas')
@@ -14,22 +14,30 @@ export class CelulaController {
 
     @UseGuards(RestrictedGuard, PermissionGuard)
     @Get()
-    public async find(@Req() req: AuthenticatedRequest) {
+    public async find(
+        @Req() req: AuthenticatedRequest,
+        @Query() filters: CelulaData.CelulaFilterInput
+    ) {
         const permission = req.permission;
         if (!permission) throw new HttpException('Você não tem permissão', HttpStatus.UNAUTHORIZED);
         if (!req.member?.matrixId) throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         
+        if (filters.onlyOwnCelulas && (!filters.celulaIds || filters.celulaIds.length === 0) && !permission.isAdmin) {
+            // Se onlyOwnCelulas for true e celulaIds não for fornecido, usar as células do próprio usuário
+            filters.celulaIds = permission.celulaIds;
+        }
+
         // Retornar todas as células da matriz, independente da permissão
         // O controle de ações será feito no frontend baseado nas permissões
-        return this.service.findAll(req.member.matrixId);
+        return this.service.findAll(req.member.matrixId, filters);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
     @Post()
     @ApiOperation({ summary: 'Criar uma nova célula' })
-    @ApiBody({ type: CelulaCreateInput })
+    @ApiBody({ type: CelulaData.CelulaCreateInput })
     @ApiResponse({ status: 201, description: 'Célula criada' })
-    public async create(@Req() req: AuthenticatedRequest, @Body() body: CelulaCreateInput) {
+    public async create(@Req() req: AuthenticatedRequest, @Body() body: CelulaData.CelulaCreateInput) {
         const permission = req.permission;
         if (!permission) throw new HttpException('Sem permissão', HttpStatus.UNAUTHORIZED);
         
@@ -87,9 +95,9 @@ export class CelulaController {
     @UseGuards(RestrictedGuard, PermissionGuard)
     @Put(':id')
     @ApiOperation({ summary: 'Atualizar célula' })
-    @ApiBody({ type: CelulaUpdateInput })
+    @ApiBody({ type: CelulaData.CelulaUpdateInput })
     @ApiResponse({ status: 200, description: 'Célula atualizada' })
-    public async update(@Req() req: AuthenticatedRequest, @Param('id') id: string, @Body() body: CelulaUpdateInput) {
+    public async update(@Req() req: AuthenticatedRequest, @Param('id') id: string, @Body() body: CelulaData.CelulaUpdateInput) {
         const permission = req.permission;
         const celulaId = Number(id);
         
@@ -135,9 +143,9 @@ export class CelulaController {
     @UseGuards(RestrictedGuard, PermissionGuard)
     @Post(':id/multiply')
     @ApiOperation({ summary: 'Multiplicar (dividir) uma célula: cria nova célula e move membros selecionados' })
-    @ApiBody({ type: CelulaMultiplyInput })
+    @ApiBody({ type: CelulaData.CelulaMultiplyInput })
     @ApiResponse({ status: 201, description: 'Célula multiplicada e membros movidos' })
-    public async multiply(@Req() req: AuthenticatedRequest, @Param('id') id: string, @Body() body: CelulaMultiplyInput) {
+    public async multiply(@Req() req: AuthenticatedRequest, @Param('id') id: string, @Body() body: CelulaData.CelulaMultiplyInput) {
         const permission = req.permission;
         const celulaId = Number(id);
         

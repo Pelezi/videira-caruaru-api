@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from '../../common';
-import { CelulaCreateInput } from '../model/celula.input';
+import * as CelulaData from '../model';
 import { canBeLeader, canBeViceLeader, getMinistryTypeLabel } from '../../common/helpers/ministry-permissions.helper';
 import { Prisma } from '../../../generated/prisma/client';
 import { createMatrixValidator } from '../../common/helpers/matrix-validation.helper';
@@ -9,10 +9,28 @@ import { createMatrixValidator } from '../../common/helpers/matrix-validation.he
 export class CelulaService {
     constructor(private readonly prisma: PrismaService) { }
 
-    public async findAll(matrixId: number) {
+    public async findAll(matrixId: number, filters?: CelulaData.CelulaFilterInput) {
+
+        let where: Prisma.CelulaWhereInput = { matrixId };
+
+        if (filters) {
+            if (filters.leaderMemberId) {
+                where.leaderMemberId = filters.leaderMemberId;
+            }
+            if (filters.discipuladoId) {
+                where.discipuladoId = filters.discipuladoId;
+            }
+            if (filters.redeId) {
+                where.discipulado = { redeId: filters.redeId };
+            }
+            if (filters.celulaIds && filters.celulaIds.length > 0) {
+                where.id = { in: filters.celulaIds };
+            }
+        }
+
         // MANDATORY: Filter by matrixId to prevent cross-matrix access
         return this.prisma.celula.findMany({ 
-            where: { matrixId }, 
+            where, 
             orderBy: { name: 'asc' }, 
             include: { 
                 leader: true, 
@@ -36,7 +54,7 @@ export class CelulaService {
         });
     }
 
-    public async create(body: CelulaCreateInput, matrixId: number) {
+    public async create(body: CelulaData.CelulaCreateInput, matrixId: number) {
         const validator = createMatrixValidator(this.prisma);
         
         // Validação de weekday
