@@ -255,7 +255,8 @@ export const ReportScalarFieldEnum = {
   id: 'id',
   matrixId: 'matrixId',
   createdAt: 'createdAt',
-  celulaId: 'celulaId'
+  celulaId: 'celulaId',
+  type: 'type'
 } as const
 
 export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]

@@ -41,3 +41,11 @@ export const MinistryType = {
 } as const
 
 export type MinistryType = (typeof MinistryType)[keyof typeof MinistryType]
+
+
+export const ReportType = {
+  CELULA: 'CELULA',
+  CULTO: 'CULTO'
+} as const
+
+export type ReportType = (typeof ReportType)[keyof typeof ReportType]

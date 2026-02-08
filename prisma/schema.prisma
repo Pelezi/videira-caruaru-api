@@ -248,6 +248,11 @@ enum MinistryType {
   VISITOR
 }
 
+enum ReportType {
+  CELULA
+  CULTO
+}
+
 model Rede {
   id           Int      @id @default(autoincrement())
   name         String
@@ -284,10 +289,11 @@ model Discipulado {
 }
 
 model Report {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   matrixId  Int
-  createdAt DateTime @default(now())
+  createdAt DateTime   @default(now())
   celulaId  Int
+  type      ReportType @default(CELULA)
 
   matrix      Matrix             @relation(fields: [matrixId], references: [id], onDelete: NoAction)
   celula      Celula             @relation(fields: [celulaId], references: [id], onDelete: NoAction)

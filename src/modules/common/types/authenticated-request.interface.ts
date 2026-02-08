@@ -6,5 +6,5 @@ export interface AuthenticatedRequest extends FastifyRequest {
         id: number;
         matrixId: number;
     };
-    permission?: LoadedPermission;
+    permission: LoadedPermission;
 }

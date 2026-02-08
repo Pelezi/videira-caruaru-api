@@ -91,6 +91,9 @@ export class CelulaMultiplyInput {
 }
 
 export class CelulaFilterInput {
+    @ApiProperty({ description: 'ID do líder em treinamento para filtrar as células', example: 8, required: false })
+    public readonly viceLeaderMemberId?: number;
+    
     @ApiProperty({ description: 'ID do líder para filtrar as células', example: 5, required: false })
     public readonly leaderMemberId?: number;
     
@@ -100,8 +103,8 @@ export class CelulaFilterInput {
     @ApiProperty({ description: 'ID da rede para filtrar as células', example: 1, required: false })
     public readonly redeId?: number;
 
-    @ApiProperty({ description: 'Indicativo se deve mostrar apenas as células de quem fez a requisição (true/false)', example: false, required: false })
-    public readonly onlyOwnCelulas?: boolean;
+    @ApiProperty({ description: 'Indicativo se deve mostrar apenas as células de quem fez a requisição (true/false)', example: true, required: false })
+    public readonly onlyOwnCelulas?: boolean = true;
 
     @ApiProperty({ description: 'IDs das células para filtrar (ex: para mostrar apenas um grupo específico)', example: [1, 2, 3], required: false, type: [Number] })
     public celulaIds?: number[];

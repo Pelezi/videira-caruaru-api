@@ -43,6 +43,7 @@ export type ReportMinAggregateOutputType = {
   matrixId: number | null
   createdAt: Date | null
   celulaId: number | null
+  type: $Enums.ReportType | null
 }
 
 export type ReportMaxAggregateOutputType = {
@@ -50,6 +51,7 @@ export type ReportMaxAggregateOutputType = {
   matrixId: number | null
   createdAt: Date | null
   celulaId: number | null
+  type: $Enums.ReportType | null
 }
 
 export type ReportCountAggregateOutputType = {
@@ -57,6 +59,7 @@ export type ReportCountAggregateOutputType = {
   matrixId: number
   createdAt: number
   celulaId: number
+  type: number
   _all: number
 }
 
@@ -78,6 +81,7 @@ export type ReportMinAggregateInputType = {
   matrixId?: true
   createdAt?: true
   celulaId?: true
+  type?: true
 }
 
 export type ReportMaxAggregateInputType = {
@@ -85,6 +89,7 @@ export type ReportMaxAggregateInputType = {
   matrixId?: true
   createdAt?: true
   celulaId?: true
+  type?: true
 }
 
 export type ReportCountAggregateInputType = {
@@ -92,6 +97,7 @@ export type ReportCountAggregateInputType = {
   matrixId?: true
   createdAt?: true
   celulaId?: true
+  type?: true
   _all?: true
 }
 
@@ -186,6 +192,7 @@ export type ReportGroupByOutputType = {
   matrixId: number
   createdAt: Date
   celulaId: number
+  type: $Enums.ReportType
   _count: ReportCountAggregateOutputType | null
   _avg: ReportAvgAggregateOutputType | null
   _sum: ReportSumAggregateOutputType | null
@@ -216,6 +223,7 @@ export type ReportWhereInput = {
   matrixId?: Prisma.IntFilter<"Report"> | number
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   celulaId?: Prisma.IntFilter<"Report"> | number
+  type?: Prisma.EnumReportTypeFilter<"Report"> | $Enums.ReportType
   matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   celula?: Prisma.XOR<Prisma.CelulaScalarRelationFilter, Prisma.CelulaWhereInput>
   attendances?: Prisma.ReportAttendanceListRelationFilter
@@ -226,6 +234,7 @@ export type ReportOrderByWithRelationInput = {
   matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   matrix?: Prisma.MatrixOrderByWithRelationInput
   celula?: Prisma.CelulaOrderByWithRelationInput
   attendances?: Prisma.ReportAttendanceOrderByRelationAggregateInput
@@ -239,6 +248,7 @@ export type ReportWhereUniqueInput = Prisma.AtLeast<{
   matrixId?: Prisma.IntFilter<"Report"> | number
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   celulaId?: Prisma.IntFilter<"Report"> | number
+  type?: Prisma.EnumReportTypeFilter<"Report"> | $Enums.ReportType
   matrix?: Prisma.XOR<Prisma.MatrixScalarRelationFilter, Prisma.MatrixWhereInput>
   celula?: Prisma.XOR<Prisma.CelulaScalarRelationFilter, Prisma.CelulaWhereInput>
   attendances?: Prisma.ReportAttendanceListRelationFilter
@@ -249,6 +259,7 @@ export type ReportOrderByWithAggregationInput = {
   matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   _count?: Prisma.ReportCountOrderByAggregateInput
   _avg?: Prisma.ReportAvgOrderByAggregateInput
   _max?: Prisma.ReportMaxOrderByAggregateInput
@@ -264,10 +275,12 @@ export type ReportScalarWhereWithAggregatesInput = {
   matrixId?: Prisma.IntWithAggregatesFilter<"Report"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Report"> | Date | string
   celulaId?: Prisma.IntWithAggregatesFilter<"Report"> | number
+  type?: Prisma.EnumReportTypeWithAggregatesFilter<"Report"> | $Enums.ReportType
 }
 
 export type ReportCreateInput = {
   createdAt?: Date | string
+  type?: $Enums.ReportType
   matrix: Prisma.MatrixCreateNestedOneWithoutReportsInput
   celula: Prisma.CelulaCreateNestedOneWithoutReportsInput
   attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutReportInput
@@ -278,11 +291,13 @@ export type ReportUncheckedCreateInput = {
   matrixId: number
   createdAt?: Date | string
   celulaId: number
+  type?: $Enums.ReportType
   attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutReportInput
 }
 
 export type ReportUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
   matrix?: Prisma.MatrixUpdateOneRequiredWithoutReportsNestedInput
   celula?: Prisma.CelulaUpdateOneRequiredWithoutReportsNestedInput
   attendances?: Prisma.ReportAttendanceUpdateManyWithoutReportNestedInput
@@ -293,6 +308,7 @@ export type ReportUncheckedUpdateInput = {
   matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
   attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutReportNestedInput
 }
 
@@ -301,10 +317,12 @@ export type ReportCreateManyInput = {
   matrixId: number
   createdAt?: Date | string
   celulaId: number
+  type?: $Enums.ReportType
 }
 
 export type ReportUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
 }
 
 export type ReportUncheckedUpdateManyInput = {
@@ -312,6 +330,7 @@ export type ReportUncheckedUpdateManyInput = {
   matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
 }
 
 export type ReportListRelationFilter = {
@@ -329,6 +348,7 @@ export type ReportCountOrderByAggregateInput = {
   matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type ReportAvgOrderByAggregateInput = {
@@ -342,6 +362,7 @@ export type ReportMaxOrderByAggregateInput = {
   matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type ReportMinOrderByAggregateInput = {
@@ -349,6 +370,7 @@ export type ReportMinOrderByAggregateInput = {
   matrixId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   celulaId?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type ReportSumOrderByAggregateInput = {
@@ -446,6 +468,10 @@ export type ReportUncheckedUpdateManyWithoutCelulaNestedInput = {
   deleteMany?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
 }
 
+export type EnumReportTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ReportType
+}
+
 export type ReportCreateNestedOneWithoutAttendancesInput = {
   create?: Prisma.XOR<Prisma.ReportCreateWithoutAttendancesInput, Prisma.ReportUncheckedCreateWithoutAttendancesInput>
   connectOrCreate?: Prisma.ReportCreateOrConnectWithoutAttendancesInput
@@ -462,6 +488,7 @@ export type ReportUpdateOneRequiredWithoutAttendancesNestedInput = {
 
 export type ReportCreateWithoutMatrixInput = {
   createdAt?: Date | string
+  type?: $Enums.ReportType
   celula: Prisma.CelulaCreateNestedOneWithoutReportsInput
   attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutReportInput
 }
@@ -470,6 +497,7 @@ export type ReportUncheckedCreateWithoutMatrixInput = {
   id?: number
   createdAt?: Date | string
   celulaId: number
+  type?: $Enums.ReportType
   attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutReportInput
 }
 
@@ -507,10 +535,12 @@ export type ReportScalarWhereInput = {
   matrixId?: Prisma.IntFilter<"Report"> | number
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   celulaId?: Prisma.IntFilter<"Report"> | number
+  type?: Prisma.EnumReportTypeFilter<"Report"> | $Enums.ReportType
 }
 
 export type ReportCreateWithoutCelulaInput = {
   createdAt?: Date | string
+  type?: $Enums.ReportType
   matrix: Prisma.MatrixCreateNestedOneWithoutReportsInput
   attendances?: Prisma.ReportAttendanceCreateNestedManyWithoutReportInput
 }
@@ -519,6 +549,7 @@ export type ReportUncheckedCreateWithoutCelulaInput = {
   id?: number
   matrixId: number
   createdAt?: Date | string
+  type?: $Enums.ReportType
   attendances?: Prisma.ReportAttendanceUncheckedCreateNestedManyWithoutReportInput
 }
 
@@ -550,6 +581,7 @@ export type ReportUpdateManyWithWhereWithoutCelulaInput = {
 
 export type ReportCreateWithoutAttendancesInput = {
   createdAt?: Date | string
+  type?: $Enums.ReportType
   matrix: Prisma.MatrixCreateNestedOneWithoutReportsInput
   celula: Prisma.CelulaCreateNestedOneWithoutReportsInput
 }
@@ -559,6 +591,7 @@ export type ReportUncheckedCreateWithoutAttendancesInput = {
   matrixId: number
   createdAt?: Date | string
   celulaId: number
+  type?: $Enums.ReportType
 }
 
 export type ReportCreateOrConnectWithoutAttendancesInput = {
@@ -579,6 +612,7 @@ export type ReportUpdateToOneWithWhereWithoutAttendancesInput = {
 
 export type ReportUpdateWithoutAttendancesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
   matrix?: Prisma.MatrixUpdateOneRequiredWithoutReportsNestedInput
   celula?: Prisma.CelulaUpdateOneRequiredWithoutReportsNestedInput
 }
@@ -588,16 +622,19 @@ export type ReportUncheckedUpdateWithoutAttendancesInput = {
   matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
 }
 
 export type ReportCreateManyMatrixInput = {
   id?: number
   createdAt?: Date | string
   celulaId: number
+  type?: $Enums.ReportType
 }
 
 export type ReportUpdateWithoutMatrixInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
   celula?: Prisma.CelulaUpdateOneRequiredWithoutReportsNestedInput
   attendances?: Prisma.ReportAttendanceUpdateManyWithoutReportNestedInput
 }
@@ -606,6 +643,7 @@ export type ReportUncheckedUpdateWithoutMatrixInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
   attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutReportNestedInput
 }
 
@@ -613,16 +651,19 @@ export type ReportUncheckedUpdateManyWithoutMatrixInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   celulaId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
 }
 
 export type ReportCreateManyCelulaInput = {
   id?: number
   matrixId: number
   createdAt?: Date | string
+  type?: $Enums.ReportType
 }
 
 export type ReportUpdateWithoutCelulaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
   matrix?: Prisma.MatrixUpdateOneRequiredWithoutReportsNestedInput
   attendances?: Prisma.ReportAttendanceUpdateManyWithoutReportNestedInput
 }
@@ -631,6 +672,7 @@ export type ReportUncheckedUpdateWithoutCelulaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
   attendances?: Prisma.ReportAttendanceUncheckedUpdateManyWithoutReportNestedInput
 }
 
@@ -638,6 +680,7 @@ export type ReportUncheckedUpdateManyWithoutCelulaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   matrixId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumReportTypeFieldUpdateOperationsInput | $Enums.ReportType
 }
 
 
@@ -676,6 +719,7 @@ export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
+  type?: boolean
   matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
   attendances?: boolean | Prisma.Report$attendancesArgs<ExtArgs>
@@ -687,6 +731,7 @@ export type ReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
+  type?: boolean
   matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
@@ -696,6 +741,7 @@ export type ReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
+  type?: boolean
   matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
@@ -705,9 +751,10 @@ export type ReportSelectScalar = {
   matrixId?: boolean
   createdAt?: boolean
   celulaId?: boolean
+  type?: boolean
 }
 
-export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "matrixId" | "createdAt" | "celulaId", ExtArgs["result"]["report"]>
+export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "matrixId" | "createdAt" | "celulaId" | "type", ExtArgs["result"]["report"]>
 export type ReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   matrix?: boolean | Prisma.MatrixDefaultArgs<ExtArgs>
   celula?: boolean | Prisma.CelulaDefaultArgs<ExtArgs>
@@ -735,6 +782,7 @@ export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     matrixId: number
     createdAt: Date
     celulaId: number
+    type: $Enums.ReportType
   }, ExtArgs["result"]["report"]>
   composites: {}
 }
@@ -1165,6 +1213,7 @@ export interface ReportFieldRefs {
   readonly matrixId: Prisma.FieldRef<"Report", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Report", 'DateTime'>
   readonly celulaId: Prisma.FieldRef<"Report", 'Int'>
+  readonly type: Prisma.FieldRef<"Report", 'ReportType'>
 }
     
 

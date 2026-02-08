@@ -14,14 +14,17 @@ export class CelulaService {
         let where: Prisma.CelulaWhereInput = { matrixId };
 
         if (filters) {
+            if (filters.viceLeaderMemberId) {
+                where.leadersInTraining = { some: { memberId: Number(filters.viceLeaderMemberId) } };
+            }
             if (filters.leaderMemberId) {
-                where.leaderMemberId = filters.leaderMemberId;
+                where.leaderMemberId = Number(filters.leaderMemberId);
             }
             if (filters.discipuladoId) {
-                where.discipuladoId = filters.discipuladoId;
+                where.discipuladoId = Number(filters.discipuladoId);
             }
             if (filters.redeId) {
-                where.discipulado = { redeId: filters.redeId };
+                where.discipulado = { redeId: Number(filters.redeId) };
             }
             if (filters.celulaIds && filters.celulaIds.length > 0) {
                 where.id = { in: filters.celulaIds };

@@ -66,9 +66,29 @@ export class AuthController {
         const member = await this.memberService.findById(memberId);
         const permission = await this.permissionService.loadSimplifiedPermissionForMember(memberId);
         
+        // Get matrixId from token
+        const authHeader = req.headers['authorization'] as string;
+        const currentToken = authHeader?.substring(7);
+        let matrixId: number | null = null;
+        
+        if (currentToken) {
+            try {
+                const decoded = jwt.verify(currentToken, this.securityConfig.jwtSecret) as any;
+                matrixId = decoded.matrixId;
+            } catch (error) {
+                // Token might be invalid, but continue without matrix info
+            }
+        }
+
+        // Get user matrices and current matrix
+        const userMatrices = await this.matrixService.getMemberMatrices(memberId);
+        const currentMatrix = matrixId ? userMatrices.find(m => m.id === matrixId) : null;
+        
         return {
-            user: member,
-            permission
+            member: member,  // Changed from 'user' to 'member' to match login response
+            permission,
+            currentMatrix: currentMatrix ? { id: currentMatrix.id, name: currentMatrix.name } : null,
+            matrices: userMatrices
         };
     }
 
@@ -91,8 +111,10 @@ export class AuthController {
             properties: {
                 token: { type: 'string' },
                 refreshToken: { type: 'string' },
-                user: { type: 'object' },
-                permission: { type: 'object' }
+                member: { type: 'object' },
+                permission: { type: 'object' },
+                currentMatrix: { type: 'object' },
+                matrices: { type: 'array' }
             }
         }
     })
@@ -143,11 +165,17 @@ export class AuthController {
             // Get user permissions
             const permission = await this.permissionService.loadSimplifiedPermissionForMember(userId);
 
+            // Get current matrix info
+            const currentMatrix = userMatrices.find(m => m.id === matrixId);
+
             return {
                 token: newAccessToken,
                 refreshToken: newRefreshToken,
-                user: member,
-                permission
+                member: member,  // Changed from 'user' to 'member' to match login response
+                permission,
+                currentMatrix: currentMatrix ? { id: currentMatrix.id, name: currentMatrix.name } : null,
+                matrices: userMatrices,
+                requireMatrixSelection: false
             };
         } catch (error) {
             if (error instanceof HttpException) {

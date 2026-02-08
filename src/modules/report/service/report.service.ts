@@ -6,7 +6,7 @@ import { Prisma } from '../../../generated/prisma/client';
 export class ReportService {
     constructor(private readonly prisma: PrismaService) {}
 
-    public async create(celulaId: number, memberIds: number[], matrixId: number, date?: string) {
+    public async create(celulaId: number, memberIds: number[], matrixId: number, date?: string, type?: 'CELULA' | 'CULTO') {
         const brazilOffsetHours = 3;
 
         let startUtc: Date;
@@ -33,11 +33,19 @@ export class ReportService {
             endUtc = new Date(endBrazilLocal.getTime() + brazilOffsetHours * 60 * 60 * 1000);
         }
 
-        await this.prisma.report.deleteMany({ where: { celulaId, createdAt: { gte: startUtc, lte: endUtc } } });
+        // Deletar apenas relatórios do mesmo tipo na mesma data
+        await this.prisma.report.deleteMany({ 
+            where: { 
+                celulaId, 
+                createdAt: { gte: startUtc, lte: endUtc },
+                type: type || 'CELULA'
+            } 
+        });
 
         const createData: Partial<Prisma.ReportCreateInput> & { celula: { connect: { id: number } }; matrix: { connect: { id: number } } } = { 
             celula: { connect: { id: celulaId } },
             matrix: { connect: { id: matrixId } },
+            type: type || 'CELULA',
             ...(date && { createdAt: startUtc })
         };
 
@@ -53,6 +61,74 @@ export class ReportService {
 
     public async findById(id: number) {
         return this.prisma.report.findUnique({ where: { id }, include: { attendances: { include: { member: true } } } });
+    }
+
+    public async findByDateAndType(celulaId: number, date: string, type: 'CELULA' | 'CULTO', matrixId: number) {
+        const brazilOffsetHours = 3;
+        const parts = date.split('-').map(p => Number(p));
+        const y = parts[0];
+        const m = parts[1];
+        const d = parts[2];
+        const startBrazilUtcMillis = Date.UTC(y, m - 1, d, 0, 0, 0) + brazilOffsetHours * 60 * 60 * 1000;
+        const endBrazilUtcMillis = Date.UTC(y, m - 1, d, 23, 59, 59, 999) + brazilOffsetHours * 60 * 60 * 1000;
+        const startUtc = new Date(startBrazilUtcMillis);
+        const endUtc = new Date(endBrazilUtcMillis);
+
+        const report = await this.prisma.report.findFirst({
+            where: {
+                celulaId,
+                matrixId,
+                type,
+                createdAt: { gte: startUtc, lte: endUtc }
+            },
+            include: { attendances: { include: { member: true } } }
+        });
+
+        return report;
+    }
+
+    public async getReportDatesByCelula(celulaId: number, matrixId: number) {
+        const brazilOffsetHours = 3;
+        
+        // Buscar todos os relatórios da célula
+        const reports = await this.prisma.report.findMany({
+            where: {
+                celulaId,
+                matrixId
+            },
+            select: {
+                createdAt: true,
+                type: true
+            },
+            orderBy: { createdAt: 'asc' }
+        });
+
+        // Converter datas UTC para datas do Brasil (YYYY-MM-DD)
+        const celulaDates: string[] = [];
+        const cultoDates: string[] = [];
+
+        for (const report of reports) {
+            const brazilDate = new Date(report.createdAt.getTime() - brazilOffsetHours * 60 * 60 * 1000);
+            const year = brazilDate.getUTCFullYear();
+            const month = brazilDate.getUTCMonth() + 1;
+            const day = brazilDate.getUTCDate();
+            const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+            if (report.type === 'CELULA') {
+                if (!celulaDates.includes(dateStr)) {
+                    celulaDates.push(dateStr);
+                }
+            } else if (report.type === 'CULTO') {
+                if (!cultoDates.includes(dateStr)) {
+                    cultoDates.push(dateStr);
+                }
+            }
+        }
+
+        return {
+            celulaDates,
+            cultoDates
+        };
     }
 
     public async findByCelula(celulaId: number, matrixId: number) {

@@ -29,7 +29,7 @@ export class ReportController {
             throw new HttpException('No access to this celula', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.service.create(celulaId, body.memberIds || [], req.member!.matrixId, body.date);
+        return this.service.create(celulaId, body.memberIds || [], req.member!.matrixId, body.date, body.type);
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)
@@ -65,6 +65,64 @@ export class ReportController {
         }
 
         return this.service.presences(celulaId, req.member.matrixId);
+    }
+
+    @UseGuards(RestrictedGuard, PermissionGuard)
+    @Get('dates')
+    @ApiOperation({ summary: 'Obter todas as datas com relatórios da célula' })
+    @ApiResponse({ 
+        status: 200, 
+        description: 'Retorna objeto com arrays de datas para CELULA e CULTO',
+        schema: {
+            type: 'object',
+            properties: {
+                celulaDates: { type: 'array', items: { type: 'string', format: 'date' } },
+                cultoDates: { type: 'array', items: { type: 'string', format: 'date' } }
+            }
+        }
+    })
+    public async getReportDates(
+        @Req() req: AuthenticatedRequest, 
+        @Param('celulaId') celulaIdParam: string
+    ) {
+        const permission = req.permission;
+        const celulaId = Number(celulaIdParam);
+        
+        if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
+            throw new HttpException('No access to this celula', HttpStatus.UNAUTHORIZED);
+        }
+        
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
+        }
+
+        return this.service.getReportDatesByCelula(celulaId, req.member.matrixId);
+    }
+
+    @UseGuards(RestrictedGuard, PermissionGuard)
+    @Get('check')
+    @ApiOperation({ summary: 'Verificar se existe relatório para uma data e tipo' })
+    @ApiQuery({ name: 'date', required: true, description: 'Data no formato YYYY-MM-DD' })
+    @ApiQuery({ name: 'type', required: true, enum: ['CELULA', 'CULTO'] })
+    public async checkReport(
+        @Req() req: AuthenticatedRequest, 
+        @Param('celulaId') celulaIdParam: string,
+        @Query('date') date: string,
+        @Query('type') type: 'CELULA' | 'CULTO'
+    ) {
+        const permission = req.permission;
+        const celulaId = Number(celulaIdParam);
+        
+        if (!this.permissionService.hasCelulaAccess(permission, celulaId)) {
+            throw new HttpException('No access to this celula', HttpStatus.UNAUTHORIZED);
+        }
+        
+        if (!req.member?.matrixId) {
+            throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
+        }
+
+        const report = await this.service.findByDateAndType(celulaId, date, type, req.member.matrixId);
+        return { exists: !!report, report };
     }
 
     @UseGuards(RestrictedGuard, PermissionGuard)

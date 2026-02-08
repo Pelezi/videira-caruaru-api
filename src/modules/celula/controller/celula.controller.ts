@@ -22,7 +22,7 @@ export class CelulaController {
         if (!permission) throw new HttpException('Você não tem permissão', HttpStatus.UNAUTHORIZED);
         if (!req.member?.matrixId) throw new HttpException('Matrix ID não encontrado', HttpStatus.UNAUTHORIZED);
         
-        if (filters.onlyOwnCelulas && (!filters.celulaIds || filters.celulaIds.length === 0) && !permission.isAdmin) {
+        if (!!!filters.onlyOwnCelulas && (!filters.celulaIds || filters.celulaIds.length === 0) && !permission.isAdmin) {
             // Se onlyOwnCelulas for true e celulaIds não for fornecido, usar as células do próprio usuário
             filters.celulaIds = permission.celulaIds;
         }
